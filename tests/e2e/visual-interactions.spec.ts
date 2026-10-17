@@ -12,7 +12,7 @@ test("styles, fonts and SVG artwork survive the production pipeline", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator("header")).toHaveCSS("position", "sticky");
+  await expect(page.getByRole("banner")).toHaveCSS("position", "sticky");
   expect(
     await page
       .locator("h1")
