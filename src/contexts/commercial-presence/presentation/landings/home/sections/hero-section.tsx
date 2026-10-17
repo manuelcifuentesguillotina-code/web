@@ -31,7 +31,7 @@ export function HeroSection({ view }: { readonly view: HomeView }): ReactElement
       </figure>
     </div>
     <div className={"container " + styles.foot}>
-      <a href={sectionHref("visit", true)}><span aria-hidden="true">↗</span>{view.company.address}</a>
+      <a href={sectionHref("visit", true)}><ArrowIcon />{view.company.address}</a>
       <span>{view.company.serviceArea}</span>
     </div>
   </section>;

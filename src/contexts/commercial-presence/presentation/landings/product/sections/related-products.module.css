@@ -1,0 +1,2 @@
+.section { border-top: 1px solid var(--color-line); padding-block: var(--section-space); }
+.heading { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1.2; margin-bottom: 36px; }
