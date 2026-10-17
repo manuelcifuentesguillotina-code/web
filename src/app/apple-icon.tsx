@@ -10,7 +10,6 @@ export default async function AppleIcon() {
     (
       <div style={{ display: "flex", width: "100%", height: "100%" }}>
         {/* ImageResponse renders the approved SVG logo directly. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt="" src={artwork} width={size.width} height={size.height} />
       </div>
     ),

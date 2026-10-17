@@ -1,6 +1,6 @@
 # Plan de landings, búsqueda y difusión
 
-Estado: implementación completada; validación y publicación en ejecución. La arquitectura normativa sigue en el [README](../../README.md). Este plan registra la entrega, sus etapas y criterios verificables.
+Estado: implementado, verificado y publicado. Tarifas definitivas y verificación de Search Console pendientes del negocio y de su propietario. La arquitectura normativa sigue en el [README](../../README.md). Este plan registra la entrega, sus etapas y criterios verificables.
 
 ## Resultado comercial
 
@@ -120,10 +120,10 @@ Las tarifas propias siguen pendientes de confirmación. La entrega implementa am
 
 - [x] Documentar fuentes, estructura y procedimientos en el README y una decisión breve.
 - [x] Mantener cada etapa coherente en una rama de trabajo.
-- [ ] Ejecutar la suite completa, revisar las vistas sociales y compilar modo público.
-- [ ] Obtener CI satisfactorio del SHA antes de avanzar `main` al mismo commit.
-- [ ] Publicar con el hook de verificación del commit aislado.
-- [ ] Verificar el despliegue real, sitemap, robots, canonical e imágenes desde el dominio.
+- [x] Ejecutar la suite completa, revisar las vistas sociales y compilar modo público.
+- [x] Obtener CI satisfactorio del SHA antes de avanzar `main` al mismo commit.
+- [x] Publicar con el hook de verificación del commit aislado.
+- [x] Verificar el despliegue real, sitemap, robots, canonical e imágenes desde el dominio.
 - [x] Documentar el envío del sitemap a Search Console y las comprobaciones de vistas previas que requieran acceso del propietario.
 
 ## Fuentes primarias
@@ -134,3 +134,13 @@ Las tarifas propias siguen pendientes de confirmación. La entrega implementa am
 - APIs de la versión instalada en `node_modules/next/dist/docs/`: metadata, ImageResponse, robots y sitemap.
 
 La implementación técnica no garantiza una posición en buscadores ni sustituye la verificación del dominio en Search Console. Ese acceso y las tarifas definitivas se distinguen de lo implementado en código.
+
+## Evidencia de entrega — 2026-10-17
+
+- Implementación: `484a90b`; cobertura y documentación: `13fe28c`.
+- `pnpm check`: 101 pruebas satisfactorias (45 unitarias, 5 de integración, 13 de arquitectura, 4 de publicación y 34 de navegador).
+- CI de `13fe28c` satisfactorio antes de avanzar `main`; el hook verificó ese SHA en un snapshot limpio y compiló además en modo público.
+- [Despliegue de producción](https://vercel.com/corte7/web/2CYfqVBCwbBCKrseEgpV6sWg7MhL) satisfactorio.
+- Verificación HTTP en `https://manoloimprenta.cl`: 18 landings con 200, canonical propio e indexación habilitada; 18 PNG válidos de 1200 × 630; sitemap con 18 URLs y robots público.
+- Precios: ningún importe propio aprobado; se publica «Precio por proyecto». El contrato, la presentación, las tarjetas y las ofertas estructuradas admiten una tarifa confirmada desde su autoridad única.
+- Search Console: procedimiento documentado, sin atribuir una verificación o envío en una cuenta a la que no se accedió.
