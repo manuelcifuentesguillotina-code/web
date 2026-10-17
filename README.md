@@ -74,6 +74,7 @@ tests/
   e2e/                         # Pruebas de la aplicación ejecutándose
 docs/
   product.md                   # Decisiones de producto y alcance confirmado
+  research/                    # Referencias externas fechadas, con fuentes y límites
   decisions/                   # Decisiones arquitectónicas y sus motivos
 ```
 
@@ -115,6 +116,7 @@ SSOT significa que cada concepto tiene una definición autoritativa, un propieta
 | --- | --- | --- |
 | Arquitectura vigente | Este README. | Otros documentos y `AGENTS.md` enlazan aquí; no copian estas reglas. |
 | Decisiones de producto y alcance | [docs/product.md](./docs/product.md). | Distingue lo confirmado de lo pendiente; no funciona como fuente de datos en ejecución. |
+| Investigación de mercado | `docs/research/`, con fecha de consulta y fuentes. | Registra observaciones externas; no constituye una tarifa propia ni se importa como contenido de producción. |
 | Datos administrativos no publicados | `.private/business-administration.md`, registro local excluido de Git. | Mantiene los datos del titular del negocio, de cuenta y del titular del dominio en una sola fuente, con sus responsabilidades diferenciadas; no se importa ni se copia al contenido público. |
 | Motivos de decisiones | `docs/decisions/`. | Registran contexto y consecuencias; un cambio de arquitectura actualiza también el README. |
 | Invariantes y comportamiento | Dominio del contexto propietario. | No se reimplementan en componentes, acciones o adaptadores. |

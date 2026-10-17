@@ -57,6 +57,13 @@ Esta selección cierra el alcance actual de impresión. No se incorporan más ca
 
 Al implementar el contenido, el catálogo operativo y los datos publicables pasan a las autoridades definidas en el README. Este documento conserva el alcance y referencias a esas fuentes, sin mantener una copia operativa del catálogo.
 
+## Posicionamiento de precio
+
+- El usuario define un posicionamiento corporativo de precio alto pero razonable, coherente con el servicio profesional ofrecido.
+- La prioridad comercial es iniciar una conversación por WhatsApp para conocer el proyecto y establecer su precio.
+- Las referencias externas se registran en la [investigación de precios de imprentas chilenas](./research/printing-prices-chile.md). Son insumos de trabajo, no precios aprobados de la empresa.
+- Todavía está pendiente decidir si la landing mostrará valores orientativos. Las tarifas propias y el alcance económico del diseño se definirán con el negocio.
+
 ## Recorrido comercial
 
 1. Una empresa entiende la oferta de impresión y corte.
@@ -81,8 +88,10 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 - Las fotografías finales deben tratarse en Photoshop antes de su incorporación.
 - La calidad gráfica y el cuidado de la presentación deben reflejar el nivel de impresión profesional del negocio. La selección, el tratamiento y la revisión del material son parte del trabajo de producto.
 
-## Contacto pendiente
+## Contacto por WhatsApp
 
+- WhatsApp es el único canal de contacto publicado en esta fase y concentra las llamadas a la acción comerciales.
+- Actualmente no hay correo de contacto y no está previsto habilitarlo durante esta fase. No se mostrará un correo ficticio ni un placeholder de correo.
 - Número de WhatsApp comercial: `[WHATSAPP_PENDIENTE]`.
 - Placeholder autorizado por el usuario; definición del número prevista para el 18 de octubre de 2026.
 - Permite continuar el diseño y desarrollo. Se reemplazará en su fuente propietaria antes de activar el contacto; no representa un número real ni un enlace operativo.
