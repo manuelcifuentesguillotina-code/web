@@ -32,4 +32,32 @@ describe("real contact adapter", () => {
       expect(view?.product.contact.destination.status).toBe("pending");
     }
   });
+
+  it("activates every contact from a single company phone change", () => {
+    const original = createVersionedContentSource().load();
+    const app = createPresence({
+      load: () => ({
+        ...original, company: {
+          ...original.company, phone: { status: "ready", international: "+44 7700 900123" },
+        },
+      }),
+    }, createWhatsAppDestination());
+    const home = app.home();
+    const contacts = [
+      home.company.contact, ...home.services.map((item) => item.contact),
+      ...home.groups.flatMap((group) => group.products.map((item) => item.contact)),
+      ...app.productSlugs().flatMap((slug) => {
+        const page = app.productLanding(slug);
+        return page ? [page.company.contact, page.product.contact] : [];
+      }),
+    ];
+    for (const contact of contacts) {
+      expect(contact.destination.status).toBe("ready");
+      if (contact.destination.status !== "ready") throw new Error("Contacto sin activar");
+      const url = new URL(contact.destination.href);
+      expect(url.pathname).toBe("/447700900123");
+      expect(url.searchParams.get("text")).toBe(contact.message);
+    }
+    expect(original.company.phone.status).toBe("pending");
+  });
 });
