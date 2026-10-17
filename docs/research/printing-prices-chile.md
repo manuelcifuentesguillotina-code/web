@@ -31,11 +31,11 @@ Para ubicar una propuesta en el tramo alto de una comparación, primero debe def
 
 La investigación no establece un precio fiable para corte con guillotina: falta una referencia suficientemente comparable por unidad de cobro, material y volumen. Tampoco se extrapolan importes a sobres, hojas membretadas o fichas comerciales a partir de productos diferentes.
 
-## Recomendación editorial pendiente de decisión
+## Aplicación al proyecto
 
-Proponer una presentación centrada en los productos y en su uso corporativo, con la acción «Cotiza tu proyecto por WhatsApp» como destino dominante. El posicionamiento de precio se expresa mediante el alcance del trabajo y su presentación, sin convertir el precio alto en un eslogan.
+La decisión sobre el uso de estas referencias se mantiene en el [posicionamiento de precio del documento de producto](../product.md#posicionamiento-de-precio), sin replicarla aquí como una segunda autoridad.
 
-Usar esta investigación como referencia interna. Si el usuario decide publicar importes orientativos, definir primero ejemplos concretos con cantidad, alcance e IVA explícitos, aprobados por el negocio. El precio de la empresa se mantendrá en su autoridad propia; estas observaciones externas no se convierten en un tarifario de producción.
+Una eventual publicación de importes requiere ejemplos concretos con cantidad, alcance e IVA explícitos, aprobados por el negocio. El precio de la empresa se mantendrá en su autoridad propia; estas observaciones externas no se convierten en un tarifario de producción.
 
 ## Mantenimiento
 

@@ -62,7 +62,8 @@ Al implementar el contenido, el catálogo operativo y los datos publicables pasa
 - El usuario define un posicionamiento corporativo de precio alto pero razonable, coherente con el servicio profesional ofrecido.
 - La prioridad comercial es iniciar una conversación por WhatsApp para conocer el proyecto y establecer su precio.
 - Las referencias externas se registran en la [investigación de precios de imprentas chilenas](./research/printing-prices-chile.md). Son insumos de trabajo, no precios aprobados de la empresa.
-- Todavía está pendiente decidir si la landing mostrará valores orientativos. Las tarifas propias y el alcance económico del diseño se definirán con el negocio.
+- Se adopta el uso interno de esas referencias. La landing presenta los productos y conduce la cotización a WhatsApp, sin publicar importes en esta fase.
+- Las tarifas propias y el alcance económico del diseño se definirán con el negocio.
 
 ## Recorrido comercial
 
