@@ -4,6 +4,7 @@ import type {
   ContactAction,
   MarketingCopy,
   CatalogNavigationGroup,
+  DiscoveryLink,
 } from "../../../contracts";
 import { SiteHeader } from "../header/site-header";
 import { CompanyFooter } from "../footer/company-footer";
@@ -12,6 +13,7 @@ import { ContactDock } from "../../contact/dock/contact-dock";
 import { MobileActions } from "../../navigation/mobile/mobile-actions";
 
 interface SiteShellProps {
+  readonly discovery: readonly DiscoveryLink[];
   readonly company: CompanyView;
   readonly copy: MarketingCopy;
   readonly navigation: readonly CatalogNavigationGroup[];
@@ -22,6 +24,7 @@ interface SiteShellProps {
 }
 
 export function SiteShell({
+  discovery,
   company,
   copy,
   navigation,
@@ -39,7 +42,11 @@ export function SiteShell({
       <MotionSurface>
         <main id="contenido">{children}</main>
       </MotionSurface>
-      <CompanyFooter company={company} copy={copy.footer} />
+      <CompanyFooter
+        company={company}
+        copy={copy.footer}
+        discovery={discovery}
+      />
       <ContactDock action={contact ?? company.contact} />
       <MobileActions
         groups={navigation}

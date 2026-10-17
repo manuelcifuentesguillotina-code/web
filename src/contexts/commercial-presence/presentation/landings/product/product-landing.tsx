@@ -14,6 +14,7 @@ export function ProductLanding({
       company={view.company}
       copy={view.copy}
       navigation={view.navigation}
+      discovery={view.discovery}
       currentProductId={view.product.id}
       contact={view.product.contact}
     >

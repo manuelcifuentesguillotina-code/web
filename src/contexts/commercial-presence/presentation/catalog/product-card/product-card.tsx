@@ -5,6 +5,7 @@ import { CommercialMedia } from "../../components/media/commercial-media";
 import { ArrowIcon } from "../../components/icons/arrow-icon";
 import { ContactActionView } from "../../contact/components/contact-action";
 import styles from "./product-card.module.css";
+import { PricePanel } from "../../pricing/price-panel";
 
 export function ProductCard({
   product,
@@ -30,9 +31,7 @@ export function ProductCard({
         <h3 className={styles.title + " short-copy"}>
           <Link href={product.href}>{product.name}</Link>
         </h3>
-        <p className={styles.description + " short-copy"}>
-          {product.description}
-        </p>
+        <PricePanel price={product.price} />
         <ContactActionView action={product.contact} variant="outline" />
       </div>
     </article>

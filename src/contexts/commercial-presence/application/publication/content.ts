@@ -1,4 +1,5 @@
 import type { MediaView, MarketingCopy } from "../../contracts";
+import type { DiscoveryContent, PriceDefinition } from "./discovery-content";
 
 export interface TypicalQuantity {
   readonly amount: number;
@@ -29,11 +30,28 @@ export interface ProductCategory {
 }
 
 export interface CompanyContent {
+  readonly countryCode: "CL";
   readonly name: string;
   readonly logoMediaId: string;
   readonly serviceArea: string;
-  readonly address: { readonly street: string; readonly number: string; readonly locality: string };
-  readonly hours: { readonly days: string; readonly opens: string; readonly closes: string };
+  readonly address: {
+    readonly street: string;
+    readonly number: string;
+    readonly locality: string;
+  };
+  readonly hours: {
+    readonly days: readonly (
+      | "Monday"
+      | "Tuesday"
+      | "Wednesday"
+      | "Thursday"
+      | "Friday"
+      | "Saturday"
+      | "Sunday"
+    )[];
+    readonly opens: string;
+    readonly closes: string;
+  };
   readonly productionDays: number;
   readonly phone:
     | { readonly status: "pending" }
@@ -57,12 +75,17 @@ export interface ContactTemplates {
 }
 
 export interface SiteContent {
+  readonly discovery: DiscoveryContent;
+  readonly prices: readonly PriceDefinition[];
   readonly copy: MarketingCopy;
   readonly company: CompanyContent;
   readonly services: readonly CatalogService[];
   readonly categories: readonly ProductCategory[];
   readonly products: readonly CatalogProduct[];
-  readonly productLandings: readonly { readonly productId: string; readonly slug: string }[];
+  readonly productLandings: readonly {
+    readonly productId: string;
+    readonly slug: string;
+  }[];
   readonly offer: CommercialOffer;
   readonly messages: ContactTemplates;
   readonly media: readonly MediaView[];

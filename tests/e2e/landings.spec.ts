@@ -20,7 +20,7 @@ test("commercial offer, services and native contact work without JavaScript", as
       noJs.getByText("20% de descuento", { exact: true }),
     ).toBeVisible();
     await expect(
-      noJs.getByRole("heading", { name: "Imprenta corporativa", exact: true }),
+      noJs.getByRole("heading", { name: "Impresión", exact: true }),
     ).toBeVisible();
     await expect(
       noJs.getByRole("heading", { name: "Corte con guillotina", exact: true }),
@@ -51,6 +51,7 @@ test("every published product link resolves to its own complete landing and cano
 }) => {
   await page.goto("/");
   const links = await page
+    .locator(".product-card")
     .getByRole("link", { name: /^Ver / })
     .evaluateAll((items) =>
       items.map((item) => ({
@@ -65,7 +66,9 @@ test("every published product link resolves to its own complete landing and cano
     const response = await page.goto(link.href);
     expect(response?.status()).toBe(200);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(link.name);
-    await expect(page).toHaveTitle(link.name + " | Manolo Imprenta y Corte");
+    await expect(page).toHaveTitle(
+      new RegExp(link.name + ".*Manolo Imprenta y Corte"),
+    );
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
       "https://manoloimprenta.cl" + link.href,

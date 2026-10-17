@@ -1,14 +1,21 @@
 import type { ReactElement } from "react";
-import type { CompanyView, MarketingCopy } from "../../../contracts";
+import type {
+  CompanyView,
+  DiscoveryLink,
+  MarketingCopy,
+} from "../../../contracts";
+import { DiscoveryLinks } from "../../navigation/discovery/discovery-links";
 import { ContactActionView } from "../../contact/components/contact-action";
 import { ArrowIcon } from "../../components/icons/arrow-icon";
 import { sectionIds } from "../../navigation/section-links";
 import styles from "./company-footer.module.css";
 
 export function CompanyFooter({
+  discovery,
   company,
   copy,
 }: {
+  readonly discovery: readonly DiscoveryLink[];
   readonly company: CompanyView;
   readonly copy: MarketingCopy["footer"];
 }): ReactElement {
@@ -17,11 +24,9 @@ export function CompanyFooter({
       <div className="container">
         <div className={styles.top}>
           <div>
-            <p className="eyebrow">{copy.eyebrow}</p>
             <h2 className={styles.heading + " short-copy"}>{copy.heading}</h2>
           </div>
           <div className={styles.contact}>
-            <p>{copy.channel}</p>
             <ContactActionView action={company.contact} />
           </div>
         </div>
@@ -34,6 +39,7 @@ export function CompanyFooter({
             {company.production}
           </p>
         </div>
+        <DiscoveryLinks links={discovery} />
         <div className={styles.bottom}>
           <span>{company.name}</span>
           <a href="#contenido">

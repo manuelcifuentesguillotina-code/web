@@ -13,10 +13,6 @@
   text-transform: uppercase;
   margin-top: 16px;
 }
-.aside {
-  max-width: 285px;
-  font-size: 0.8rem;
-}
 @media (max-width: 700px) {
   .row {
     flex-direction: column;

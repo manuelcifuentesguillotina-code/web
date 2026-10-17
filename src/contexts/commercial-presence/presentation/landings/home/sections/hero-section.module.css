@@ -16,17 +16,6 @@
   z-index: 2;
   padding-bottom: 12px;
 }
-.kicker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--color-warm);
-}
-.kicker > span {
-  width: 7px;
-  height: 7px;
-  background: var(--color-accent);
-}
 .title {
   font-family: var(--font-display);
   font-size: clamp(3.9rem, 6.9vw, 7rem);

@@ -10,11 +10,15 @@ import { contactMessages } from "./editorial/contact-messages";
 import { media } from "./media";
 import { landing } from "./editorial/landing";
 import { marketing } from "./editorial/marketing";
+import { discovery } from "./discovery/search-content";
+import { productPrices } from "./pricing/product-prices";
 
 export function createVersionedContentSource(): ContentSource {
   return {
     load(): SiteContent {
       return {
+        discovery,
+        prices: productPrices,
         company,
         services,
         categories: productCategories,

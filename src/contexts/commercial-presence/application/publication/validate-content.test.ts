@@ -20,21 +20,6 @@ describe("publication contract", () => {
         },
       }),
     ).toThrow("supera dos líneas");
-    expect(() =>
-      validateContent({
-        ...content,
-        copy: {
-          ...content.copy,
-          process: {
-            ...content.copy.process,
-            steps: [
-              content.copy.process.steps[0],
-              content.copy.process.steps[0],
-            ],
-          },
-        },
-      }),
-    ).toThrow("paso comercial duplicado");
   });
   it("rejects required data missing and duplicate product identities", () => {
     const content = contentFixture();

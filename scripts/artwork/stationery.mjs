@@ -41,7 +41,7 @@ export function folder(x, y, p, angle = 10) {
     text(
       26,
       376,
-      "PRESENTACIÓN CORPORATIVA",
+      "PRESENTACIÓN DE EMPRESA",
       10,
       p.surface,
       'letter-spacing="2"',

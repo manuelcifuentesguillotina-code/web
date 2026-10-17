@@ -115,7 +115,7 @@ describe("commercial presence", () => {
     const original = contentFixture();
     const copy = {
       ...original.copy,
-      product: { ...original.copy.product, back: "Ver catálogo" },
+      product: { ...original.copy.product, related: "Otros trabajos" },
     };
     const app = application({ ...original, copy });
     expect(app.home().copy).toEqual(copy);

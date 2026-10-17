@@ -15,10 +15,7 @@ export function CatalogSection({
     <section className={styles.section} id={sectionIds.catalog}>
       <div className="container">
         <div data-entrance>
-          <SectionHeading
-            {...view.copy.catalog}
-            aside={<p className="short-copy">{view.copy.catalog.detail}</p>}
-          />
+          <SectionHeading heading={view.copy.catalog.heading} />
         </div>
         <nav className={styles.navigation} aria-label="Líneas de productos">
           {view.groups.map((group) => (
@@ -28,10 +25,9 @@ export function CatalogSection({
             </a>
           ))}
         </nav>
-        {view.groups.map((group, index) => (
+        {view.groups.map((group) => (
           <section className={styles.group} key={group.id} id={group.id}>
             <div className={styles.heading}>
-              <span className="eyebrow">0{index + 1}</span>
               <h3 className="short-copy">{group.name}</h3>
             </div>
             <ProductGrid products={group.products} />

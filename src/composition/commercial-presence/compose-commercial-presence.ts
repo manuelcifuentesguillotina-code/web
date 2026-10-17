@@ -1,5 +1,8 @@
 import "server-only";
-import { createPresence, type PresenceApplication } from "@/contexts/commercial-presence/application/presence/create-presence";
+import {
+  createPresence,
+  type PresenceApplication,
+} from "@/contexts/commercial-presence/application/presence/create-presence";
 import { createVersionedContentSource } from "@/contexts/commercial-presence/infrastructure/content/versioned-content-source";
 import { createWhatsAppDestination } from "@/contexts/commercial-presence/infrastructure/contact/whatsapp-destination";
 import { getSiteConfig } from "../configuration/site-config";

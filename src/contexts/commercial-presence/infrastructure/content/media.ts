@@ -21,7 +21,7 @@ export const media: readonly MediaView[] = [
   artwork(
     "corporate-hero",
     "hero",
-    "Composición ilustrada de papelería corporativa",
+    "Composición ilustrada de papelería impresa",
   ),
   artwork(
     "printing-main",
@@ -30,9 +30,9 @@ export const media: readonly MediaView[] = [
   ),
   artwork("cutting-main", "cutting", "Corte de papel e impresos: ilustración"),
   artwork("cards-image", "cards", "Tarjetas de presentación: ilustración"),
-  artwork("folders-image", "folders", "Carpetas corporativas: ilustración"),
+  artwork("folders-image", "folders", "Carpetas impresas: ilustración"),
   artwork("letterheads-image", "letterheads", "Hojas membretadas: ilustración"),
-  artwork("envelopes-image", "envelopes", "Sobres corporativos: ilustración"),
+  artwork("envelopes-image", "envelopes", "Sobres impresos: ilustración"),
   artwork("pads-image", "pads", "Talonarios: ilustración"),
   artwork("catalogs-image", "catalogs", "Catálogos de productos: ilustración"),
   artwork("leaflets-image", "leaflets", "Folletos: ilustración"),

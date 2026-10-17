@@ -7,13 +7,6 @@
   clip-path: polygon(0 0, 88% 0, 100% 12%, 100% 100%, 0 100%);
   background: var(--color-paper);
 }
-.art figcaption {
-  padding-top: 16px;
-  font-size: 0.55rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-warm);
-}
 .badge {
   position: absolute;
   right: -10px;

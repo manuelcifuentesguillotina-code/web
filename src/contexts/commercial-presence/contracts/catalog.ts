@@ -1,5 +1,6 @@
 import type { ContactAction } from "./contact";
 import type { MediaView } from "./media";
+import type { PublishedPrice } from "./pricing";
 
 export interface CatalogNavigationGroup {
   readonly id: string;
@@ -12,6 +13,7 @@ export interface CatalogNavigationGroup {
 }
 
 export interface ProductView {
+  readonly price: PublishedPrice;
   readonly id: string;
   readonly name: string;
   readonly description: string;
@@ -23,6 +25,7 @@ export interface ProductView {
 }
 
 export interface ServiceView {
+  readonly href: string;
   readonly id: string;
   readonly name: string;
   readonly description: string;

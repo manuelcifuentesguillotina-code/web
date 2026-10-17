@@ -15,10 +15,6 @@ export function HeroSection({
     <section className={styles.hero} id={sectionIds.hero}>
       <div className={"container " + styles.grid}>
         <div className={styles.copy}>
-          <p className={"eyebrow " + styles.kicker}>
-            <span aria-hidden="true" />
-            {view.copy.hero.eyebrow}
-          </p>
           <h1 className={styles.title + " short-copy"}>
             {view.heading.split("\n").map((line, index) => (
               <span
@@ -44,7 +40,6 @@ export function HeroSection({
         <HeroArtwork
           media={view.heroMedia}
           benefit={view.company.contact.benefit}
-          caption={view.copy.hero.artCaption}
         />
       </div>
       <div className={"container " + styles.foot}>

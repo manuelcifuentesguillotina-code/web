@@ -19,7 +19,7 @@ export function hero(p) {
     card(155, 550, p, -15, true) +
     card(125, 478, p, -12);
   return document(
-    "Identidad corporativa en papel",
+    "Identidad de marca en papel",
     floor +
       objects +
       registration(75, 80, p.ink) +
@@ -36,7 +36,7 @@ export function productScenes(p) {
       p,
     ),
     folders: document(
-      "Carpetas corporativas",
+      "Carpetas impresas",
       folder(245, 190, p, -13) + folder(480, 225, p, 13),
       p,
     ),
@@ -46,11 +46,11 @@ export function productScenes(p) {
       p,
     ),
     envelopes: document(
-      "Sobres corporativos",
+      "Sobres impresos",
       envelope(375, 220, p, 13) + envelope(190, 420, p, -9),
       p,
     ),
-    pads: document("Talonarios corporativos", pad(310, 220, p), p),
+    pads: document("Talonarios impresos", pad(310, 220, p), p),
     catalogs: document(
       "Catálogos de productos",
       catalog(195, 180, p, -12) + catalog(500, 215, p, 12),
@@ -61,8 +61,8 @@ export function productScenes(p) {
       leaflet(215, 180, p, -14) + leaflet(470, 235, p, 11),
       p,
     ),
-    bifolds: document("Dípticos corporativos", folded(205, 230, p, 2, -9), p),
-    trifolds: document("Trípticos corporativos", folded(230, 230, p, 3, 10), p),
+    bifolds: document("Dípticos impresos", folded(205, 230, p, 2, -9), p),
+    trifolds: document("Trípticos impresos", folded(230, 230, p, 3, 10), p),
     sheets: document(
       "Fichas comerciales",
       leaflet(215, 210, p, -12, true) + leaflet(475, 180, p, 11, true),

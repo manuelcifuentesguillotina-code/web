@@ -24,4 +24,8 @@ await Promise.all(
     writeFile(new URL(name + ".svg", directory), svg),
   ),
 );
+await writeFile(
+  new URL("../../public/icon.svg", import.meta.url),
+  scenes.brand,
+);
 console.log("SVG generados: " + Object.keys(scenes).length);

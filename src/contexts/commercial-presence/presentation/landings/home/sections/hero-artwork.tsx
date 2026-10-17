@@ -8,13 +8,11 @@ import styles from "./hero-artwork.module.css";
 interface HeroArtworkProps {
   readonly media: MediaView;
   readonly benefit: Benefit;
-  readonly caption: string;
 }
 
 export function HeroArtwork({
   media,
   benefit,
-  caption,
 }: HeroArtworkProps): ReactElement {
   return (
     <figure className={styles.art}>
@@ -24,7 +22,6 @@ export function HeroArtwork({
       <div className={styles.badge}>
         <DiscountBadge benefit={benefit} />
       </div>
-      <figcaption>{caption}</figcaption>
     </figure>
   );
 }

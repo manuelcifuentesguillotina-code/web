@@ -1,0 +1,14 @@
+.price {
+  margin-block: 16px 22px;
+}
+.amount {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+.basis {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-top: 6px;
+}

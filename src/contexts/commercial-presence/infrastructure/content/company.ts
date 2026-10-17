@@ -1,6 +1,7 @@
 import type { CompanyContent } from "../../application/publication/content";
 
 export const company = {
+  countryCode: "CL",
   name: "Manolo Imprenta y Corte",
   logoMediaId: "brand-logo",
   serviceArea: "Todo Chile",
@@ -9,7 +10,11 @@ export const company = {
     number: "644",
     locality: "Santiago Centro",
   },
-  hours: { days: "Lunes a viernes", opens: "09:00", closes: "18:00" },
+  hours: {
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    opens: "09:00",
+    closes: "18:00",
+  },
   productionDays: 3,
   // Provisional para el despliegue del 2026-10-17; reemplazo pendiente.
   phone: { status: "ready", international: "+56954461641" },
