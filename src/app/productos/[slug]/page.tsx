@@ -5,6 +5,8 @@ import { composeCommercialPresence } from "@/composition/commercial-presence/com
 import { ProductLanding } from "@/contexts/commercial-presence/presentation/landings/product/product-landing";
 import { pageMetadata } from "../../_discovery/page-metadata";
 
+export const instant = false;
+
 export function generateStaticParams(): { slug: string }[] {
   return composeCommercialPresence()
     .productSlugs()
