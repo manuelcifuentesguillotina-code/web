@@ -1,6 +1,6 @@
 # 0002 — Catálogo de productos independiente de su presentación
 
-Estado: aceptada; implementación pendiente.
+Estado: aceptada e implementada.
 
 ## Problema
 
@@ -21,5 +21,5 @@ Adoptar la última alternativa. Las ubicaciones autoritativas, la propiedad de l
 
 - La incorporación o modificación de un producto se realiza en su autoridad; las selecciones editoriales solo lo referencian.
 - Una modificación visual o de campaña no redefine el catálogo. Un cambio de fuente de contenido conserva sus contratos y mapea su representación en la frontera.
-- La separación se comprueba mediante contratos de publicación, pruebas de comportamiento y controles de dependencias cuando se implemente.
+- La separación se comprueba mediante contratos de publicación, pruebas de comportamiento y controles de dependencias.
 - No requiere microservicios, un motor de páginas, jerarquías de entidades ni almacenamiento adicional. El coste actual es mantener explícitas las referencias y validar su coherencia.

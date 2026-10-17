@@ -96,9 +96,9 @@ No se crean carpetas globales `utils`, `helpers`, `services` o `types` para cód
 
 Una base de datos compartida, si se incorpora, no elimina la propiedad de los datos por contexto. Una operación que necesite cruzar límites debe definir explícitamente su coordinación, consistencia y tratamiento de fallos.
 
-### 4.1. Contexto previsto para la primera fase
+### 4.1. Contexto de la primera fase
 
-`commercial-presence` será el contexto propietario de la presencia comercial pública y del inicio de contacto. Su vocabulario comprende empresa, servicio, producto, contenido publicado, beneficio comercial e intención de consulta. Es una frontera prevista; todavía no hay módulos implementados.
+`commercial-presence` es el contexto propietario de la presencia comercial pública y del inicio de contacto. Su vocabulario comprende empresa, servicio, producto, contenido publicado, beneficio comercial e intención de consulta. Sus módulos están implementados en `src/contexts/commercial-presence/`.
 
 - Posee los datos públicos de empresa y contacto, la oferta comercial publicada, el contenido editorial y las referencias a sus recursos visuales.
 - La aplicación coordina la lectura del contenido publicado y la preparación del contacto mediante sus puertos. La infraestructura proporciona el contenido versionado y la adaptación de la intención de consulta a un enlace de WhatsApp.
@@ -138,9 +138,9 @@ No se promueve código a `shared` por parecido superficial. Primero se identific
 
 Las landings usarán contenido tipado y versionado en el repositorio. Los cambios se realizan como modificaciones concretas del proyecto, verificando su autoridad y consumidores derivados. Esta entrega no incorpora autogestión, panel de administración, CMS, base de datos de edición ni una plataforma de tienda. Una eventual sustitución de la fuente necesita una necesidad de producto confirmada, conserva los contratos públicos y reemplaza la autoridad anterior, sin mantener dos fuentes activas.
 
-Las siguientes ubicaciones son el contrato previsto dentro de `src/contexts/commercial-presence/`; no son archivos ya disponibles:
+Las siguientes autoridades están implementadas dentro de `src/contexts/commercial-presence/`:
 
-| Concepto | Autoridad prevista | Consumidores derivados |
+| Concepto | Autoridad | Consumidores derivados |
 | --- | --- | --- |
 | Identidad, contacto y datos públicos confirmados | `infrastructure/content/company.ts` | Cabecera, pie, datos de contacto y representaciones de empresa para buscadores. |
 | Líneas de servicio | `infrastructure/content/services.ts` | Presentación de servicios e intenciones de consulta. |
@@ -150,9 +150,9 @@ Las siguientes ubicaciones son el contrato previsto dentro de `src/contexts/comm
 | Slugs y contenido editorial de las landings de producto | `infrastructure/content/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
 | Beneficio comercial común vigente | `infrastructure/content/offers.ts` | Oferta e intenciones de contacto derivadas para todos los elementos comerciales. |
 | Plantilla común de mensajes de contacto | `infrastructure/content/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
-| Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Imágenes publicadas y representaciones para compartir. |
-| Construcción del destino de WhatsApp | Adaptador de contacto en `infrastructure/` | Todos los enlaces de contacto resueltos por la aplicación. |
-| Origen público y configuración de despliegue | Módulo validado en la frontera de servidor | URL canónica, enlaces absolutos y metadatos técnicos. |
+| Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Logo e imágenes de servicios y productos. |
+| Construcción del destino de WhatsApp | `infrastructure/whatsapp-destination.ts` | Todos los enlaces de contacto resueltos por la aplicación. |
+| Origen público y configuración de despliegue | `src/composition/publication-config.ts`, leído por `site-config.ts` | URL canónica, enlaces absolutos y modo de publicación. |
 
 Estos módulos mantienen responsabilidades separadas; no se concentran en un archivo universal de configuración. Los recursos binarios tienen una ubicación física única y el contenido los referencia, sin duplicarlos por sección.
 
@@ -202,7 +202,7 @@ Los contratos públicos de producto se mantienen en `contracts.ts`. Los tipos in
 - Las invitaciones con datos de empresa usan plantillas y valores de su autoridad. La dirección no se copia dentro de mensajes, componentes ni textos editoriales para producir la invitación de visita.
 - El dominio valida el beneficio y la aplicación coordina su uso. El adaptador de WhatsApp recibe el mensaje resuelto y se ocupa del destino y la codificación. Esta fase prepara una solicitud comercial: no calcula un precio final, no aplica rebajas a totales ni procesa pagos.
 - El destino de contacto es una unión explícita entre `ready`, con enlace válido, y `pending`, con motivo y mensaje preparados. La intención de contacto y la oferta existen en ambos estados. Un número pendiente durante el trabajo no elimina esa intención ni genera un teléfono, enlace ficticio o destino alternativo; el contacto efectivo con Manolo requiere el número confirmado.
-- La publicación comercial exige un destino `ready`; el entorno de trabajo admite el estado `pending` sin fingir que ya permite abrir una conversación real. La representación visual de estos estados se definirá con la UI.
+- La publicación comercial exige un destino `ready`; el entorno de trabajo admite el estado `pending` sin fingir que ya permite abrir una conversación real. La presentación provisional usa enlaces reales para `ready` y un desplegable HTML nativo con el mensaje completo para `pending`; permite copiarlo o seleccionarlo, sin generar un enlace ficticio.
 - Cada producto puede declarar una cantidad orientativa con su unidad y, cuando corresponda, composición. Ese dato pertenece al catálogo: no es un mínimo obligatorio, una selección de compra, una tarifa ni un disparador de precio o descuento. Los importes se acuerdan por proyecto fuera de la aplicación.
 - Cambiar una cantidad orientativa no modifica la oferta ni el mensaje obligatorio. Cambiar el porcentaje actualiza sus representaciones derivadas mediante la misma fuente. No se introduce un motor de promociones ni una copia del beneficio dentro de cada producto.
 
@@ -247,9 +247,9 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 
 ### 7.2. Landing general y landings por producto
 
-- Se prevé una entrada general en `/` y una entrada de producto en `/productos/[slug]`. Son recorridos comerciales del mismo contexto, no una tienda. Los adaptadores de Next.js se mantienen delgados y consumen casos de uso compuestos en servidor.
+- Hay una entrada general en `/` y una entrada de producto en `/productos/[slug]`. Son recorridos comerciales del mismo contexto, no una tienda. Los adaptadores de Next.js se mantienen delgados y consumen casos de uso compuestos en servidor.
 - Cada producto publicado tiene una landing. Los slugs únicos y su contenido editorial referencian IDs de producto; no copian fichas del catálogo. Las entradas de `generateStaticParams`, los enlaces y las URLs canónicas se derivan de esa resolución, sin listas manuales paralelas de rutas.
-- La aplicación resuelve producto, contenido, medios, cantidad orientativa, beneficio e intención de contacto. Un slug desconocido produce un resultado que el adaptador representa como página no encontrada; no publica un producto ficticio. Las páginas se prerenderizan con los mismos contratos, sin decidir todavía componentes o disposición visual.
+- La aplicación resuelve producto, contenido, medios, cantidad orientativa, beneficio e intención de contacto. Un slug desconocido produce un resultado que el adaptador representa como página no encontrada; no publica un producto ficticio. `ensureStatic = "navigation"` en el layout exige HTML completo prerenderizado con la API de Next.js instalada, evitando servir una shell anticipada con estado 200 para productos inexistentes.
 
 ## 8. Testing desde la primera implementación
 
@@ -279,7 +279,7 @@ Reglas de la suite:
 
 Los controles de arquitectura deben fallar ante una infracción real y detectar también cambios de límites en archivos nuevos. Una revisión manual o una búsqueda de texto no sustituye el análisis del grafo.
 
-### 8.1. Contratos de contenido y contacto que deberán verificarse
+### 8.1. Contratos de contenido y contacto verificados
 
 - Validación de publicación: contenido requerido ausente, identificadores duplicados, referencias rotas y teléfono inválido se rechazan con errores concretos.
 - Adaptador de WhatsApp: número normalizado, mensaje correctamente codificado y traducción de la intención de consulta. Su contrato se prueba inspeccionando la URL; las pruebas no envían mensajes reales.
@@ -292,7 +292,7 @@ Los controles de arquitectura deben fallar ante una infracción real y detectar 
 - Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
 - E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
 
-Estas comprobaciones son requisitos de la implementación, no suites actualmente disponibles. No se sustituyen por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.
+Las suites de dominio, aplicación, integración, presentación, arquitectura y E2E están configuradas. El grafo usa el AST y la resolución de módulos de TypeScript; comprueba también APIs de entorno en el núcleo e imports calculados no verificables. Los E2E cubren escritorio y móvil, navegación sin JavaScript y el estado pendiente actual. El contrato del destino confirmado se verifica con el adaptador real sin enviar mensajes. No se sustituyen estas comprobaciones por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.
 
 ## 9. Errores, configuración y efectos
 
@@ -341,19 +341,23 @@ La evolución hacia comercio electrónico conservará la separación entre catá
 
 ## 12. Estado del repositorio
 
-Actualmente existe una base mínima de Next.js, React, TypeScript y Tailwind CSS, con la página inicial vacía. Los scripts definidos son `dev`, `build`, `start` y `lint`.
+La primera implementación incluye landing general, landings de todo el catálogo, composición de servidor, contenido versionado y validado, mensajes comerciales derivados, cantidades orientativas y metadatos canónicos. La presentación es provisional: logo, imágenes, colores y tipografías están identificados como placeholders.
 
-El alcance inicial se registra en [docs/product.md](./docs/product.md). Los motivos de las decisiones se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). El contexto, las autoridades de contenido, la entrega pública y sus verificaciones descritos en esta guía están definidos como contrato; todavía no están implementados.
+El alcance se registra en [docs/product.md](./docs/product.md). Los motivos se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). Los datos administrativos permanecen fuera del contenido público y de Git.
 
-Todavía no están configurados los bounded contexts, la composición, las herramientas de testing, los controles de arquitectura ni CI. La estructura de referencia y los comandos requeridos describen el contrato a implementar, no herramientas ya disponibles. Esta preparación debe completarse antes de incorporar comportamiento de aplicación.
+Todos los comandos de la sección 10 están implementados. GitHub Actions ejecuta `pnpm check`; la ejecución remota y la protección de ramas requieren un repositorio conectado y su configuración. Tener el workflow no acredita que esas políticas externas estén habilitadas.
 
-También hay dos lockfiles heredados, `package-lock.json` y `pnpm-lock.yaml`. La preparación debe consolidarlos en `pnpm-lock.yaml`, verificando la instalación antes de retirar el lockfile de npm.
+Se usa Node.js 24 y la versión de pnpm declarada en `package.json`. La instalación está consolidada en `pnpm-lock.yaml`; `pnpm-workspace.yaml` declara explícitamente los paquetes autorizados para compilar dependencias nativas.
 
 Comandos disponibles para desarrollo:
 
 ```bash
 pnpm install
+pnpm exec playwright install --with-deps chromium
 pnpm dev
+pnpm check
 ```
 
-`package.json` es la autoridad sobre qué comandos están efectivamente implementados. Esta sección se actualiza al completar la base técnica.
+El modo predeterminado es `preview`: permite WhatsApp pendiente y publica metadatos `noindex, nofollow`. Para publicar comercialmente se confirma `company.phone` en su autoridad y se compila con `SITE_MODE=public`; una configuración pendiente o inválida bloquea esa compilación. `SITE_ORIGIN` permite sobrescribir el origen de despliegue; su único valor por defecto está en `publication-config.ts`. No se duplica el teléfono en variables de entorno. Un cambio de modo exige recompilar.
+
+La implementación local no configura DNS ni alojamiento. Quedan pendientes el número comercial, la identidad visual, las fotografías tratadas y la revisión final de marketing. Analítica y comercio electrónico siguen fuera de esta entrega.

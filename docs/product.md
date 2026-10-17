@@ -1,6 +1,6 @@
 # Manolo Imprenta y Corte — decisiones de producto
 
-Registro de los datos, el alcance y las expresiones comerciales confirmadas durante el descubrimiento. La arquitectura y sus controles tienen una sola autoridad: [README.md](../README.md). Este documento no define la UI ni es una fuente de datos para consumir desde la aplicación.
+Registro del alcance y las decisiones comerciales confirmadas durante el descubrimiento. La arquitectura y sus controles tienen una sola autoridad: [README.md](../README.md). Los datos operativos ya migraron a las fuentes enlazadas aquí; este documento no mantiene un catálogo paralelo ni define la identidad visual final.
 
 ## Objetivo de la primera fase
 
@@ -12,7 +12,7 @@ El mercado objetivo son empresas de todo Chile. La captación comercial tiene al
 
 - Una landing general y una landing por producto, orientadas a generar conversaciones comerciales.
 - Cada elemento comercial ofrece contacto con Manolo y acceso al beneficio común. La acción se conserva estructuralmente aunque el número de trabajo esté pendiente.
-- Esta etapa define datos, contratos y comportamiento. La UI, sus componentes y su distribución se definirán después.
+- La implementación incluye datos, contratos, comportamiento y una presentación provisional para revisarlos. La identidad visual y el diseño final quedan pendientes.
 
 ## Mantenimiento
 
@@ -26,30 +26,23 @@ El producto es un conjunto de landings enfocadas en venta y captación para una 
 
 ## Ubicación
 
-Dirección para mostrar: **Eleuterio Ramírez 644, Santiago Centro**. El usuario solicita omitir el país en la dirección visible.
+La dirección visible y la cobertura confirmadas se mantienen en [company.ts](../src/contexts/commercial-presence/infrastructure/content/company.ts). Se omite el país en la dirección visible.
 
-Invitación presencial: **«Visítanos en {dirección}»**, usando la dirección confirmada de esta sección.
+La invitación presencial deriva la dirección mediante la plantilla de [contact-messages.ts](../src/contexts/commercial-presence/infrastructure/content/contact-messages.ts).
 
 ## Horario de atención
 
-- Horario confirmado: **09:00 a 18:00**.
-- Días de atención confirmados: **lunes a viernes**.
+Los días y las horas confirmados tienen su única autoridad operativa en [company.ts](../src/contexts/commercial-presence/infrastructure/content/company.ts).
 
 ## Dominio
 
-- Dominio adquirido para el proyecto: `manoloimprenta.cl`.
+- El dominio adquirido es el origen predeterminado de [publication-config.ts](../src/composition/publication-config.ts).
 - La titularidad fue aclarada por el usuario y se registra únicamente en la fuente administrativa local indicada en el README. Es distinta de la titularidad del negocio.
 - La compra y disponibilidad para el proyecto están confirmadas por el usuario y la captura aportada. El alojamiento y la configuración de DNS siguen pendientes.
 
 ## Identidad visual pendiente
 
-No existe una identidad visual definida. En esta etapa se usan los siguientes marcadores, claramente identificados como placeholders:
-
-| Elemento | Marcador provisional |
-| --- | --- |
-| Logo | `[PLACEHOLDER: LOGO POR DEFINIR]` |
-| Colores corporativos | `[PLACEHOLDER: COLORES POR DEFINIR]` |
-| Tipografía | `[PLACEHOLDER: TIPOGRAFÍA POR DEFINIR]` |
+No existe una identidad visual definida. Logo, colores y tipografía se identifican claramente como placeholders. El logo pertenece a [media.ts](../src/contexts/commercial-presence/infrastructure/content/media.ts); los estilos provisionales se mantienen en [tokens.css](../src/app/styles/tokens.css).
 
 Los estilos necesarios para trabajar en la presentación son provisionales y deben distinguirse de decisiones de marca aprobadas.
 
@@ -66,26 +59,15 @@ Los datos del titular y de cuenta se registran únicamente en la fuente administ
 
 ## Oferta de impresión seleccionada
 
-| Línea | Trabajos confirmados para mostrar |
-| --- | --- |
-| Papelería corporativa | Tarjetas de presentación, carpetas, hojas membretadas, sobres y talonarios. |
-| Catálogos y material comercial | Catálogos de productos, folletos, dípticos, trípticos y fichas comerciales. |
+La selección confirmada se mantiene únicamente en [products.ts](../src/contexts/commercial-presence/infrastructure/content/products.ts), sus agrupaciones en [product-categories.ts](../src/contexts/commercial-presence/infrastructure/content/product-categories.ts) y las líneas de servicio en [services.ts](../src/contexts/commercial-presence/infrastructure/content/services.ts).
 
 Esta selección cierra el alcance actual de impresión. No se incorporan más categorías a partir de capacidades técnicas generales ni se amplía la oferta sin una decisión del usuario.
 
-Al implementar el contenido, el catálogo operativo y los datos publicables pasan a las autoridades definidas en el README. Este documento conserva el alcance y referencias a esas fuentes, sin mantener una copia operativa del catálogo.
+El catálogo operativo y los datos publicables ya residen en las autoridades definidas en el README. Este documento conserva alcance y referencias, sin mantener una copia operativa del catálogo.
 
 ## Cantidades orientativas
 
-Cada proyecto se evalúa individualmente. Los siguientes son ejemplos habituales, no mínimos obligatorios ni reglas para fijar precios:
-
-| Producto | Cantidad habitual informada |
-| --- | --- |
-| Carpetas | 100 unidades. |
-| Tarjetas de presentación | 100 unidades. |
-| Dípticos | 100 unidades. |
-| Trípticos | 100 unidades. |
-| Talonarios | 1 talonario, con la composición informada como 50 × 2 unidades. |
+Cada proyecto se evalúa individualmente. Las cantidades y composiciones informadas pertenecen al campo opcional `typicalQuantity` del [catálogo](../src/contexts/commercial-presence/infrastructure/content/products.ts). Son ejemplos habituales, no mínimos obligatorios ni reglas para fijar precios.
 
 Estas cantidades se mantienen independientes de tarifas y beneficios comerciales. No se extrapolan a los demás productos.
 
@@ -101,7 +83,7 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 
 - Todos los elementos comerciales ofrecen la opción de solicitar un descuento del **20%** por WhatsApp.
 - Todos los mensajes de producto dirigidos a WhatsApp deben contener exactamente la frase **«quiero mi descuento de 20%»**. Se puede añadir el producto consultado, conservando esa frase.
-- El porcentaje y el mensaje se resuelven desde sus autoridades comunes definidas en el README; no se redactan ni configuran descuentos por separado en cada ficha o landing.
+- La autoridad operativa del porcentaje es [offers.ts](../src/contexts/commercial-presence/infrastructure/content/offers.ts); la de las plantillas es [contact-messages.ts](../src/contexts/commercial-presence/infrastructure/content/contact-messages.ts). La frase anterior es un requisito comercial de aceptación; no se configuran descuentos por separado en cada ficha o landing.
 - Es un incentivo comercial para iniciar la conversación y se aplica sobre el total del proyecto, incluido el diseño cuando forme parte del encargo. La conversación con Manolo determina la cotización; el sitio no calcula importes ni aplica el descuento automáticamente.
 - La vigencia de la oferta está pendiente de definición; es independiente del plazo de producción.
 
@@ -124,7 +106,7 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 ## Entrega de los trabajos
 
 - Manolo entrega el producto terminado.
-- Plazo base de producción: **3 días hábiles**, previa conversación y confirmación por WhatsApp según el proyecto.
+- El plazo base confirmado se mantiene en `company.productionDays`, previa conversación y confirmación por WhatsApp según el proyecto.
 - Los costos de retiro o transporte corren por cuenta del cliente.
 
 ## Material visual
@@ -138,12 +120,13 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 
 - WhatsApp es el único canal de contacto publicado en esta fase y concentra las llamadas a la acción comerciales.
 - Actualmente no hay correo de contacto y no está previsto habilitarlo durante esta fase. No se mostrará un correo ficticio ni un placeholder de correo.
-- Número de WhatsApp comercial: `[WHATSAPP_PENDIENTE]`.
-- Placeholder autorizado por el usuario; definición del número prevista para el 18 de octubre de 2026.
+- El número comercial sigue pendiente en `company.phone`, en [company.ts](../src/contexts/commercial-presence/infrastructure/content/company.ts). El placeholder fue autorizado por el usuario; no hay un número ficticio ni una segunda configuración por entorno.
 - El contacto y el beneficio siguen siendo parte obligatoria de cada elemento mientras el número está pendiente. El modelo conserva mensaje e intención con destino pendiente; el número se reemplazará en su fuente propietaria para abrir conversaciones reales con Manolo.
 
 ## Descubrimiento pendiente
 
-Se continuará preguntando de a un aspecto por vez. Permanecen pendientes el número de WhatsApp, los demás datos públicos de empresa, la modalidad de retiro o transporte, la selección y el tratamiento de los recursos visuales, la configuración del dominio y la operación del contenido. También quedan por definir la estrategia de marketing, la redacción final y el diseño.
+Se continuará preguntando de a un aspecto por vez. Permanecen pendientes el número de WhatsApp, la modalidad de retiro o transporte, la selección y el tratamiento de los recursos visuales y la configuración del alojamiento y DNS. También quedan por definir la estrategia de marketing, la redacción final y el diseño. El contenido se modifica desde código; no hay una decisión pendiente sobre autogestión.
+
+La implementación actual es revisable en modo `preview`, con metadatos que impiden la indexación. La compilación comercial exige confirmar el contacto antes de habilitar `SITE_MODE=public`.
 
 El posicionamiento deseado no autoriza a inventar capacidades, clientes, certificaciones, plazos o testimonios.

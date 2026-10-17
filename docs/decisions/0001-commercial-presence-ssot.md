@@ -1,6 +1,6 @@
 # 0001 — Presencia comercial con contenido propio y contacto por WhatsApp
 
-Estado: aceptada para la primera fase; implementación pendiente.
+Estado: aceptada e implementada para la primera fase; presentación provisional.
 
 ## Problema
 

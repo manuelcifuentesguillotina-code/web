@@ -1,6 +1,6 @@
 # 0003 — Landings de producto y contacto comercial obligatorio
 
-Estado: aceptada; implementación pendiente. La UI sigue sin definir.
+Estado: aceptada e implementada. La presentación es provisional; el diseño final sigue pendiente.
 
 ## Problema
 
