@@ -1,4 +1,4 @@
-# Manolo Imprenta — guía de software
+# Manolo Imprenta y Corte — guía de software
 
 Contrato de arquitectura y desarrollo del proyecto. Define cómo se organiza, implementa y verifica el software desde el primer día. Las decisiones de negocio y alcance se registran en [docs/product.md](./docs/product.md); la estrategia de marketing, los textos finales y el diseño visual se desarrollan aparte. Aquí se documentan sus consecuencias técnicas.
 
@@ -115,6 +115,7 @@ SSOT significa que cada concepto tiene una definición autoritativa, un propieta
 | --- | --- | --- |
 | Arquitectura vigente | Este README. | Otros documentos y `AGENTS.md` enlazan aquí; no copian estas reglas. |
 | Decisiones de producto y alcance | [docs/product.md](./docs/product.md). | Distingue lo confirmado de lo pendiente; no funciona como fuente de datos en ejecución. |
+| Datos administrativos no publicados | `.private/business-administration.md`, registro local excluido de Git. | Mantiene los datos del titular del negocio, de cuenta y del titular del dominio en una sola fuente, con sus responsabilidades diferenciadas; no se importa ni se copia al contenido público. |
 | Motivos de decisiones | `docs/decisions/`. | Registran contexto y consecuencias; un cambio de arquitectura actualiza también el README. |
 | Invariantes y comportamiento | Dominio del contexto propietario. | No se reimplementan en componentes, acciones o adaptadores. |
 | Contratos públicos | `contracts.ts` del contexto propietario. | Los consumidores importan o derivan los tipos; no mantienen copias manuales. |
@@ -140,13 +141,19 @@ Las siguientes ubicaciones son el contrato previsto dentro de `src/contexts/comm
 | Concepto | Autoridad prevista | Consumidores derivados |
 | --- | --- | --- |
 | Identidad, contacto y datos públicos confirmados | `infrastructure/content/company.ts` | Cabecera, pie, datos de contacto y representaciones de empresa para buscadores. |
-| Servicios, agrupaciones y piezas comerciales | `infrastructure/content/services.ts` | Secciones de oferta, navegación por servicio e intenciones de consulta. |
+| Líneas de servicio | `infrastructure/content/services.ts` | Presentación de servicios e intenciones de consulta. |
+| Categorías de productos y su relación con los servicios | `infrastructure/content/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
+| Identidad y datos comerciales de cada producto | `infrastructure/content/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
 | Textos editoriales, orden de secciones y mensajes iniciales de consulta | `infrastructure/content/landing.ts` | Presentación, llamadas a la acción y metadatos editoriales de la landing. |
 | Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Imágenes publicadas y representaciones para compartir. |
 | Construcción del destino de WhatsApp | Adaptador de contacto en `infrastructure/` | Todos los enlaces de contacto resueltos por la aplicación. |
 | Origen público y configuración de despliegue | Módulo validado en la frontera de servidor | URL canónica, enlaces absolutos y metadatos técnicos. |
 
 Estos módulos mantienen responsabilidades separadas; no se concentran en un archivo universal de configuración. Los recursos binarios tienen una ubicación física única y el contenido los referencia, sin duplicarlos por sección.
+
+La autoridad de medios distingue recursos provisionales y aprobados. Reemplazar un placeholder por una imagen final conserva su identificador y actualiza sus datos en esa autoridad, sin editar los componentes consumidores. Las variantes optimizadas se derivan de un archivo maestro aprobado; no son fuentes de edición independientes. La revisión visual comprueba que recorte, tamaño y compresión preservan el detalle de los productos en móvil y escritorio.
+
+La identidad visual pendiente se identifica expresamente como placeholder en la presentación provisional. El logo se referencia desde la autoridad de medios; los colores y las tipografías provisionales se definen en los tokens centrales de estilos. Su reemplazo no requiere corregir valores dispersos en componentes ni convierte esas elecciones provisionales en una identidad aprobada.
 
 Reglas de consumo:
 
@@ -166,6 +173,21 @@ Reglas de consumo:
 - Con la fuente versionada, una actualización se publica mediante una nueva compilación y despliegue; la versión desplegada identifica el contenido servido. No se añade una caché independiente para estos datos sin una necesidad concreta.
 - Una modificación identifica el concepto y su autoridad, modifica allí el dato o regla y verifica sus consumidores derivados. Renombrar una pieza no exige buscar y reemplazar etiquetas por toda la aplicación.
 - La llegada de un CMS, otro canal o nuevas páginas requiere identificar qué responsabilidad cambia y cómo se conserva o migra su autoridad. No se implementan anticipadamente conectores, un registro de plugins ni un framework de campañas.
+
+### 5.3. Productos desacoplados de su presentación
+
+El catálogo describe lo que la empresa ofrece. La composición editorial decide qué mostrar, dónde y en qué orden. La representación visual decide cómo se ve. Estas responsabilidades tienen autoridades distintas dentro de `commercial-presence`; no necesitan nuevos contextos, un backend de catálogo ni un sistema de comercio electrónico.
+
+1. Cada producto se define una sola vez con ID estable, nombre, descripción comercial y referencias a su categoría y recursos visuales. No contiene JSX, componentes, clases CSS, posiciones de grilla, nombres de rutas ni URLs de WhatsApp.
+2. Cada relación tiene un solo propietario: el producto referencia su categoría y la categoría referencia su servicio. Las listas inversas se calculan; no se mantiene además un inventario manual de productos dentro de cada categoría o servicio. El servicio de corte conserva identidad propia aunque no tenga productos asociados.
+3. `landing.ts` contiene selecciones y orden editorial mediante IDs. Puede mostrar el mismo producto en más de un lugar sin copiar su definición. Las selecciones editoriales no redefinen su categoría ni sus datos comerciales.
+4. Las imágenes se referencian por ID desde la autoridad de medios. Cambiar un placeholder, un recorte o una variante optimizada no cambia la identidad del producto ni obliga a editar una tarjeta.
+5. La aplicación resuelve las referencias y produce contratos públicos para los consumidores. Los modelos de vista pueden agrupar o seleccionar campos, pero no se convierten en fuentes editables paralelas del catálogo. La presentación recibe los datos por parámetros y no importa los módulos de contenido.
+6. La selección para SEO y contacto usa los mismos IDs y datos publicados. El adaptador de WhatsApp recibe la intención de consulta resuelta; no mantiene su propia tabla de nombres de productos. Las URLs y los tipos de Next.js se resuelven en sus adaptadores.
+7. El contrato de publicación valida referencias, pertenencia y campos requeridos una sola vez en su frontera. Eliminar un producto o cambiar su ID sin actualizar las referencias impide publicar; no desaparece silenciosamente de las selecciones consumidoras. Cambiar su nombre visible conserva el ID y sus referencias.
+8. Cambiar un nombre o una descripción modifica el catálogo; cambiar una selección o su orden modifica la composición editorial; cambiar una tarjeta modifica presentación; cambiar el proveedor de contenido modifica infraestructura. Estos cambios no obligan a redefinir el producto en sus consumidores. Si un cambio alcanza varias responsabilidades, cada una se actualiza en su autoridad.
+
+Los contratos públicos de producto se mantienen en `contracts.ts`. Los tipos internos y los mapeos respetan la dirección de dependencias: el núcleo no infiere sus contratos importando el contenido concreto de infraestructura. La validación estructural y las invariantes de referencia tienen una autoridad identificable; no se reescribe la misma regla en esquemas, componentes y adaptadores de contacto.
 
 ## 6. Archivos pequeños y código explícito
 
@@ -239,6 +261,7 @@ Los controles de arquitectura deben fallar ante una infracción real y detectar 
 - Validación de publicación: contenido requerido ausente, identificadores duplicados, referencias rotas y teléfono inválido se rechazan con errores concretos.
 - Adaptador de WhatsApp: número normalizado, mensaje correctamente codificado y traducción de la intención de consulta. Su contrato se prueba inspeccionando la URL; las pruebas no envían mensajes reales.
 - Derivaciones SSOT: un cambio controlado de nombre, contacto o servicio se refleja en sus modelos de vista, metadatos y contacto aplicables, sin modificar las fuentes consumidoras.
+- Desacoplamiento de productos: cambiar el nombre de un producto se refleja en sus consumidores; reordenar una selección editorial conserva las identidades y los datos del catálogo; sustituir un recurso conserva la referencia del producto. Una referencia a un producto o categoría inexistente impide publicar.
 - Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
 - E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
 
@@ -287,11 +310,13 @@ Cada decisión registra problema, alternativas consideradas, decisión y consecu
 
 No se introduce complejidad por tamaño esperado ni se relajan límites para acelerar una implementación. Se incorpora lo necesario para el problema actual dentro de estas reglas.
 
+La evolución hacia comercio electrónico conservará la separación entre catálogo, presentación y comportamiento transaccional. Al abordar esa fase se definirán sus responsabilidades, contratos y autoridades de datos, junto con cualquier migración necesaria. La previsión de esa evolución no introduce campos ficticios, flujos desactivados ni dependencias transaccionales en la landing actual.
+
 ## 12. Estado del repositorio
 
 Actualmente existe una base mínima de Next.js, React, TypeScript y Tailwind CSS, con la página inicial vacía. Los scripts definidos son `dev`, `build`, `start` y `lint`.
 
-El alcance inicial se registra en [docs/product.md](./docs/product.md) y la decisión de contenido y contacto en [docs/decisions/0001-commercial-presence-ssot.md](./docs/decisions/0001-commercial-presence-ssot.md). El contexto, las autoridades de contenido, la entrega pública y sus verificaciones descritos en esta guía están definidos como contrato; todavía no están implementados.
+El alcance inicial se registra en [docs/product.md](./docs/product.md), la decisión de contenido y contacto en [docs/decisions/0001-commercial-presence-ssot.md](./docs/decisions/0001-commercial-presence-ssot.md) y la separación entre catálogo y presentación en [docs/decisions/0002-product-catalog-decoupling.md](./docs/decisions/0002-product-catalog-decoupling.md). El contexto, las autoridades de contenido, la entrega pública y sus verificaciones descritos en esta guía están definidos como contrato; todavía no están implementados.
 
 Todavía no están configurados los bounded contexts, la composición, las herramientas de testing, los controles de arquitectura ni CI. La estructura de referencia y los comandos requeridos describen el contrato a implementar, no herramientas ya disponibles. Esta preparación debe completarse antes de incorporar comportamiento de aplicación.
 
