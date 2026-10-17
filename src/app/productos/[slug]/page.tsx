@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { composeCommercialPresence } from "@/composition/commercial-presence/compose-commercial-presence";
-import { ProductLanding } from "@/contexts/commercial-presence/presentation/landings/product-landing";
+import { ProductLanding } from "@/contexts/commercial-presence/presentation/landings/product/product-landing";
 import { pageMetadata } from "../../page-metadata";
 
 export function generateStaticParams(): { slug: string }[] {

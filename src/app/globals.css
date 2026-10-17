@@ -1,4 +1,3 @@
 @import "tailwindcss";
-@import "./styles/tokens.css";
-@import "./styles/shell.css";
-@import "./styles/commerce.css";
+@import "../contexts/commercial-presence/presentation/styles/tokens.css";
+@import "../contexts/commercial-presence/presentation/styles/base.css";
