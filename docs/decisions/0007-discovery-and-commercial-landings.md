@@ -16,6 +16,8 @@ Las tarifas tienen una autoridad independiente. Los estados implementados son co
 
 Las imágenes del sitio continúan como SVG. Para vistas previas sociales se produce un PNG de 1200 × 630 desde el mismo maestro, con fuentes y paleta locales. El adaptador `ImageResponse` vive dentro de Next.js y recibe un componente de presentación sin acceso al contenido fuente. Los recursos se incluyen expresamente en el trazado del despliegue. La caché de difusión es derivada y se renueva con cada publicación; las plataformas sociales pueden mantener sus propias copias.
 
+La revisión visual en Vercel detectó glifos de sustitución en la rotulación interna de algunos SVG: cargar una fuente para el título de `ImageResponse` no la suministra al renderizador del SVG incluido. Se convierte esa rotulación a trazados durante `assets:build`, mediante Fontkit y la fuente local. La fuente editable sigue en el generador y no se añade dependencia tipográfica al runtime. La integración rechaza SVG con `text` o `tspan` pendientes de representar.
+
 ## Alternativas consideradas
 
 - Configurar metadatos, JSON-LD y tarjetas por página: duplica autoridades y dificulta cambios globales.

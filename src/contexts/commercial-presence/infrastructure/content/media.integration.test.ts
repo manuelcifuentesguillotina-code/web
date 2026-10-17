@@ -21,7 +21,10 @@ it("publishes complete local vector artwork with the declared proportions", asyn
       `0 0 ${item.width} ${item.height}`,
     );
     expect(document.querySelector("title")?.textContent).toBeTruthy();
-    expect(document.querySelector("script, image, foreignObject")).toBeNull();
+    // Outlined lettering must survive a renderer with no system fonts (Vercel social cards).
+    expect(
+      document.querySelector("script, image, foreignObject, text, tspan"),
+    ).toBeNull();
     for (const element of document.querySelectorAll("[href]")) {
       expect(element.getAttribute("href")).toMatch(/^#/);
     }

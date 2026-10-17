@@ -1,3 +1,5 @@
+import { outlineText } from "./type-outlines.mjs";
+
 export function text(
   x,
   y,
@@ -6,21 +8,7 @@ export function text(
   fill = "currentColor",
   extra = "",
 ) {
-  return (
-    '<text x="' +
-    x +
-    '" y="' +
-    y +
-    '" font-family="Arial,Helvetica,sans-serif" font-size="' +
-    size +
-    '" fill="' +
-    fill +
-    '" ' +
-    extra +
-    ">" +
-    value +
-    "</text>"
-  );
+  return outlineText(x, y, value, size, fill, extra);
 }
 
 export function lines(x, y, widths, color, gap = 12) {

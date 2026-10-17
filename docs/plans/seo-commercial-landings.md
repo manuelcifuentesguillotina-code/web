@@ -144,3 +144,4 @@ La implementación técnica no garantiza una posición en buscadores ni sustituy
 - Verificación HTTP en `https://manoloimprenta.cl`: 18 landings con 200, canonical propio e indexación habilitada; 18 PNG válidos de 1200 × 630; sitemap con 18 URLs y robots público.
 - Precios: ningún importe propio aprobado; se publica «Precio por proyecto». El contrato, la presentación, las tarjetas y las ofertas estructuradas admiten una tarifa confirmada desde su autoridad única.
 - Search Console: procedimiento documentado, sin atribuir una verificación o envío en una cuenta a la que no se accedió.
+- Revisión visual de producción: se detectó dependencia de fuentes del sistema en la rotulación de los SVG. Se incorporó conversión a trazados durante la generación y una regresión que impide publicar SVG con texto sin convertir. Los títulos de las tarjetas conservan su fuente local explícita.
