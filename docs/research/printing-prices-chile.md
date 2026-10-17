@@ -35,7 +35,9 @@ La investigación no establece un precio fiable para corte con guillotina: falta
 
 La decisión sobre el uso de estas referencias se mantiene en el [posicionamiento de precio del documento de producto](../product.md#posicionamiento-de-precio), sin replicarla aquí como una segunda autoridad.
 
-Una eventual publicación de importes requiere ejemplos concretos con cantidad, alcance e IVA explícitos, aprobados por el negocio. El precio de la empresa se mantendrá en su autoridad propia; estas observaciones externas no se convierten en un tarifario de producción.
+El usuario autorizó posteriormente publicar referencias identificadas hasta confirmar tarifas propias. Se volvieron a consultar las fuentes R01, R03 y R05 antes de configurar esos ejemplos en la autoridad de precios. Esta investigación no se importa en ejecución ni se convierte en un tarifario de Manolo. La configuración publicable y su procedencia se mantienen únicamente en `product-prices.ts`.
+
+R06 no se publica como importe: su ejemplo no especifica IVA. Los productos sin un ejemplo suficiente conservan cotización por proyecto; no se extrapolan precios entre trabajos.
 
 ## Mantenimiento
 

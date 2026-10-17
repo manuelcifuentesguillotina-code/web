@@ -84,7 +84,7 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 - El usuario define un posicionamiento corporativo de precio alto pero razonable, coherente con el servicio profesional ofrecido.
 - La prioridad comercial es iniciar una conversación por WhatsApp para conocer el proyecto y establecer su precio.
 - Las referencias externas se registran en la [investigación de precios de imprentas chilenas](./research/printing-prices-chile.md). Son insumos de trabajo, no precios aprobados de la empresa.
-- La instrucción posterior solicita precio visible y textos breves. La estructura admite una tarifa aprobada con su base e IVA, independiente de la cantidad habitual. Hasta confirmar esos importes se publica «Precio por proyecto»; las referencias externas conservan su uso interno.
+- El usuario autorizó publicar referencias identificadas hasta confirmar las tarifas propias. Se muestran como referencias externas con proveedor, cantidad e IVA; la landing ofrece la fuente, fecha de consulta y alcance. No constituyen una cotización de Manolo ni una base automática para descontar el incentivo. Los trabajos sin referencia suficiente conservan «Precio por proyecto».
 - Las tarifas propias y el alcance económico del diseño se definirán con el negocio.
 
 ## Beneficio comercial común

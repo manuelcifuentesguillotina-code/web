@@ -2,6 +2,34 @@ import { describe, expect, it } from "vitest";
 import { publishPrice } from "./publish-price";
 
 describe("published prices", () => {
+  it("preserves external provenance and never presents a reference as an approved tariff", () => {
+    const reference = {
+      provider: "Proveedor de prueba",
+      href: "https://example.test/precios",
+      checkedOn: "2026-10-17",
+      scope: "Sin diseño.",
+    };
+    expect(
+      publishPrice({
+        productId: "card",
+        status: "reference",
+        amount: 98663,
+        currency: "CLP",
+        basis: "500 tarjetas",
+        tax: "included",
+        reference,
+      }),
+    ).toEqual({
+      status: "reference",
+      amount: 98663,
+      currency: "CLP",
+      label: "Referencia $98.663",
+      basis: "500 tarjetas",
+      tax: "included",
+      taxLabel: "IVA incluido",
+      reference,
+    });
+  });
   it("keeps unconfirmed amounts out of every published price view", () => {
     expect(publishPrice()).toEqual({
       status: "quote",

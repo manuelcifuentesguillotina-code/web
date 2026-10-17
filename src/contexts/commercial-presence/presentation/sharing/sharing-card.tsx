@@ -49,9 +49,14 @@ export function SharingCard({ view }: { readonly view: SharingCardView }) {
           <div style={{ display: "flex", fontSize: 30, color: palette.warm }}>
             {view.price.label}
           </div>
-          {view.price.status === "approved" && (
+          {view.price.status !== "quote" && (
             <div style={{ display: "flex", fontSize: 21 }}>
               {view.price.basis} · {view.price.taxLabel}
+            </div>
+          )}
+          {view.price.status === "reference" && (
+            <div style={{ display: "flex", fontSize: 21 }}>
+              {view.price.reference.provider} · referencia externa
             </div>
           )}
         </div>

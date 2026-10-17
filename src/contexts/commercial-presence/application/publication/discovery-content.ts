@@ -1,3 +1,5 @@
+import type { PriceReference } from "../../contracts";
+
 export interface SearchEditorial {
   readonly title: string;
   readonly description: string;
@@ -38,4 +40,13 @@ export type PriceDefinition =
       readonly currency: "CLP";
       readonly basis: string;
       readonly tax: "included" | "excluded";
+    }
+  | {
+      readonly productId: string;
+      readonly status: "reference";
+      readonly amount: number;
+      readonly currency: "CLP";
+      readonly basis: string;
+      readonly tax: "included" | "excluded";
+      readonly reference: PriceReference;
     };

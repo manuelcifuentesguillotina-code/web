@@ -111,7 +111,7 @@ export function validateDiscovery(content: SiteContent): void {
   });
   content.prices.forEach((price) => {
     if (
-      price.status === "approved" &&
+      price.status !== "quote" &&
       (!Number.isSafeInteger(price.amount) ||
         price.amount <= 0 ||
         !price.basis.trim() ||
@@ -119,6 +119,23 @@ export function validateDiscovery(content: SiteContent): void {
         price.currency !== "CLP" ||
         !["included", "excluded"].includes(price.tax))
     )
-      fail("tarifa aprobada inválida");
+      fail("importe publicado inválido");
+    if (price.status === "reference") {
+      const { provider, href, checkedOn, scope } = price.reference;
+      const validUrl = /^https:\/\/[^\s/?#@]+(?:\/[^\s]*)?$/.test(href);
+      const date = new Date(checkedOn + "T00:00:00.000Z");
+      const validDate =
+        !Number.isNaN(date.valueOf()) &&
+        date.toISOString().slice(0, 10) === checkedOn;
+      if (
+        !provider.trim() ||
+        !scope.trim() ||
+        !validUrl ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(checkedOn) ||
+        !validDate ||
+        [provider, scope].some((text) => text.split(/\r?\n/).length > 2)
+      )
+        fail("referencia de precio inválida");
+    }
   });
 }

@@ -1,5 +1,6 @@
 import type { PublishedPrice } from "../../contracts";
 import styles from "./price-panel.module.css";
+import { PriceReferenceDetails } from "./price-reference-details";
 
 export function PricePanel({
   price,
@@ -13,12 +14,20 @@ export function PricePanel({
       className={styles.price + (compact ? " " + styles.compact : "")}
       data-price-status={price.status}
     >
-      <p className={styles.amount}>{price.label}</p>
-      {price.status === "approved" && (
-        <p className={styles.basis}>
+      <p className={styles.amount + " short-copy"}>{price.label}</p>
+      {price.status !== "quote" && (
+        <p className={styles.basis + " short-copy"}>
           {price.basis} · {price.taxLabel}
         </p>
       )}
+      {price.status === "reference" &&
+        (compact ? (
+          <p className={styles.source + " short-copy"}>
+            {price.reference.provider} · externa
+          </p>
+        ) : (
+          <PriceReferenceDetails reference={price.reference} />
+        ))}
     </div>
   );
 }

@@ -51,7 +51,7 @@ export function ProductResults({
                       className={styles.price}
                     >
                       {item.price.label}
-                      {item.price.status === "approved" && (
+                      {item.price.status !== "quote" && (
                         <span>
                           {item.price.basis} · {item.price.taxLabel}
                         </span>

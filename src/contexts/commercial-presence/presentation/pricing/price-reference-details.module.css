@@ -1,0 +1,23 @@
+.details {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.details summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+}
+.details > div {
+  padding-block: 8px;
+}
+.details p + p {
+  margin-top: 8px;
+}
+.details a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

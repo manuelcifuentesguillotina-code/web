@@ -17,7 +17,7 @@ export type {
   TopicLandingView,
 } from "./contracts/landings";
 export type { MarketingCopy } from "./contracts/marketing";
-export type { PublishedPrice } from "./contracts/pricing";
+export type { PublishedPrice, PriceReference } from "./contracts/pricing";
 export type { SharingCardView } from "./contracts/sharing";
 export type {
   PageSeo,
