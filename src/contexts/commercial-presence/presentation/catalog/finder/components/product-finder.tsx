@@ -96,7 +96,7 @@ export function ProductFinder({
           onChange={search.setQuery}
           onSubmit={() =>
             resultsRef.current
-              ?.querySelector<HTMLElement>("a, [tabindex]")
+              ?.querySelector<HTMLElement>("a, [tabindex='-1']")
               ?.focus({ preventScroll: true })
           }
         />
@@ -108,9 +108,21 @@ export function ProductFinder({
         />
         <div className={styles.scroll} ref={resultsRef}>
           {search.count === 0 && (
-            <p tabIndex={-1} className={styles.empty + " short-copy"}>
-              {copy.finder.empty}
-            </p>
+            <div className={styles.empty}>
+              <p tabIndex={-1} className="short-copy">{copy.finder.empty}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  search.clear();
+                  search.setGroupId(undefined);
+                  dialogRef.current
+                    ?.querySelector<HTMLInputElement>("#product-search")
+                    ?.focus({ preventScroll: true });
+                }}
+              >
+                {copy.hero.browse}
+              </button>
+            </div>
           )}
           <ProductResults
             groups={search.results}

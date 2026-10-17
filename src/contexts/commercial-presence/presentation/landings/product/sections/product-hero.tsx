@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
+import Link from "next/link";
 import type { ProductLandingView } from "../../../../contracts";
-import { sectionIds } from "../../../navigation/section-links";
+import { sectionHref, sectionIds } from "../../../navigation/section-links";
 import styles from "./product-hero.module.css";
 import { PricePanel } from "../../../pricing/price-panel";
 import { ProductOffer } from "../offer/product-offer";
@@ -16,6 +17,9 @@ export function ProductHero({
     <section className={"container " + styles.section} id={sectionIds.hero}>
       <div className={styles.grid}>
         <div className={styles.copy}>
+          <Link className={styles.catalogLink} href={sectionHref("catalog", false)}>
+            <span aria-hidden="true">← </span>{view.copy.hero.browse}
+          </Link>
           <h1 className={styles.title + " short-copy"}>{product.name}</h1>
           <PricePanel price={product.price} />
           <ProductOffer contact={product.contact} />

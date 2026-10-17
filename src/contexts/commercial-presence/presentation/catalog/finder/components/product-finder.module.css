@@ -67,6 +67,15 @@
   padding-block: 24px;
   font-size: 1rem;
 }
+.empty button {
+  margin-top: 16px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 700;
+}
 .contact {
   padding: 12px 20px max(12px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--color-line);

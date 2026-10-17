@@ -18,6 +18,7 @@ import { useDialogViewport } from "./use-dialog-viewport";
 export function useProductDialog(currentPath: string | null) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLAnchorElement>(null);
+  const navigatingRef = useRef(false);
   const [isOpen, setOpen] = useState(false);
   const { lock, unlock } = usePageScrollLock();
   useDialogViewport(dialogRef, isOpen);
@@ -25,6 +26,7 @@ export function useProductDialog(currentPath: string | null) {
   const openDialog = useCallback(() => {
     const dialog = dialogRef.current;
     if (!dialog || dialog.open) return;
+    navigatingRef.current = false;
     lock();
     dialog.showModal();
     setOpen(true);
@@ -74,15 +76,16 @@ export function useProductDialog(currentPath: string | null) {
   }
 
   function select(): void {
+    navigatingRef.current = true;
     releaseFinderHistory();
-    // Restore the outgoing page before Next.js manages scrolling to the destination.
+    // Keep loading feedback visible and restore scrolling before navigation.
     unlock();
   }
 
   function afterClose(): void {
     unlock();
     setOpen(false);
-    if (triggerRef.current?.getClientRects().length)
+    if (!navigatingRef.current && triggerRef.current?.getClientRects().length)
       triggerRef.current.focus({ preventScroll: true });
   }
 

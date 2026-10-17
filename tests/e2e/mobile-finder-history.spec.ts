@@ -3,6 +3,37 @@ import { expectContact } from "./support/landing-assertions";
 
 test.use({ viewport: { width: 390, height: 844 }, hasTouch: true });
 
+test("an empty search can clear both the query and category and focus the search", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("navigation", { name: "Acciones móviles" })
+    .getByRole("link", { name: "Productos", exact: true }).click();
+  const finder = page.getByRole("dialog");
+  await finder.getByRole("button", { name: "Papelería", exact: true }).click();
+  const search = finder.getByRole("searchbox");
+  await search.fill("dipticos");
+  await search.press("Enter");
+  await expect(finder.getByText("No encontramos ese producto.", { exact: true })).toBeFocused();
+  await finder.getByRole("button", { name: "Ver productos", exact: true }).click();
+  await expect(search).toHaveValue("");
+  await expect(search).toBeFocused();
+  await expect(finder.getByRole("button", { name: "Todos", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(finder.getByRole("link", { name: "Dípticos", exact: true })).toBeVisible();
+});
+
+test("folded products keep separate destinations and provide a way back to the catalog", async ({ page }) => {
+  await page.goto("/productos/dipticos");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Dípticos");
+  await page.getByRole("navigation", { name: "Acciones móviles" })
+    .getByRole("link", { name: "Productos", exact: true }).click();
+  const finder = page.getByRole("dialog");
+  await finder.getByRole("link", { name: "Trípticos", exact: true }).click();
+  await expect(page).toHaveURL(/\/productos\/tripticos$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Trípticos");
+  await page.locator("main").getByRole("link", { name: "Ver productos", exact: true }).click();
+  await expect(page).toHaveURL(/\/#productos$/);
+  await expect(page.locator("#productos")).toBeInViewport();
+});
+
 test("Back dismisses the finder and Forward recovers it without polluting the URL", async ({
   page,
 }) => {
