@@ -19,32 +19,70 @@ export function createPresence(
   const views = createViewBuilders(content, destination);
   const company = views.companyView();
   const products = content.products.map(views.product);
+  const groups = content.home.categoryOrder.map((id) => {
+    const category = content.categories.find((item) => item.id === id);
+    if (!category) throw new Error("Categoría editorial no resuelta: " + id);
+    const ids = new Set(
+      content.products
+        .filter((item) => item.categoryId === id)
+        .map((item) => item.id),
+    );
+    return {
+      id,
+      name: category.name,
+      products: products.filter((item) => ids.has(item.id)),
+    };
+  });
+  const navigation = groups.map((group) => ({
+    id: group.id,
+    name: group.name,
+    items: group.products.map(({ id, name, href }) => ({ id, name, href })),
+  }));
 
   return {
     home(): HomeView {
       return {
-        company, heading: content.home.heading, intro: content.home.intro,
-        copy: content.copy, heroMedia: views.media(content.home.heroMediaId),
+        company,
+        navigation,
+        heading: content.home.heading,
+        intro: content.home.intro,
+        copy: content.copy,
+        heroMedia: views.media(content.home.heroMediaId),
         services: views.serviceViews(),
-        groups: content.home.categoryOrder.map((id) => {
-          const category = content.categories.find((item) => item.id === id);
-          if (!category) throw new Error("Categoría editorial no resuelta: " + id);
-          const ids = new Set(content.products.filter((item) => item.categoryId === id).map((item) => item.id));
-          return { id, name: category.name, products: products.filter((item) => ids.has(item.id)) };
-        }),
-        seo: { title: company.name, description: content.home.intro, path: "/" },
+        groups,
+        seo: {
+          title: company.name,
+          description: content.home.intro,
+          path: "/",
+        },
       };
     },
     productLanding(slug): ProductLandingView | undefined {
       const page = content.productLandings.find((item) => item.slug === slug);
-      const product = page && products.find((item) => item.id === page.productId);
+      const product =
+        page && products.find((item) => item.id === page.productId);
       if (!product) return undefined;
-      const categoryId = content.products.find((item) => item.id === product.id)?.categoryId;
-      const relatedIds = new Set(content.products.filter((item) => item.categoryId === categoryId).map((item) => item.id));
+      const categoryId = content.products.find(
+        (item) => item.id === product.id,
+      )?.categoryId;
+      const relatedIds = new Set(
+        content.products
+          .filter((item) => item.categoryId === categoryId)
+          .map((item) => item.id),
+      );
       return {
-        company, product, copy: content.copy,
-        related: products.filter((item) => relatedIds.has(item.id) && item.id !== product.id),
-        seo: { title: product.name + " | " + company.name, description: product.description, path: product.href },
+        company,
+        product,
+        navigation,
+        copy: content.copy,
+        related: products.filter(
+          (item) => relatedIds.has(item.id) && item.id !== product.id,
+        ),
+        seo: {
+          title: product.name + " | " + company.name,
+          description: product.description,
+          path: product.href,
+        },
       };
     },
     productSlugs(): readonly string[] {

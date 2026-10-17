@@ -1,4 +1,12 @@
 export interface MarketingCopy {
+  readonly finder: {
+    readonly search: string;
+    readonly clear: string;
+    readonly close: string;
+    readonly empty: string;
+    readonly singular: string;
+    readonly plural: string;
+  };
   readonly navigation: {
     readonly products: string;
     readonly services: string;

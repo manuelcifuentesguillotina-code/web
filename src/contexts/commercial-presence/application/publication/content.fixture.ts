@@ -3,6 +3,7 @@ import type { SiteContent } from "./content";
 export function contentFixture(): SiteContent {
   return {
     copy: {
+      finder: { search: "Buscar", clear: "Limpiar", close: "Cerrar", empty: "Sin resultados.", singular: "producto", plural: "productos" },
       navigation: { products: "Productos", services: "Servicios", visit: "Visita" },
       hero: { eyebrow: "Impresión", browse: "Ver productos", artCaption: "Ilustración" },
       services: { eyebrow: "Servicios", heading: "Servicios para empresas." },

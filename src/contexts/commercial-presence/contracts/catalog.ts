@@ -1,6 +1,16 @@
 import type { ContactAction } from "./contact";
 import type { MediaView } from "./media";
 
+export interface CatalogNavigationGroup {
+  readonly id: string;
+  readonly name: string;
+  readonly items: readonly {
+    readonly id: string;
+    readonly name: string;
+    readonly href: string;
+  }[];
+}
+
 export interface ProductView {
   readonly id: string;
   readonly name: string;

@@ -74,6 +74,7 @@ export function validateContent(content: SiteContent): void {
   required(home.intro, "introducción");
   const copy = content.copy;
   const texts = [
+    ...Object.values(copy.finder),
     ...Object.values(copy.navigation), ...Object.values(copy.hero), ...Object.values(copy.services),
     ...Object.values(copy.catalog), ...Object.values(copy.footer), ...Object.values(copy.product),
     copy.process.eyebrow, copy.process.heading, ...copy.ribbon,

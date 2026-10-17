@@ -1,6 +1,14 @@
 import type { MarketingCopy } from "../../../contracts";
 
 export const marketing = {
+  finder: {
+    search: "Buscar producto",
+    clear: "Limpiar búsqueda",
+    close: "Cerrar productos",
+    empty: "No encontramos ese producto.",
+    singular: "producto",
+    plural: "productos",
+  },
   navigation: {
     products: "Productos",
     services: "Imprenta y corte",
