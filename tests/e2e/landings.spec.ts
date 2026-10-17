@@ -1,4 +1,23 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
+import type { CompanyContent } from "../../src/contexts/commercial-presence/application/publication/content";
+import { company } from "../../src/contexts/commercial-presence/infrastructure/content/company";
+
+function configuredNumber(phone: CompanyContent["phone"]): string {
+  if (phone.status !== "ready") throw new Error("El recorrido de despliegue exige WhatsApp confirmado.");
+  return phone.international.replace(/\D/g, "");
+}
+
+async function expectContact(link: Locator, subject?: string): Promise<void> {
+  await expect(link).toBeVisible();
+  const href = await link.getAttribute("href");
+  if (!href) throw new Error("Contacto sin destino");
+  const url = new URL(href);
+  expect(url.origin).toBe("https://wa.me");
+  expect(url.pathname).toBe("/" + configuredNumber(company.phone));
+  expect(url.searchParams.get("text")).toBe(
+    "quiero mi descuento de 20%" + (subject ? "\nMe interesa: " + subject : ""),
+  );
+}
 
 async function expectBriefContent(page: Page): Promise<void> {
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
@@ -18,15 +37,13 @@ test("commercial offer, services and native contact work without JavaScript", as
   try {
     const response = await noJs.goto("http://127.0.0.1:3100/");
     expect(response?.status()).toBe(200);
-    const html = await response?.text();
-    expect(html).toContain("quiero mi descuento de 20%");
+    await expect(noJs.getByText("20% de descuento", { exact: true })).toBeVisible();
     await expect(noJs.getByRole("heading", { name: "Imprenta corporativa", exact: true })).toBeVisible();
     await expect(noJs.getByRole("heading", { name: "Corte con guillotina", exact: true })).toBeVisible();
     const card = noJs.locator(".product-card").first();
-    await card.locator("summary").click();
-    await expect(card.getByRole("textbox", { name: "Mensaje para Manolo" }))
-      .toHaveValue("quiero mi descuento de 20%\nMe interesa: Tarjetas de presentación");
-    await expect(card.getByText("Placeholder: WhatsApp por confirmar.")).toBeVisible();
+    await expectContact(card.locator(".contact-link"), "Tarjetas de presentación");
+    await expect(noJs.locator(".hero-offer .contact-link")).toHaveAttribute("target", "_blank");
+    await expect(noJs.locator(".pending-contact")).toHaveCount(0);
     await card.getByRole("link", { name: "Ver Tarjetas de presentación" }).click();
     await expect(noJs.getByRole("heading", { level: 1 })).toHaveText("Tarjetas de presentación");
   } finally {
@@ -50,11 +67,9 @@ test("every published product link resolves to its own complete landing and cano
     await expect(page.locator('link[rel="canonical"]'))
       .toHaveAttribute("href", "https://manoloimprenta.cl" + link.href);
     await expectBriefContent(page);
-    await page.locator(".product-offer summary").click();
-    await expect(page.locator(".product-offer textarea"))
-      .toHaveValue("quiero mi descuento de 20%\nMe interesa: " + link.name);
+    await expectContact(page.locator(".product-offer .contact-link"), link.name);
     await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
-    await expect(page.locator('a[href^="https://wa.me/"]')).toHaveCount(0);
+    await expect(page.locator(".pending-contact")).toHaveCount(0);
   }
 });
 
@@ -68,10 +83,12 @@ test("unknown products return 404 and preview is not indexed", async ({ page }) 
 
 test("contact is keyboard accessible and content fits in supported viewports", async ({ page }) => {
   await page.goto("/");
-  const contact = page.locator(".hero-offer summary");
+  const contact = page.locator(".hero-offer .contact-link");
   await contact.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".hero-offer textarea")).toBeVisible();
+  await page.keyboard.press("Shift+Tab");
+  await page.keyboard.press("Tab");
+  await expect(contact).toBeFocused();
+  await expectContact(contact);
   await expectBriefContent(page);
   await page.getByRole("link", { name: "Ver Tarjetas de presentación" }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);

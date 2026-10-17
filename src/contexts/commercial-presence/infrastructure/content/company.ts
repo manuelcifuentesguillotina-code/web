@@ -7,5 +7,6 @@ export const company = {
   address: { street: "Eleuterio Ramírez", number: "644", locality: "Santiago Centro" },
   hours: { days: "Lunes a viernes", opens: "09:00", closes: "18:00" },
   productionDays: 3,
-  phone: { status: "pending" },
+  // Provisional para el despliegue del 2026-10-17; reemplazo pendiente.
+  phone: { status: "ready", international: "+56954461641" },
 } satisfies CompanyContent;

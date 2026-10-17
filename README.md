@@ -320,7 +320,7 @@ Los controles de arquitectura deben fallar ante una infracción real y detectar 
 - Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
 - E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
 
-Las suites de dominio, aplicación, integración, presentación, arquitectura y E2E están configuradas. El grafo usa el AST y la resolución de módulos de TypeScript; comprueba también APIs de entorno en el núcleo e imports calculados no verificables. Los E2E cubren escritorio y móvil, navegación sin JavaScript y el estado pendiente actual. El contrato del destino confirmado se verifica con el adaptador real sin enviar mensajes. No se sustituyen estas comprobaciones por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.
+Las suites de dominio, aplicación, integración, presentación, arquitectura y E2E están configuradas. El grafo usa el AST y la resolución de módulos de TypeScript; comprueba también APIs de entorno en el núcleo e imports calculados no verificables. Los E2E cubren escritorio y móvil, navegación sin JavaScript y enlaces al número configurado, sin abrir conversaciones ni enviar mensajes. El estado pendiente se conserva en los contratos y sus pruebas aisladas. No se sustituyen estas comprobaciones por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.
 
 ## 9. Errores, configuración y efectos
 
@@ -388,4 +388,4 @@ pnpm check
 
 El modo predeterminado es `preview`: permite WhatsApp pendiente y publica metadatos `noindex, nofollow`. Para publicar comercialmente se confirma `company.phone` en su autoridad y se compila con `SITE_MODE=public`; una configuración pendiente o inválida bloquea esa compilación. `SITE_ORIGIN` permite sobrescribir el origen de despliegue; su único valor por defecto está en `publication-config.ts`. No se duplica el teléfono en variables de entorno. Un cambio de modo exige recompilar.
 
-La implementación local no configura DNS ni alojamiento. Quedan pendientes el número comercial, la identidad visual, las fotografías tratadas y la revisión final de marketing. Analítica y comercio electrónico siguen fuera de esta entrega.
+La implementación local no configura DNS ni alojamiento. Vercel es el proveedor confirmado por el usuario; la vinculación del proyecto y del dominio se gestiona allí. Hay un WhatsApp provisional en su única fuente; su reemplazo requiere recompilar y desplegar de nuevo. Quedan pendientes el número definitivo, la identidad visual, las fotografías tratadas y la revisión final de marketing. Analítica y comercio electrónico siguen fuera de esta entrega.

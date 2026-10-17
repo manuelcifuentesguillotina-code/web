@@ -120,12 +120,12 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 
 - WhatsApp es el único canal de contacto publicado en esta fase y concentra las llamadas a la acción comerciales.
 - Actualmente no hay correo de contacto y no está previsto habilitarlo durante esta fase. No se mostrará un correo ficticio ni un placeholder de correo.
-- El número comercial sigue pendiente en `company.phone`, en [company.ts](../src/contexts/commercial-presence/infrastructure/content/company.ts). El placeholder fue autorizado por el usuario; no hay un número ficticio ni una segunda configuración por entorno.
+- El usuario autorizó un número provisional para el despliegue de hoy. Su única autoridad es `company.phone`, en [company.ts](../src/contexts/commercial-presence/infrastructure/content/company.ts); el número definitivo sigue pendiente. Cambiar esa entrada y desplegar de nuevo actualiza todos los enlaces, sin una segunda configuración por entorno.
 - El contacto y el beneficio siguen siendo parte obligatoria de cada elemento mientras el número está pendiente. El modelo conserva mensaje e intención con destino pendiente; el número se reemplazará en su fuente propietaria para abrir conversaciones reales con Manolo.
 
 ## Descubrimiento pendiente
 
-Se continuará preguntando de a un aspecto por vez. Permanecen pendientes el número de WhatsApp, la modalidad de retiro o transporte, la selección y el tratamiento de los recursos visuales y la configuración del alojamiento y DNS. También quedan por definir la estrategia de marketing, la redacción final y el diseño. El contenido se modifica desde código; no hay una decisión pendiente sobre autogestión.
+Se continuará preguntando de a un aspecto por vez. Permanecen pendientes el WhatsApp definitivo, la modalidad de retiro o transporte, la selección y el tratamiento de los recursos visuales y la conexión del dominio al alojamiento de Vercel confirmado por el usuario. También quedan por definir la estrategia de marketing, la redacción final y el diseño. El contenido se modifica desde código; no hay una decisión pendiente sobre autogestión.
 
 La implementación actual es revisable en modo `preview`, con metadatos que impiden la indexación. La compilación comercial exige confirmar el contacto antes de habilitar `SITE_MODE=public`.
 

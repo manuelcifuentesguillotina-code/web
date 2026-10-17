@@ -29,12 +29,13 @@ describe("real contact adapter", () => {
       const view = app.productLanding(page.slug);
       expect(view?.product.id).toBe(page.productId);
       expect(view?.product.contact.message).toContain("quiero mi descuento de 20%");
-      expect(view?.product.contact.destination.status).toBe("pending");
+      expect(view?.product.contact.destination.status).toBe(content.company.phone.status);
     }
   });
 
   it("activates every contact from a single company phone change", () => {
     const original = createVersionedContentSource().load();
+    const previousPhone = structuredClone(original.company.phone);
     const app = createPresence({
       load: () => ({
         ...original, company: {
@@ -58,6 +59,6 @@ describe("real contact adapter", () => {
       expect(url.pathname).toBe("/447700900123");
       expect(url.searchParams.get("text")).toBe(contact.message);
     }
-    expect(original.company.phone.status).toBe("pending");
+    expect(original.company.phone).toEqual(previousPhone);
   });
 });
