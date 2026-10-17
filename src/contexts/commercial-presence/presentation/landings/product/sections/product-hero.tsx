@@ -31,7 +31,10 @@ export function ProductHero({
             {company.production}
           </p>
         </div>
-        <ProductArtwork media={product.media} />
+        <ProductArtwork
+          media={product.media}
+          featured={product.id === "trifolds"}
+        />
       </div>
     </section>
   );
