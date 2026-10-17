@@ -1,3 +1,7 @@
+## Arquitectura del proyecto
+
+Antes de modificar el proyecto, lee [README.md](./README.md). Es la fuente de verdad de las reglas de arquitectura, dependencias, SSOT y testing; aplícalas sin duplicarlas aquí. Distingue los controles exigidos de los que ya están implementados según su sección de estado.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 ## This is NOT the Next.js you know
