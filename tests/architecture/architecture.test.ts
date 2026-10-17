@@ -42,6 +42,19 @@ describe("architecture graph", () => {
     })).toEqual([]);
   });
 
+  it("keeps the contract entry point as the only public context boundary", () => {
+    expect(fixture({
+      "contexts/a/application/use.ts": 'import type { X } from "@/contexts/b/contracts/internal";',
+      "contexts/b/contracts/internal.ts": "export type X = string;",
+    }).join(" ")).toContain("Frontera de contexto");
+  });
+
+  it("distinguishes business field names from ambient environment references", () => {
+    expect(fixture({
+      "contexts/a/application/model.ts": "export const content = { process: { steps: [] } }; export interface Content { readonly process: string }",
+    })).toEqual([]);
+  });
+
   it("finds cycles through type imports and named reexports", () => {
     expect(fixture({
       "contexts/a/domain/one.ts": 'export { type X } from "./two";',

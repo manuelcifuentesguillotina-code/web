@@ -72,7 +72,11 @@ export function readModuleGraph(root: string): readonly SourceModule[] {
         }
       }
       if (ts.isIdentifier(node) && forbidden.has(node.text)) {
-        const propertyName = ts.isPropertyAccessExpression(node.parent) && node.parent.name === node;
+        const parent = node.parent;
+        const propertyName = (ts.isPropertyAccessExpression(parent)
+          || ts.isPropertyAssignment(parent) || ts.isPropertySignature(parent)
+          || ts.isMethodDeclaration(parent) || ts.isMethodSignature(parent))
+          && parent.name === node;
         if (!propertyName) ambientApis.add(node.text);
       }
       ts.forEachChild(node, visit);
