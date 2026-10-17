@@ -3,7 +3,7 @@ import type { PriceDefinition } from "../../../application/publication/discovery
 // Referencias externas verificadas y autorizadas para orientación; no son tarifas de Manolo.
 const foldedReference = {
   status: "reference",
-  amount: 148750,
+  amount: 100000,
   currency: "CLP",
   basis: "1.000 unidades",
   tax: "included",
@@ -19,9 +19,9 @@ export const productPrices = [
   {
     productId: "business-cards",
     status: "reference",
-    amount: 98663,
+    amount: 17000,
     currency: "CLP",
-    basis: "500 tarjetas",
+    basis: "100 tarjetas",
     tax: "included",
     reference: {
       provider: "Play Express",
@@ -33,7 +33,7 @@ export const productPrices = [
   {
     productId: "folders",
     status: "reference",
-    amount: 185600,
+    amount: 170000,
     currency: "CLP",
     basis: "100 carpetas",
     tax: "included",
