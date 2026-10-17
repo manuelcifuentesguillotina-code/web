@@ -39,7 +39,6 @@ export function HeroSection({
         </div>
         <HeroArtwork
           media={view.heroMedia}
-          benefit={view.company.contact.benefit}
         />
       </div>
       <div className={"container " + styles.foot}>

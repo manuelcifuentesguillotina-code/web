@@ -10,14 +10,6 @@
   box-shadow: 0 12px 40px color-mix(in srgb, var(--color-ink) 19%, transparent);
   animation: arrive 400ms var(--ease-out);
 }
-.caption {
-  display: block;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.65rem;
-  font-weight: 800;
-}
 @keyframes arrive {
   from {
     transform: translateY(20px);

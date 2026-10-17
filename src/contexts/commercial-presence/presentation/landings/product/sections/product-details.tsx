@@ -47,7 +47,6 @@ export function ProductDetails({ view }: { readonly view: ProductLandingView }) 
           <div>
             <p className={styles.eyebrow}>{view.product.name}</p>
             <h2 id="product-contact" className={styles.heading}>{labels.contact}</h2>
-            <p className={styles.benefit}>{view.product.contact.benefit.label}</p>
           </div>
           <ContactActionView action={view.product.contact} subject={view.product.name} />
         </section>

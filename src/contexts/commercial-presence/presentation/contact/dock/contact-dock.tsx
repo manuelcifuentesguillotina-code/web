@@ -19,7 +19,6 @@ export function ContactDock({
       aria-label="Contacto directo"
       data-testid="contact-dock"
     >
-      <span className={styles.caption}>{action.benefit.label}</span>
       <ContactActionView action={action} />
     </aside>
   );

@@ -118,12 +118,6 @@
 .contact > :last-child {
   flex-shrink: 0;
 }
-.benefit {
-  margin-top: 20px;
-  color: var(--color-warm);
-  font-size: 0.85rem;
-  line-height: 1.6;
-}
 @media (max-width: 780px) {
   .grid,
   .questions {
