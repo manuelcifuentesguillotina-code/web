@@ -1,0 +1,18 @@
+:root {
+  --color-paper: #f5f0e8;
+  --color-surface: #fffaf2;
+  --color-ink: #191512;
+  --color-accent: #e95127;
+  --color-warm: #dfd0b9;
+  --color-highlight: #f7ba66;
+  --color-rust: #832c20;
+  --color-muted: #736352;
+  --color-line: #cdbfae;
+  --font-display: var(--font-anton), Impact, "Arial Narrow", sans-serif;
+  --font-body: var(--font-manrope), Arial, sans-serif;
+  --site-width: 1440px;
+  --gutter: clamp(1.25rem, 4.7vw, 5rem);
+  --section-space: clamp(4.5rem, 8vw, 8rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --header-height: 88px;
+}
