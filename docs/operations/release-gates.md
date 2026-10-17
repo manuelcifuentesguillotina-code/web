@@ -5,8 +5,8 @@ Las reglas y autoridades están en la [sección 10.1 del README](../../README.md
 ## Desarrollo y publicación
 
 1. Trabajar en una rama de cambio. Un movimiento de carpetas incluye sus consumidores e imports en la misma etapa.
-2. Crear el commit completo y enviar esa rama. GitHub Actions ejecuta la suite del repositorio en Linux desde una copia limpia.
-3. Esperar el estado `check` satisfactorio del SHA que se desea publicar.
+2. Crear el commit completo y enviar esa rama. GitHub Actions ejecuta la suite del repositorio en Linux desde una copia limpia, con el modo de revisión explícito. Después compila ese mismo SHA en modo público, incluyendo su validación de contacto y configuración.
+3. Esperar el estado `check` satisfactorio del SHA que se desea publicar. Ese estado incluye ambas etapas: `Verify preview build and test suites` y `Verify public production build`.
 4. Avanzar `main` al mismo SHA y enviarla a `origin`. El hook verifica ese commit en un directorio temporal; no usa los archivos pendientes del checkout.
 5. Confirmar el estado de Vercel de esa revisión y verificar el dominio mediante el [procedimiento de despliegue](./vercel-deployment.md).
 

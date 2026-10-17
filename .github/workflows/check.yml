@@ -16,4 +16,13 @@ jobs:
       - uses: pnpm/action-setup@v4
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm check
+      - name: Verify preview build and test suites
+        run: pnpm check
+        env:
+          SITE_MODE: preview
+          VERCEL_ENV: preview
+      - name: Verify public production build
+        run: pnpm build
+        env:
+          SITE_MODE: public
+          VERCEL_ENV: production
