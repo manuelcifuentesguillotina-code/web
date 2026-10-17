@@ -3,6 +3,7 @@ import type { CatalogProduct } from "../../../application/publication/content";
 export const products = [
   {
     id: "business-cards",
+    searchTerms: ["tarjetas de visita"],
     name: "Tarjetas de presentación",
     description: "Tarjetas con tu marca.",
     categoryId: "corporate-stationery",
@@ -19,6 +20,7 @@ export const products = [
   },
   {
     id: "letterheads",
+    searchTerms: ["papel membretado"],
     name: "Hojas membretadas",
     description: "Papelería con tu marca.",
     categoryId: "corporate-stationery",
@@ -52,6 +54,7 @@ export const products = [
   },
   {
     id: "leaflets",
+    searchTerms: ["flyers", "volantes"],
     name: "Folletos",
     description: "Publicidad en papel.",
     categoryId: "commercial-material",

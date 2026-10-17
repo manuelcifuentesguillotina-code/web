@@ -4,6 +4,10 @@ export function contentFixture(): SiteContent {
   return {
     copy: {
       finder: {
+        all: "Todos",
+        categories: "Filtrar",
+        opening: "Abriendo…",
+        shortcuts: "Servicios y ubicación",
         search: "Buscar",
         clear: "Limpiar",
         close: "Cerrar",
@@ -12,6 +16,7 @@ export function contentFixture(): SiteContent {
         plural: "productos",
       },
       navigation: {
+        directions: "Cómo llegar",
         products: "Productos",
         services: "Servicios",
         visit: "Visita",

@@ -28,11 +28,15 @@ export function ProductCard({
         </span>
       </Link>
       <div className={styles.body}>
-        <h3 className={styles.title + " short-copy"}>
-          <Link href={product.href}>{product.name}</Link>
-        </h3>
-        <PricePanel price={product.price} />
-        <ContactActionView action={product.contact} variant="outline" />
+        <div className={styles.details}>
+          <h3 className={styles.title + " short-copy"}>
+            <Link href={product.href}>{product.name}</Link>
+          </h3>
+          <PricePanel price={product.price} compact />
+        </div>
+        <div className={styles.contact}>
+          <ContactActionView action={product.contact} variant="outline" />
+        </div>
       </div>
     </article>
   );

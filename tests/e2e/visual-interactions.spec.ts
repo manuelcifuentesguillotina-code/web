@@ -86,7 +86,10 @@ test("floating contact preserves product context and yields to the footer", asyn
   await expectBriefContent(page);
   await page.locator("footer").scrollIntoViewIfNeeded();
   await expect(dock).toHaveCount(0);
-  await expectContact(page.locator("footer .contact-link"));
+  await expectContact(
+    page.locator("footer .contact-link"),
+    "Tarjetas de presentación",
+  );
 });
 
 test("small phones and intermediate widths keep complete two-line copy", async ({

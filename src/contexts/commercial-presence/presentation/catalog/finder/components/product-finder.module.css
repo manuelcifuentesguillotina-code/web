@@ -1,9 +1,18 @@
 .dialog {
   position: fixed;
-  inset: auto 0 0;
+  inset: auto 0 var(--finder-viewport-bottom, 0px);
   width: min(100%, 560px);
   max-width: 100%;
-  max-height: calc(100dvh - max(16px, env(safe-area-inset-top)));
+  height: min(
+    780px,
+    calc(
+      var(--finder-viewport-height, 100dvh) -
+        max(12px, env(safe-area-inset-top))
+    )
+  );
+  max-height: calc(
+    var(--finder-viewport-height, 100dvh) - max(12px, env(safe-area-inset-top))
+  );
   margin: 0 auto;
   padding: 0;
   border: 0;
@@ -18,21 +27,24 @@
 .sheet {
   display: flex;
   flex-direction: column;
-  max-height: inherit;
-  padding-top: 8px;
+  height: 100%;
 }
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 8px 20px;
+  padding: 12px 20px 8px;
+  flex-shrink: 0;
 }
 .header h2 {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
   font-size: 2rem;
+  line-height: 1.2;
 }
 .close {
   display: grid;
@@ -43,109 +55,32 @@
   background: transparent;
   flex-shrink: 0;
 }
-.search {
-  padding: 0 20px 12px;
-}
-.search label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.field {
-  display: flex;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-}
-.field:focus-within {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 2px;
-}
-.field input {
-  width: 100%;
-  min-width: 0;
-  min-height: 48px;
-  font: inherit;
-  font-size: 16px;
-  padding: 10px 12px;
-  background: transparent;
-  border: 0;
-  outline: 0;
-}
-.field input::-webkit-search-cancel-button {
-  appearance: none;
-}
-.field button {
-  flex-shrink: 0;
-  width: 48px;
-  border: 0;
-  background: transparent;
-  font-size: 1.5rem;
-}
-.search > p {
-  margin-top: 8px;
-  font-size: 0.7rem;
-  color: var(--color-muted);
-}
 .scroll {
+  flex: 1;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior-y: contain;
-  padding: 0 20px;
-}
-.results ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.groupName {
-  color: var(--color-muted);
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-block: 16px 6px;
-}
-.results a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 54px;
-  padding-block: 12px;
-  gap: 16px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  border-bottom: 1px solid var(--color-line);
-}
-.results a[aria-current="page"] {
-  color: var(--color-rust);
-}
-.results a svg {
-  width: 18px;
-  flex-shrink: 0;
+  padding: 0 20px 12px;
+  scroll-padding-block: 8px;
 }
 .empty {
   padding-block: 24px;
-  font-size: 0.88rem;
-}
-.quickLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  padding-block: 20px;
-}
-.quickLinks a {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  font-size: 1rem;
 }
 .contact {
   padding: 12px 20px max(12px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--color-line);
   background: var(--color-paper);
+  flex-shrink: 0;
+}
+.dialog[data-compact-viewport] .header {
+  padding-block: 4px;
+}
+.dialog[data-compact-viewport] .header h2 {
+  font-size: 1.5rem;
+}
+.dialog[data-compact-viewport] .contact {
+  padding-block: 8px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .dialog[open] {
@@ -154,11 +89,9 @@
   @keyframes enter {
     from {
       opacity: 0;
-      transform: translateY(24px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 }

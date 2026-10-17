@@ -1,11 +1,6 @@
-import Link from "next/link";
+import { composeCommercialPresence } from "@/composition/commercial-presence/compose-commercial-presence";
+import { RecoveryLanding } from "@/contexts/commercial-presence/presentation/landings/recovery/recovery-landing";
 
 export default function NotFound() {
-  return (
-    <main className="not-found">
-      <p className="eyebrow">404</p>
-      <h1>Producto no encontrado.</h1>
-      <Link href="/">Volver a imprenta y corte</Link>
-    </main>
-  );
+  return <RecoveryLanding view={composeCommercialPresence().home()} />;
 }

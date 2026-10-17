@@ -19,6 +19,12 @@
   align-items: center;
   gap: 10px;
 }
+.compact {
+  width: 48px;
+  min-height: 48px;
+  padding: 12px;
+  justify-content: center;
+}
 .action > svg {
   flex-shrink: 0;
   transition: transform 300ms var(--ease-out);

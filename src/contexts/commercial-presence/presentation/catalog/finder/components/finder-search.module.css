@@ -1,0 +1,54 @@
+.search {
+  padding: 4px 20px 8px;
+  flex-shrink: 0;
+}
+.search label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.field {
+  display: flex;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+.field:focus-within {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  font: inherit;
+  font-size: max(16px, 1rem);
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+.field input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.field button {
+  flex-shrink: 0;
+  width: 48px;
+  border: 0;
+  background: transparent;
+  font-size: 1.5rem;
+}
+.search > p {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+:global(dialog[data-compact-viewport]) .search label,
+:global(dialog[data-compact-viewport]) .search > p {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

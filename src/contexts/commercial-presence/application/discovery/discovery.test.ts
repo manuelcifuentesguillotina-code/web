@@ -8,6 +8,10 @@ function application(content = contentFixture()) {
   return createPresence(
     { load: () => content },
     { resolve: () => ({ status: "pending", reason: "phone-unconfirmed" }) },
+    {
+      resolve: (address) =>
+        "https://maps.example.test/?q=" + encodeURIComponent(address),
+    },
   );
 }
 

@@ -11,6 +11,7 @@ export function ProductLanding({
 }): ReactElement {
   return (
     <SiteShell
+      currentPath={view.seo.path}
       company={view.company}
       copy={view.copy}
       navigation={view.navigation}

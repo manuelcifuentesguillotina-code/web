@@ -1,0 +1,32 @@
+.progress {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  position: relative;
+}
+.progress svg {
+  width: 18px;
+  height: 18px;
+}
+.progress[data-pending="true"] svg {
+  visibility: hidden;
+}
+.progress[data-pending="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--color-line);
+  border-top-color: var(--color-ink);
+  border-radius: 50%;
+  animation: turn 700ms linear infinite;
+}
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress[data-pending="true"]::after {
+    animation: none;
+  }
+}

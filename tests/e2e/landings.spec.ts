@@ -94,7 +94,7 @@ test("unknown products return 404 and preview is not indexed", async ({
   const response = await page.goto("/productos/no-existe");
   expect(response?.status()).toBe(404);
   await expect(
-    page.getByRole("heading", { name: "Producto no encontrado." }),
+    page.getByRole("heading", { name: "Trabajo no encontrado." }),
   ).toBeVisible();
 });
 

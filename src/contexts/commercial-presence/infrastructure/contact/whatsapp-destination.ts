@@ -10,7 +10,8 @@ export class InvalidWhatsAppNumber extends Error {
 export function createWhatsAppDestination(): ContactDestinationResolver {
   return {
     resolve(phone, message) {
-      if (phone.status === "pending") return { status: "pending", reason: "phone-unconfirmed" };
+      if (phone.status === "pending")
+        return { status: "pending", reason: "phone-unconfirmed" };
       const digits = phone.international.replace(/[\s()+-]/g, "");
       if (!/^[1-9]\d{7,14}$/.test(digits)) throw new InvalidWhatsAppNumber();
       const url = new URL("https://wa.me/" + digits);

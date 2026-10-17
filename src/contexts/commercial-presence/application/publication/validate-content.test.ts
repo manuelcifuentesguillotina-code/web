@@ -3,6 +3,17 @@ import { validateContent, PublicationError } from "./validate-content";
 import { contentFixture } from "./content.fixture";
 
 describe("publication contract", () => {
+  it("rejects empty or duplicate product search terms", () => {
+    const content = contentFixture();
+    for (const searchTerms of [[" "], ["flyers", "flyers"]]) {
+      expect(() =>
+        validateContent({
+          ...content,
+          products: content.products.map((item) => ({ ...item, searchTerms })),
+        }),
+      ).toThrow("término de búsqueda");
+    }
+  });
   it("rejects an unresolved hero and invalid marketing copy", () => {
     const content = contentFixture();
     expect(() =>

@@ -6,6 +6,10 @@ export interface DiscoveryLink {
   readonly href: string;
 }
 
+export interface DiscoveryNavigationLink extends DiscoveryLink {
+  readonly kind: DiscoveryDocument["kind"];
+}
+
 export interface PageSeo {
   readonly siteName: string;
   readonly title: string;

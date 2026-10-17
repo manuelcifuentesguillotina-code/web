@@ -12,11 +12,13 @@
   padding-block: 58px 52px;
 }
 .copy {
+  min-width: 0;
   position: relative;
   z-index: 2;
   padding-bottom: 12px;
 }
 .title {
+  overflow-wrap: anywhere;
   font-family: var(--font-display);
   font-size: clamp(3.9rem, 6.9vw, 7rem);
   line-height: 1.09;
@@ -110,7 +112,7 @@
 }
 @media (max-width: 780px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding-top: 44px;
     padding-bottom: 32px;
     gap: 30px;
@@ -133,16 +135,18 @@
   }
   .browse {
     max-width: 130px;
-    font-size: 0.65rem;
+    font-size: 0.85rem;
     line-height: 1.5;
+    min-height: 44px;
   }
   .foot {
     gap: 16px;
-    font-size: 0.55rem;
+    font-size: 0.85rem;
     align-items: start;
   }
   .foot a {
     max-width: 240px;
+    min-height: 44px;
   }
   .foot > span {
     max-width: 60px;

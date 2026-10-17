@@ -99,7 +99,7 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 
 La entrega de búsqueda incorpora 18 destinos según el [plan](./plans/seo-commercial-landings.md). Los textos visibles evitan «corporativo», superlativos y explicaciones decorativas. Cada intención conserva título, descripción, canonical, datos estructurados e imagen para compartir. Los dos slugs heredados mantienen su URL aunque cambie el nombre mostrado. La difusión social deriva PNG de los mismos SVG; los medios del sitio siguen siendo vectoriales.
 
-En móvil se prioriza el acceso con una mano: productos y WhatsApp permanecen al alcance desde la barra inferior. El selector permite buscar por nombre, consultar sin resultados y cambiar de producto sin recorrer toda la portada. Las fichas anteponen nombre, beneficio y contacto a la ilustración. El destino de WhatsApp conserva el contexto del producto activo y deriva del catálogo y del contacto común.
+En móvil se prioriza el acceso con una mano: productos y WhatsApp permanecen al alcance desde la barra inferior, también al girar el teléfono. El selector permite buscar por nombre y vocabulario del catálogo, filtrar por categoría, consultar directamente un producto o abrir su landing. Corte e indicaciones para visitar el local están al inicio del selector. Atrás cierra y recupera la posición. Las tarjetas compactas conservan nombre, precio y contacto. Cabecera, pie y barra mantienen el trabajo activo al abrir WhatsApp. Los recorridos implementados y su evidencia se registran en el [plan móvil](./plans/mobile-ux-journeys.md).
 
 1. Una empresa entiende la oferta de impresión y corte.
 2. Reconoce el trabajo que necesita y accede al contacto principal.

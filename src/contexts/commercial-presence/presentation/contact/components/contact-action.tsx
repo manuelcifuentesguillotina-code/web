@@ -6,6 +6,8 @@ import { ChatIcon } from "../../components/icons/chat-icon";
 import styles from "./contact-action.module.css";
 
 interface ContactProps {
+  readonly compact?: boolean;
+  readonly subject?: string;
   readonly action: ContactAction;
   readonly variant?: "solid" | "ink" | "outline";
 }
@@ -13,12 +15,19 @@ interface ContactProps {
 export function ContactActionView({
   action,
   variant = "solid",
+  compact = false,
+  subject,
 }: ContactProps): ReactElement {
-  const className = styles.action + " " + styles[variant] + " contact-link";
+  const className =
+    styles.action +
+    " " +
+    styles[variant] +
+    (compact ? " " + styles.compact : "") +
+    " contact-link";
   const label = (
     <span className={styles.label}>
       <ChatIcon />
-      {action.label}
+      <span className={compact ? "sr-only" : undefined}>{action.label}</span>
     </span>
   );
   if (action.destination.status === "ready") {
@@ -28,15 +37,21 @@ export function ContactActionView({
         href={action.destination.href}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={
+          subject ? action.label + " · " + subject + " · WhatsApp" : undefined
+        }
       >
         {label}
-        <ArrowIcon />
+        {!compact && <ArrowIcon />}
       </a>
     );
   }
   return (
     <details className={styles.pending + " pending-contact"}>
-      <summary className={className}>
+      <summary
+        className={className}
+        aria-label={subject ? action.label + " · " + subject : undefined}
+      >
         {label}
         <span aria-hidden="true">+</span>
       </summary>

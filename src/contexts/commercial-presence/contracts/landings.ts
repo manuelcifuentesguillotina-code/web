@@ -6,11 +6,16 @@ import type {
 } from "./catalog";
 import type { MediaView } from "./media";
 import type { MarketingCopy } from "./marketing";
-import type { PageSeo, DiscoveryLink, DiscoveryDocument } from "./discovery";
+import type {
+  PageSeo,
+  DiscoveryLink,
+  DiscoveryDocument,
+  DiscoveryNavigationLink,
+} from "./discovery";
 import type { ContactAction } from "./contact";
 
 export interface HomeView {
-  readonly discovery: readonly DiscoveryLink[];
+  readonly discovery: readonly DiscoveryNavigationLink[];
   readonly navigation: readonly CatalogNavigationGroup[];
   readonly copy: MarketingCopy;
   readonly heroMedia: MediaView;
@@ -27,7 +32,7 @@ export interface HomeView {
 }
 
 export interface ProductLandingView {
-  readonly discovery: readonly DiscoveryLink[];
+  readonly discovery: readonly DiscoveryNavigationLink[];
   readonly breadcrumbs: readonly DiscoveryLink[];
   readonly navigation: readonly CatalogNavigationGroup[];
   readonly copy: MarketingCopy;
@@ -40,7 +45,7 @@ export interface ProductLandingView {
 export interface TopicLandingView {
   readonly company: CompanyView;
   readonly navigation: readonly CatalogNavigationGroup[];
-  readonly discovery: readonly DiscoveryLink[];
+  readonly discovery: readonly DiscoveryNavigationLink[];
   readonly copy: MarketingCopy;
   readonly document: DiscoveryDocument;
   readonly contact: ContactAction;

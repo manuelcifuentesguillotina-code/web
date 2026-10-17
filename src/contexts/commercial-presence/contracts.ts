@@ -6,6 +6,7 @@ export type {
 export type { MediaView } from "./contracts/media";
 export type {
   CatalogNavigationGroup,
+  CatalogNavigationItem,
   ProductView,
   ServiceView,
 } from "./contracts/catalog";
@@ -21,6 +22,7 @@ export type { SharingCardView } from "./contracts/sharing";
 export type {
   PageSeo,
   DiscoveryLink,
+  DiscoveryNavigationLink,
   DiscoveryDocument,
   StructuredObject,
   StructuredValue,

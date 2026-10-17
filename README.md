@@ -52,6 +52,8 @@ Reglas que no se pueden saltar:
 
 El dominio y los casos de uso deben poder ejecutarse y probarse sin levantar Next.js, un navegador ni una base de datos.
 
+`src/proxy.ts` es también un adaptador de entrada de Next.js: comparte las restricciones de `app`, verificadas por el grafo. Su alcance se limita a las familias de rutas comerciales con parámetros; consulta el registro mediante composición, sin importar contenido concreto ni mantener otra lista de productos.
+
 ## 3. Estructura de referencia
 
 Esta es una vista resumida de la organización implementada. Las capas fijan las dependencias; dentro de cada una, las carpetas agrupan responsabilidades actuales. Se conserva esta organización al crecer el proyecto.
@@ -66,13 +68,14 @@ src/
       domain/
         contact/               # Invariantes del mensaje comercial
       application/
-        ports/                 # Límites de contenido y destino de contacto
+        ports/                 # Límites de contenido, contacto y ubicación
         publication/           # Contrato y validación del contenido publicado
         presence/              # Casos de uso y construcción de vistas públicas
         discovery/             # Registro, selecciones y datos estructurados
         pricing/               # Representación de tarifas aprobadas o cotización
       infrastructure/
         contact/               # Adaptador de WhatsApp
+        location/              # Destino de mapas desde la dirección confirmada
         content/
           catalog/             # Productos, categorías y servicios
           editorial/           # Landings, textos de marketing y plantillas de mensajes
@@ -195,7 +198,7 @@ Las siguientes autoridades están implementadas dentro de `src/contexts/commerci
 | Identidad, contacto y datos públicos confirmados | `infrastructure/content/company.ts` | Cabecera, pie, datos de contacto y representaciones de empresa para buscadores. |
 | Líneas de servicio | `infrastructure/content/catalog/services.ts` | Presentación de servicios e intenciones de consulta. |
 | Categorías de productos y su relación con los servicios | `infrastructure/content/catalog/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
-| Identidad y datos comerciales de cada producto | `infrastructure/content/catalog/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
+| Identidad, datos comerciales y vocabulario de búsqueda de cada producto | `infrastructure/content/catalog/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. Los términos opcionales de búsqueda no cambian el nombre ni crean productos. |
 | Selección, orden y textos editoriales de la landing general | `infrastructure/content/editorial/landing.ts` | Presentación y metadatos editoriales de la landing general. |
 | Textos compartidos de marketing | `infrastructure/content/editorial/marketing.ts` | Navegación, encabezados, pie y textos comunes de las landings. |
 | Slugs y contenido editorial de las landings de producto | `infrastructure/content/editorial/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
@@ -206,6 +209,7 @@ Las siguientes autoridades están implementadas dentro de `src/contexts/commerci
 | Plantilla común de mensajes de contacto | `infrastructure/content/editorial/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
 | Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Logo e imágenes de servicios y productos. |
 | Construcción del destino de WhatsApp | `infrastructure/contact/whatsapp-destination.ts` | Todos los enlaces de contacto resueltos por la aplicación. |
+| Construcción del destino de visita | `infrastructure/location/google-maps-destination.ts` | Enlace de indicaciones derivado de la dirección y país de empresa mediante el puerto `LocationDestinationResolver`. Sin dirección paralela en componentes. |
 | Origen público y configuración de despliegue | `src/composition/configuration/publication-config.ts`, leído por `site-config.ts` | URL canónica, enlaces absolutos y modo de publicación. |
 
 Estos módulos mantienen responsabilidades separadas; no se concentran en un archivo universal de configuración. Los recursos binarios tienen una ubicación física única y el contenido los referencia, sin duplicarlos por sección.
@@ -329,11 +333,26 @@ La decisión está en [0007](./docs/decisions/0007-discovery-and-commercial-land
 - `media.ts` mantiene la autoridad de ID, archivo, descripción y dimensiones. Generar una escena no crea un segundo catálogo ni asigna medios a productos. Una nueva asignación se realiza en esa autoridad y sus referencias existentes.
 - Las fuentes Anton y Manrope se sirven desde `public/fonts/` mediante `next/font/local`, con sus licencias OFL adjuntas. La selección se adapta en `app/fonts.ts` y se consume mediante los tokens; no hay solicitudes de fuentes a terceros durante una visita.
 - Los efectos son mejoras progresivas: inclinación del arte con puntero, apariciones al desplazarse y cinta animada con pausa HTML nativa. Respetan `prefers-reduced-motion`; el contenido inicial y los enlaces funcionan sin JavaScript.
-- Los hooks de interacción pertenecen a `contact/hooks/` o `motion/hooks/`. La geometría pura pertenece a `motion/lib/`; no se crea un directorio global de utilidades. Los observadores y frames se limpian al desmontar.
+- Los hooks de interacción pertenecen a la funcionalidad que los usa: contacto, movimiento, selector o navegación móvil. La geometría pura pertenece a `motion/lib/`; no se crea un directorio global de utilidades. Los observadores y frames se limpian al desmontar.
 - El contacto flotante conserva la intención de la landing activa. Aparece tras dejar atrás su cabecera comercial y se retira al entrar el pie, donde ya existe una acción visible. No sustituye los enlaces nativos del resto de la página.
-- En móvil, una barra inferior permanente sustituye al contacto flotante de escritorio y reserva espacio para no tapar el contenido. Combina el contacto contextual con un selector de productos derivado del catálogo. El selector ofrece búsqueda sin tildes, foco modal, cierre con Escape, bloqueo temporal de desplazamiento y enlaces a servicios y visita; su enlace de entrada conserva navegación al catálogo sin JavaScript. Las fichas muestran primero información y contacto, y después la ilustración.
+- En móvil, una barra inferior permanente sustituye al contacto flotante de escritorio. Sus recorridos y garantías se especifican en la siguiente sección.
 
 La decisión y sus consecuencias se registran en [0005](./docs/decisions/0005-marketing-interface-and-vector-artwork.md).
+
+### 7.4. Recorridos móviles
+
+- `SiteShell` recibe la ruta resuelta por la landing y determina una sola intención de contacto activa. Cabecera, pie, barra, dock y cierre del selector reciben esa intención; los resultados de otros productos reciben la suya desde aplicación. La recuperación de 404 usa una ruta nula. No consulta `usePathname` para volver a inferir el documento ni introduce una suspensión por parámetros desconocidos.
+- La navegación inferior se mantiene hasta 1024 px, incluidos teléfonos en paisaje. `useNavigationInset` mide su altura real con `ResizeObserver`; cuerpo y desplazamiento reservan ese espacio, incluidos cambios tipográficos y áreas seguras.
+- El selector pertenece a `catalog/finder/`: búsqueda, filtros, accesos a servicios, resultados y estado de navegación tienen componentes propios. Los hooks poseen ciclo modal, bloqueo de página y viewport visual; `lib/finder-history.ts` posee exclusivamente su marcador de historial.
+- Abrir el selector crea una entrada transitoria con la misma URL mediante la API nativa de historial. Atrás la cierra y Adelante la recupera. Los enlaces de selección reemplazan esa entrada; seleccionar el trabajo activo solo cierra. Se preserva el estado opaco del router y no se inspeccionan sus claves internas. El marcador no cambia canonical ni URLs compartidas.
+- El bloqueo de desplazamiento restaura posición y estilos al cerrar o desmontar. Antes de navegar se libera sincrónicamente, para que Next.js controle el desplazamiento del destino. El cierre devuelve el foco al disparador visible sin mover la página.
+- Abrir no enfoca el buscador automáticamente. Su teclado aparece a petición del usuario; buscar con Enter lleva el foco al resultado, y limpiar lo devuelve al campo. El campo conserva al menos 16 px de fuente. El modal ajusta alto y posición con `VisualViewport`; cuando hay poco espacio, reduce elementos auxiliares y conserva cierre, búsqueda, resultados y contacto. No desplaza la página de fondo.
+- Cada resultado incluye nombre, precio y contacto directo con nombre accesible por producto. Categorías y términos de búsqueda se derivan del catálogo; no hay inventario paralelo en cliente. El precio conserva su estado de cotización o tarifa aprobada con base e IVA.
+- Durante una navegación pendiente, `useLinkStatus` muestra progreso en el enlace elegido y el selector conserva contacto disponible hasta que llegue el destino. Las tarjetas móviles reducen la distancia recorrida sin truncar nombre, precio ni beneficio. Los controles principales conservan al menos 44 px de alto.
+- Impresión, corte y mapas se ofrecen antes de recorrer la lista. Mapas abre un enlace externo con dirección codificada, sin SDK, mapa incrustado, geolocalización ni origen de viaje supuesto. Sin JavaScript, el acceso a productos conserva su ancla HTML y los contactos y mapas siguen operativos.
+- Las URLs desconocidas conservan 404 y ofrecen catálogo y contacto en el HTML inicial, también sin JavaScript. En la versión instalada, un parámetro comercial desconocido puede devolver una carcasa de error que requiere JavaScript. El proxy consulta el registro derivado y reescribe internamente esos destinos hacia `/404`, reservado a la recuperación raíz estática, sin cambiar la URL solicitada ni crear una redirección. Solo intercepta las cuatro familias parametrizadas; no procesa recursos, imágenes, portada ni rutas de difusión. La recuperación reutiliza el shell y los contratos públicos de la portada; no crea un documento comercial indexable.
+
+La decisión se registra en [0009](./docs/decisions/0009-mobile-navigation-and-location.md) y la evidencia en el [plan móvil](./docs/plans/mobile-ux-journeys.md).
 
 ## 8. Testing desde la primera implementación
 
@@ -376,6 +395,7 @@ Los controles de arquitectura deben fallar ante una infracción real y detectar 
 - Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
 - E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
 - Presentación compilada: estilos y fuentes efectivos, grillas responsivas, recursos SVG cargados, contacto flotante, movimiento reducido y pausa sin JavaScript. Se revisan también teléfonos pequeños y anchos intermedios.
+- Recorridos móviles: historial del selector, posición y foco, filtros y vocabulario de búsqueda, contacto contextual, navegación lenta, cambio de orientación, viewport de teclado simulado y recuperación 404 sin scripts. Una simulación de viewport no acredita una prueba en un teléfono físico.
 - Recursos vectoriales: los archivos referenciados existen, son XML válido, coinciden con sus dimensiones publicadas y no dependen de imágenes rasterizadas o scripts embebidos.
 
 Las suites de dominio, aplicación, integración, presentación, arquitectura y E2E están configuradas. El grafo usa el AST y la resolución de módulos de TypeScript; comprueba también APIs de entorno en el núcleo e imports calculados no verificables. Los E2E cubren escritorio y móvil, navegación sin JavaScript y enlaces al número configurado, sin abrir conversaciones ni enviar mensajes. El estado pendiente se conserva en los contratos y sus pruebas aisladas. No se sustituyen estas comprobaciones por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.

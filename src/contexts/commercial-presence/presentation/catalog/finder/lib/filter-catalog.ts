@@ -11,13 +11,17 @@ function normalize(value: string): string {
 export function filterCatalog(
   groups: readonly CatalogNavigationGroup[],
   query: string,
+  groupId?: string,
 ): readonly CatalogNavigationGroup[] {
   const words = normalize(query).split(/\s+/).filter(Boolean);
   return groups
+    .filter((group) => !groupId || group.id === groupId)
     .map((group) => ({
       ...group,
       items: group.items.filter((item) =>
-        words.every((word) => normalize(item.name).includes(word)),
+        words.every((word) =>
+          normalize([item.name, ...item.searchTerms].join(" ")).includes(word),
+        ),
       ),
     }))
     .filter((group) => group.items.length > 0);

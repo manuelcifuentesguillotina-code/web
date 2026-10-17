@@ -7,6 +7,7 @@ import type {
 } from "../../contracts";
 import type { ContentSource } from "../ports/content-source";
 import type { ContactDestinationResolver } from "../ports/contact-destination";
+import type { LocationDestinationResolver } from "../ports/location-destination";
 import { validateContent } from "../publication/validate-content";
 import { createViewBuilders } from "./build-views";
 import { createDocuments } from "../discovery/create-documents";
@@ -25,16 +26,17 @@ export interface PresenceApplication {
 export function createPresence(
   source: ContentSource,
   destination: ContactDestinationResolver,
+  location: LocationDestinationResolver,
 ): PresenceApplication {
   const content = source.load();
   validateContent(content);
-  const views = createViewBuilders(content, destination);
+  const views = createViewBuilders(content, destination, location);
   const company = views.companyView();
   const products = content.products.map(views.product);
   const documents = createDocuments(content, company, products, views.media);
   const discovery = documents
     .filter((item) => !["home", "product"].includes(item.kind))
-    .map((item) => ({ name: item.name, href: item.seo.path }));
+    .map((item) => ({ name: item.name, href: item.seo.path, kind: item.kind }));
   function findDocument(path: string): DiscoveryDocument | undefined {
     return documents.find((item) => item.seo.path === path);
   }
@@ -55,7 +57,16 @@ export function createPresence(
   const navigation = groups.map((group) => ({
     id: group.id,
     name: group.name,
-    items: group.products.map(({ id, name, href }) => ({ id, name, href })),
+    items: group.products.map(
+      ({ id, name, href, price, contact, searchTerms }) => ({
+        id,
+        name,
+        href,
+        price,
+        contact,
+        searchTerms,
+      }),
+    ),
   }));
 
   return {

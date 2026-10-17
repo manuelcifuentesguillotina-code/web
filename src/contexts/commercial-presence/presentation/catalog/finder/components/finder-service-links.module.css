@@ -1,0 +1,25 @@
+.quickLinks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 4px 20px 12px;
+  flex-shrink: 0;
+}
+.quickLinks a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  min-height: 56px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1.35;
+  background: var(--color-warm);
+}
+.quickLinks a:hover {
+  background: var(--color-accent);
+}
+:global(dialog[data-compact-viewport]) .quickLinks {
+  display: none;
+}

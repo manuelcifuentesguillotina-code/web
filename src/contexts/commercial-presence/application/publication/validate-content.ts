@@ -111,6 +111,7 @@ export function validateContent(content: SiteContent): void {
   products.forEach((item) => {
     required(item.name, "nombre de producto");
     required(item.description, "descripción de producto");
+    unique(item.searchTerms ?? [], "término de búsqueda de " + item.id);
     reference(item.categoryId, categoryIds, "categoría");
     reference(item.mediaId, mediaIds, "recurso");
     const quantity = item.typicalQuantity;

@@ -107,7 +107,7 @@ test("finder touch targets fit small screens and browser back restores the catal
   await finder
     .getByRole("link", { name: "Fichas comerciales", exact: true })
     .scrollIntoViewIfNeeded();
-  await expect(finder.locator(".contact-link")).toBeInViewport();
+  await expect(finder.locator(".contact-link").last()).toBeInViewport();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth > innerWidth,

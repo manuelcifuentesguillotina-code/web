@@ -7,6 +7,7 @@ import styles from "./topic-landing.module.css";
 export function TopicLanding({ view }: { readonly view: TopicLandingView }) {
   return (
     <SiteShell
+      currentPath={view.document.seo.path}
       company={view.company}
       copy={view.copy}
       navigation={view.navigation}

@@ -8,7 +8,10 @@ const pending: ContactDestinationResolver = {
   resolve: () => ({ status: "pending", reason: "phone-unconfirmed" }),
 };
 function application(content: SiteContent = contentFixture()) {
-  return createPresence({ load: () => content }, pending);
+  return createPresence({ load: () => content }, pending, {
+    resolve: (address) =>
+      "https://maps.example.test/?q=" + encodeURIComponent(address),
+  });
 }
 
 describe("commercial presence", () => {
@@ -43,6 +46,10 @@ describe("commercial presence", () => {
     expect(view?.product.contact.message).toContain("Tarjetas nuevas");
     expect(view?.seo.title).toContain("Tarjetas nuevas");
     expect(app.home().groups[0].products[0].name).toBe("Tarjetas nuevas");
+    const navigation = app.home().navigation[0].items[0];
+    expect(navigation.name).toBe("Tarjetas nuevas");
+    expect(navigation.contact).toEqual(view?.product.contact);
+    expect(navigation.price).toEqual(view?.product.price);
   });
 
   it("derives company and address changes in every landing", () => {

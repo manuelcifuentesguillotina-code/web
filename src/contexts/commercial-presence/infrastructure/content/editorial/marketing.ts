@@ -1,6 +1,10 @@
 import type { MarketingCopy } from "../../../contracts";
 export const marketing = {
   finder: {
+    all: "Todos",
+    categories: "Filtrar productos",
+    opening: "Abriendo…",
+    shortcuts: "Servicios y ubicación",
     search: "Buscar producto",
     clear: "Limpiar búsqueda",
     close: "Cerrar productos",
@@ -9,6 +13,7 @@ export const marketing = {
     plural: "productos",
   },
   navigation: {
+    directions: "Cómo llegar",
     products: "Productos",
     services: "Imprenta y corte",
     visit: "Visítanos",

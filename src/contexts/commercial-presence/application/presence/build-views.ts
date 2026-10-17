@@ -14,6 +14,7 @@ import {
 } from "../../domain/contact/commercial-message";
 import { publishPrice } from "../pricing/publish-price";
 import { formatHours } from "./format-hours";
+import type { LocationDestinationResolver } from "../ports/location-destination";
 
 interface ViewBuilders {
   contact(subject?: string): ContactAction;
@@ -26,6 +27,7 @@ interface ViewBuilders {
 export function createViewBuilders(
   content: SiteContent,
   destination: ContactDestinationResolver,
+  location: LocationDestinationResolver,
 ): ViewBuilders {
   const { company, messages, offer } = content;
   const benefit: Benefit = {
@@ -66,6 +68,7 @@ export function createViewBuilders(
       throw new Error("Producto sin relaciones publicadas: " + item.id);
     const quantity = item.typicalQuantity;
     return {
+      searchTerms: item.searchTerms ?? [],
       price: publishPrice(
         content.prices.find((price) => price.productId === item.id),
       ),
@@ -93,6 +96,10 @@ export function createViewBuilders(
       ", " +
       company.address.locality;
     return {
+      directions: {
+        name: content.copy.navigation.directions,
+        href: location.resolve(address, company.countryCode),
+      },
       name: company.name,
       address,
       logo: media(company.logoMediaId),
