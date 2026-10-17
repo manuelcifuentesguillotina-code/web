@@ -40,7 +40,9 @@ export function architectureViolations(modules: readonly SourceModule[]): readon
       }
       const to = location(edge.target);
       if (from.context && to.context && from.context !== to.context) {
-        if (to.layer !== "contracts" || !edge.typeOnly) violations.push("Frontera de contexto: " + entry.file);
+        if (!edge.target.endsWith("/contracts.ts") || !edge.typeOnly) {
+          violations.push("Frontera de contexto: " + entry.file);
+        }
       } else if (!allowed[from.layer]?.includes(to.layer)) {
         violations.push("Frontera de capa: " + entry.file + " -> " + edge.target);
       }

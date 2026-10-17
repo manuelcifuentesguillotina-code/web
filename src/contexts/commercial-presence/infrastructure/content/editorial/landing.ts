@@ -1,7 +1,8 @@
 import type { SiteContent } from "../../../application/publication/content";
 
 export const landing = {
-  heading: "Imprenta para empresas.",
-  intro: "Impresión y corte corporativo.",
+  heading: "Tu empresa.\nBien impresa.",
+  intro: "Diseño, impresión y producto terminado.",
+  heroMediaId: "corporate-hero",
   categoryOrder: ["corporate-stationery", "commercial-material"],
 } satisfies SiteContent["home"];

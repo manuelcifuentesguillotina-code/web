@@ -4,6 +4,7 @@ import type { ContactDestinationResolver } from "../ports/contact-destination";
 import { buildCommercialMessage, interpolate } from "../../domain/contact/commercial-message";
 
 interface ViewBuilders {
+  media(id: string): MediaView;
   product(item: CatalogProduct): ProductView;
   companyView(): CompanyView;
   serviceViews(): readonly ServiceView[];
@@ -64,5 +65,5 @@ export function createViewBuilders(content: SiteContent, destination: ContactDes
     }));
   }
 
-  return { product, companyView, serviceViews };
+  return { product, companyView, serviceViews, media };
 }

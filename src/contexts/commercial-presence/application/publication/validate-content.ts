@@ -43,6 +43,7 @@ export function validateContent(content: SiteContent): void {
   const serviceIds = new Set(services.map((item) => item.id));
   const mediaIds = new Set(media.map((item) => item.id));
   reference(company.logoMediaId, mediaIds, "logo");
+  reference(home.heroMediaId, mediaIds, "recurso de portada");
   categories.forEach((item) => {
     required(item.name, "nombre de categoría");
     reference(item.serviceId, serviceIds, "servicio");
@@ -71,6 +72,18 @@ export function validateContent(content: SiteContent): void {
   if (home.categoryOrder.length !== categories.length) throw new PublicationError("categoría sin selección");
   required(home.heading, "título de entrada");
   required(home.intro, "introducción");
+  const copy = content.copy;
+  const texts = [
+    ...Object.values(copy.navigation), ...Object.values(copy.hero), ...Object.values(copy.services),
+    ...Object.values(copy.catalog), ...Object.values(copy.footer), ...Object.values(copy.product),
+    copy.process.eyebrow, copy.process.heading, ...copy.ribbon,
+    ...copy.process.steps.flatMap((step) => [step.title, step.detail]),
+  ];
+  unique(copy.process.steps.map((step) => step.id), "paso comercial");
+  texts.forEach((text) => {
+    required(text, "texto editorial");
+    if (text.split(/\r?\n/).length > 2) throw new PublicationError("texto editorial supera dos líneas");
+  });
   media.forEach((item) => {
     required(item.label, "descripción de recurso");
     if (item.status === "ready" && (

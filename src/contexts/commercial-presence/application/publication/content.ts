@@ -1,4 +1,4 @@
-import type { MediaView } from "../../contracts";
+import type { MediaView, MarketingCopy } from "../../contracts";
 
 export interface TypicalQuantity {
   readonly amount: number;
@@ -57,6 +57,7 @@ export interface ContactTemplates {
 }
 
 export interface SiteContent {
+  readonly copy: MarketingCopy;
   readonly company: CompanyContent;
   readonly services: readonly CatalogService[];
   readonly categories: readonly ProductCategory[];
@@ -66,6 +67,7 @@ export interface SiteContent {
   readonly messages: ContactTemplates;
   readonly media: readonly MediaView[];
   readonly home: {
+    readonly heroMediaId: string;
     readonly heading: string;
     readonly intro: string;
     readonly categoryOrder: readonly string[];

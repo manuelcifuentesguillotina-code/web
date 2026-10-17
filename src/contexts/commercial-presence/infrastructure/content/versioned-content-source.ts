@@ -9,13 +9,14 @@ import { commonOffer } from "./offers";
 import { contactMessages } from "./editorial/contact-messages";
 import { media } from "./media";
 import { landing } from "./editorial/landing";
+import { marketing } from "./editorial/marketing";
 
 export function createVersionedContentSource(): ContentSource {
   return {
     load(): SiteContent {
       return {
         company, services, categories: productCategories, products, productLandings,
-        offer: commonOffer, messages: contactMessages, media, home: landing,
+        offer: commonOffer, messages: contactMessages, media, home: landing, copy: marketing,
       };
     },
   };

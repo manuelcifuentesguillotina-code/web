@@ -2,6 +2,18 @@ import type { SiteContent } from "./content";
 
 export function contentFixture(): SiteContent {
   return {
+    copy: {
+      navigation: { products: "Productos", services: "Servicios", visit: "Visita" },
+      hero: { eyebrow: "Impresión", browse: "Ver productos", artCaption: "Ilustración" },
+      services: { eyebrow: "Servicios", heading: "Servicios para empresas." },
+      catalog: { eyebrow: "Productos", heading: "Catálogo.", detail: "Consulta tu proyecto." },
+      process: { eyebrow: "Proceso", heading: "Tu trabajo.", steps: [
+        { id: "contact", title: "Contacto.", detail: "Conversemos." },
+      ] },
+      footer: { eyebrow: "Contacto", heading: "Tu próximo trabajo.", channel: "WhatsApp" },
+      product: { back: "Productos", quantity: "Cantidad orientativa", related: "Relacionados" },
+      ribbon: ["Impresión", "Corte"],
+    },
     company: {
       name: "Imprenta de prueba",
       logoMediaId: "image",
@@ -35,6 +47,6 @@ export function contentFixture(): SiteContent {
       production: "Base: {days} días hábiles.",
     },
     media: [{ id: "image", status: "placeholder", label: "Imagen de prueba" }],
-    home: { heading: "Imprenta.", intro: "Para empresas.", categoryOrder: ["stationery", "commercial"] },
+    home: { heading: "Imprenta.", intro: "Para empresas.", heroMediaId: "image", categoryOrder: ["stationery", "commercial"] },
   };
 }

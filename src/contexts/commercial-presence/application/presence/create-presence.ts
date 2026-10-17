@@ -24,6 +24,7 @@ export function createPresence(
     home(): HomeView {
       return {
         company, heading: content.home.heading, intro: content.home.intro,
+        copy: content.copy, heroMedia: views.media(content.home.heroMediaId),
         services: views.serviceViews(),
         groups: content.home.categoryOrder.map((id) => {
           const category = content.categories.find((item) => item.id === id);
@@ -41,7 +42,7 @@ export function createPresence(
       const categoryId = content.products.find((item) => item.id === product.id)?.categoryId;
       const relatedIds = new Set(content.products.filter((item) => item.categoryId === categoryId).map((item) => item.id));
       return {
-        company, product,
+        company, product, copy: content.copy,
         related: products.filter((item) => relatedIds.has(item.id) && item.id !== product.id),
         seo: { title: product.name + " | " + company.name, description: product.description, path: product.href },
       };
