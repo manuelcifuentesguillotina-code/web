@@ -30,11 +30,13 @@ La conexión local por SSH con GitHub no inicia sesión en Vercel ni concede per
 | Variable | Entorno | Valor y autoridad |
 | --- | --- | --- |
 | `ENABLE_EXPERIMENTAL_COREPACK` | Production y Preview | `1`, para usar la versión exacta de pnpm declarada en `packageManager`. |
-| `SITE_MODE` | Production | `public`, para generar metadatos indexables y exigir contacto confirmado. |
+| `SITE_MODE` | Production, opcional | `public`. Si se omite, `VERCEL_ENV=production` ya selecciona este modo y exige contacto confirmado. |
 | `SITE_MODE` | Preview | `preview`, para mantener las revisiones fuera de indexación. |
 | `SITE_ORIGIN` | Solo si cambia el origen | Origen canónico completo; el valor predeterminado ya vive en [publication-config.ts](../../src/composition/configuration/publication-config.ts). |
 
 No añadir una variable de teléfono. Su autoridad es [company.ts](../../src/contexts/commercial-presence/infrastructure/content/company.ts).
+
+La detección del entorno utiliza las [variables de sistema de Vercel](https://vercel.com/docs/environment-variables/system-environment-variables#vercel_env). Una selección explícita de `SITE_MODE` conserva precedencia; se comprueban los metadatos servidos después de publicar.
 
 Vercel documenta la activación de Corepack en [configuración de compilación](https://vercel.com/docs/builds/configure-a-build#corepack). Usar un plan adecuado para el uso comercial confirmado; [Hobby está limitado a proyectos personales no comerciales](https://vercel.com/docs/plans/hobby).
 
@@ -57,4 +59,4 @@ Los servidores publicados por Vercel se consultan en [Working with nameservers](
 
 ## Estado
 
-La autenticación SSH y el remoto de GitHub están verificados. El usuario aportó una captura del proyecto de Vercel con estado `Ready` y el commit señalado arriba. La fuente de contacto contiene un número provisional autorizado. La conexión del dominio y sus DNS, así como las variables del proyecto alojado, siguen pendientes de verificación; la captura no acredita esos estados.
+La autenticación SSH y el remoto de GitHub están verificados. El dominio responde con HTTPS desde Vercel y sirve el rediseño con navegación móvil. La fuente de contacto contiene un número provisional autorizado. Cada publicación se verifica mediante el estado de Vercel del commit y una visita al dominio; un push por sí solo no acredita un despliegue completado. Las variables privadas del proyecto se administran en Vercel, sin copiarlas al repositorio.

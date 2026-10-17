@@ -12,7 +12,7 @@ export class SiteConfigurationError extends Error {
 
 export function readSiteConfig(environment: Readonly<Record<string, unknown>>): SiteConfig {
   const origin = environment.SITE_ORIGIN ?? "https://manoloimprenta.cl";
-  const mode = environment.SITE_MODE ?? "preview";
+  const mode = environment.SITE_MODE ?? (environment.VERCEL_ENV === "production" ? "public" : "preview");
   if (typeof origin !== "string") throw new SiteConfigurationError("SITE_ORIGIN debe ser texto.");
   if (mode !== "preview" && mode !== "public") {
     throw new SiteConfigurationError("SITE_MODE debe ser preview o public.");
