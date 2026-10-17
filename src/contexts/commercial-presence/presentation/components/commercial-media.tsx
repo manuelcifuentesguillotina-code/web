@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
-import type { MediaView } from "../contracts";
+import type { MediaView } from "../../contracts";
 
 export function CommercialMedia({ media }: { readonly media: MediaView }): ReactElement {
   if (media.status === "ready") {

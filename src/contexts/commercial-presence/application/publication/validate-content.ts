@@ -1,5 +1,5 @@
 import type { SiteContent } from "./content";
-import { buildCommercialMessage, validatePercent } from "../domain/commercial-message";
+import { buildCommercialMessage, validatePercent } from "../../domain/contact/commercial-message";
 
 export class PublicationError extends Error {
   constructor(detail: string) {

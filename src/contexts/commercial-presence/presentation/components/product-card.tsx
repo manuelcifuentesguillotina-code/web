@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactElement } from "react";
-import type { ProductView } from "../contracts";
-import { ContactActionView } from "./contact-action";
+import type { ProductView } from "../../contracts";
+import { ContactActionView } from "../contact/contact-action";
 import { CommercialMedia } from "./commercial-media";
 
 export function ProductCard({ product }: { readonly product: ProductView }): ReactElement {

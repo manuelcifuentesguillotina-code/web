@@ -1,4 +1,4 @@
-import type { CompanyContent } from "../../application/content";
+import type { CompanyContent } from "../../application/publication/content";
 
 export const company = {
   name: "Manolo Imprenta y Corte",

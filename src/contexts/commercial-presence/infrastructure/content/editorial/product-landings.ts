@@ -1,4 +1,4 @@
-import type { SiteContent } from "../../application/content";
+import type { SiteContent } from "../../../application/publication/content";
 
 export const productLandings = [
   { productId: "business-cards", slug: "tarjetas-de-presentacion" },

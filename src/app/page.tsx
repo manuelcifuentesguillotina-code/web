@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { composeCommercialPresence } from "@/composition/commercial-presence";
-import { HomeLanding } from "@/contexts/commercial-presence/presentation/home-landing";
+import { composeCommercialPresence } from "@/composition/commercial-presence/compose-commercial-presence";
+import { HomeLanding } from "@/contexts/commercial-presence/presentation/landings/home-landing";
 import { pageMetadata } from "./page-metadata";
 
 export function generateMetadata(): Metadata {

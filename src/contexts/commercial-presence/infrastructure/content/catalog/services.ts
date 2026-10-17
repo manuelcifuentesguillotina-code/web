@@ -1,4 +1,4 @@
-import type { CatalogService } from "../../application/content";
+import type { CatalogService } from "../../../application/publication/content";
 
 export const services = [
   { id: "printing", name: "Imprenta corporativa", description: "Diseño, impresión y terminaciones.", mediaId: "printing-main" },

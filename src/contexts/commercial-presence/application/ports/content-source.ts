@@ -1,4 +1,4 @@
-import type { SiteContent } from "../content";
+import type { SiteContent } from "../publication/content";
 
 export interface ContentSource {
   load(): SiteContent;

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createWhatsAppDestination } from "./whatsapp-destination";
-import { createVersionedContentSource } from "./versioned-content-source";
-import { createPresence } from "../application/create-presence";
+import { createVersionedContentSource } from "../content/versioned-content-source";
+import { createPresence } from "../../application/presence/create-presence";
 
 describe("real contact adapter", () => {
   it("normalizes the destination and encodes accents, symbols and line breaks", () => {

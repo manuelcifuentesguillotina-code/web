@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { ContactDestinationResolver } from "./ports/contact-destination";
-import type { SiteContent } from "./content";
+import type { ContactDestinationResolver } from "../ports/contact-destination";
+import type { SiteContent } from "../publication/content";
 import { createPresence } from "./create-presence";
-import { contentFixture } from "./content.fixture";
+import { contentFixture } from "../publication/content.fixture";
 
 const pending: ContactDestinationResolver = {
   resolve: () => ({ status: "pending", reason: "phone-unconfirmed" }),

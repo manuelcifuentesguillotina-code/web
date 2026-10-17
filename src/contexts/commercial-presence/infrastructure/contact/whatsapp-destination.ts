@@ -1,4 +1,4 @@
-import type { ContactDestinationResolver } from "../application/ports/contact-destination";
+import type { ContactDestinationResolver } from "../../application/ports/contact-destination";
 
 export class InvalidWhatsAppNumber extends Error {
   constructor() {

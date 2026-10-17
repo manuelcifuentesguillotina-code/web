@@ -1,4 +1,4 @@
-import type { CommercialOffer } from "../../application/content";
+import type { CommercialOffer } from "../../application/publication/content";
 
 export const commonOffer = {
   id: "project-discount",

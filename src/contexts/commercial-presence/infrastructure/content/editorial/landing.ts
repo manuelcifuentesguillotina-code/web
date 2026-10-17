@@ -1,4 +1,4 @@
-import type { SiteContent } from "../../application/content";
+import type { SiteContent } from "../../../application/publication/content";
 
 export const landing = {
   heading: "Imprenta para empresas.",

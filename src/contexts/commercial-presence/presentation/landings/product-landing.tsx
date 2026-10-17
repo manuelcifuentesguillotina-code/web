@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { ReactElement } from "react";
-import type { ProductLandingView } from "../contracts";
-import { SiteHeader } from "./site-header";
-import { CompanyFooter } from "./company-footer";
-import { ContactActionView } from "./contact-action";
-import { CommercialMedia } from "./commercial-media";
-import { ProductCard } from "./product-card";
+import type { ProductLandingView } from "../../contracts";
+import { SiteHeader } from "../layout/site-header";
+import { CompanyFooter } from "../layout/company-footer";
+import { ContactActionView } from "../contact/contact-action";
+import { CommercialMedia } from "../components/commercial-media";
+import { ProductCard } from "../components/product-card";
 
 export function ProductLanding({ view }: { readonly view: ProductLandingView }): ReactElement {
   const { product, company } = view;

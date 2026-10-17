@@ -1,7 +1,7 @@
-import type { HomeView, ProductLandingView } from "../contracts";
-import type { ContentSource } from "./ports/content-source";
-import type { ContactDestinationResolver } from "./ports/contact-destination";
-import { validateContent } from "./validate-content";
+import type { HomeView, ProductLandingView } from "../../contracts";
+import type { ContentSource } from "../ports/content-source";
+import type { ContactDestinationResolver } from "../ports/contact-destination";
+import { validateContent } from "../publication/validate-content";
 import { createViewBuilders } from "./build-views";
 
 export interface PresenceApplication {

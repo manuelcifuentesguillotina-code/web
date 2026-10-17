@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import type { ContactAction } from "../contracts";
+import type { ContactAction } from "../../contracts";
 import { CopyMessageButton } from "./copy-message-button";
 
 function ContactArrow(): ReactElement {

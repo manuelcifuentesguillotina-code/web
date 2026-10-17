@@ -1,4 +1,4 @@
-import type { ProductCategory } from "../../application/content";
+import type { ProductCategory } from "../../../application/publication/content";
 
 export const productCategories = [
   { id: "corporate-stationery", name: "Papelería corporativa", serviceId: "printing" },

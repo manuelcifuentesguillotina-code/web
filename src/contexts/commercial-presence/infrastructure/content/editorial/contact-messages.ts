@@ -1,4 +1,4 @@
-import type { ContactTemplates } from "../../application/content";
+import type { ContactTemplates } from "../../../application/publication/content";
 
 export const contactMessages = {
   request: "quiero mi descuento de {percent}%",

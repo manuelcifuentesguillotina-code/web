@@ -1,7 +1,7 @@
-import type { Benefit, CompanyView, ContactAction, MediaView, ProductView, ServiceView } from "../contracts";
-import type { CatalogProduct, SiteContent } from "./content";
-import type { ContactDestinationResolver } from "./ports/contact-destination";
-import { buildCommercialMessage, interpolate } from "../domain/commercial-message";
+import type { Benefit, CompanyView, ContactAction, MediaView, ProductView, ServiceView } from "../../contracts";
+import type { CatalogProduct, SiteContent } from "../publication/content";
+import type { ContactDestinationResolver } from "../ports/contact-destination";
+import { buildCommercialMessage, interpolate } from "../../domain/contact/commercial-message";
 
 interface ViewBuilders {
   product(item: CatalogProduct): ProductView;

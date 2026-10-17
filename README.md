@@ -54,21 +54,37 @@ El dominio y los casos de uso deben poder ejecutarse y probarse sin levantar Nex
 
 ## 3. Estructura de referencia
 
-Esta estructura es un contrato de ubicación. Se crean únicamente los archivos y directorios necesarios; `<contexto>` es un marcador, no un contexto ya definido.
+Esta es una vista resumida de la organización implementada. Las capas fijan las dependencias; dentro de cada una, las carpetas agrupan responsabilidades actuales. Se conserva esta organización al crecer el proyecto.
 
 ```text
 src/
-  app/                         # Convenciones y adaptadores de entrada de Next.js
+  app/                         # Rutas, metadatos y estilos de entrada de Next.js
   contexts/
-    <contexto>/
+    commercial-presence/
+      contracts.ts             # Superficie pública estable y segura para cliente
       domain/
+        contact/               # Invariantes del mensaje comercial
       application/
-        ports/
+        ports/                 # Límites de contenido y destino de contacto
+        publication/           # Contrato y validación del contenido publicado
+        presence/              # Casos de uso y construcción de vistas públicas
       infrastructure/
+        contact/               # Adaptador de WhatsApp
+        content/
+          catalog/             # Productos, categorías y servicios
+          editorial/           # Landings y plantillas de mensajes
+          company.ts
+          offers.ts
+          media.ts
+          versioned-content-source.ts
       presentation/
-      contracts.ts             # Contratos públicos explícitos y seguros para cliente
-  composition/                 # Factorías de servidor, separadas por contexto
-  shared/                      # Código transversal justificado y con dueño explícito
+        landings/              # Composición visual de los recorridos comerciales
+        layout/                # Cabecera y pie del contexto
+        contact/               # Acciones de contacto e interacción de copia
+        components/            # Piezas de producto y medios reutilizadas
+  composition/
+    configuration/             # Configuración validada de servidor
+    commercial-presence/       # Construcción de dependencias de este contexto
 tests/
   architecture/                # Dependencias, ciclos y límites entre contextos
   e2e/                         # Pruebas de la aplicación ejecutándose
@@ -81,6 +97,18 @@ docs/
 Los tests unitarios y de integración viven junto al código que verifican como `*.test.ts` o `*.test.tsx`. Los tests de arquitectura y E2E viven en las ubicaciones indicadas.
 
 No se crean carpetas globales `utils`, `helpers`, `services` o `types` para código sin dueño. Los nombres describen una responsabilidad. `shared` tampoco es un destino para resolver imports incómodos.
+
+### 3.1. Crecimiento por responsabilidad
+
+- Las raíces de las capas se reservan para sus grupos de responsabilidad. Un archivo nuevo se ubica con el comportamiento o adaptador al que pertenece; no se acumulan casos de uso, componentes y validadores al mismo nivel.
+- Los grupos internos no son nuevos bounded contexts ni alteran la dirección de dependencias. Publicación, contacto y presentación siguen teniendo sus límites actuales, aunque una carpeta contenga pocos archivos.
+- `contracts.ts` conserva la superficie pública del contexto. La reorganización interna no crea puntos de entrada alternativos, barrels generales ni reexportaciones de implementaciones.
+- Las landings componen piezas de presentación. Los componentes reutilizados permanecen dentro del contexto propietario; se promueven a un núcleo transversal solo cuando exista una semántica compartida comprobada.
+- Las fuentes de contenido conservan un propietario por concepto. Agrupar catálogo y contenido editorial no duplica productos, descuentos, mensajes ni selecciones.
+- Cada nuevo contexto incorpora su composición en `src/composition/<contexto>/`. La configuración de servidor vive en `configuration/`; no se mezcla con el contenido comercial.
+- Los tests se desplazan junto con su unidad. El grafo de arquitectura analiza recursivamente los módulos y mantiene los mismos controles en cualquier profundidad.
+
+Se crean carpetas cuando tienen una responsabilidad presente. No se añaden directorios vacíos, capas transaccionales, paquetes ni servicios para funciones futuras. Las convenciones de Next.js y los archivos de configuración de herramientas mantienen sus ubicaciones requeridas. El motivo de esta organización se registra en [la decisión 0004](./docs/decisions/0004-organization-by-responsibility.md).
 
 ## 4. Bounded contexts y DDD
 
@@ -143,16 +171,16 @@ Las siguientes autoridades están implementadas dentro de `src/contexts/commerci
 | Concepto | Autoridad | Consumidores derivados |
 | --- | --- | --- |
 | Identidad, contacto y datos públicos confirmados | `infrastructure/content/company.ts` | Cabecera, pie, datos de contacto y representaciones de empresa para buscadores. |
-| Líneas de servicio | `infrastructure/content/services.ts` | Presentación de servicios e intenciones de consulta. |
-| Categorías de productos y su relación con los servicios | `infrastructure/content/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
-| Identidad y datos comerciales de cada producto | `infrastructure/content/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
-| Selección, orden y textos editoriales de la landing general | `infrastructure/content/landing.ts` | Presentación y metadatos editoriales de la landing general. |
-| Slugs y contenido editorial de las landings de producto | `infrastructure/content/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
+| Líneas de servicio | `infrastructure/content/catalog/services.ts` | Presentación de servicios e intenciones de consulta. |
+| Categorías de productos y su relación con los servicios | `infrastructure/content/catalog/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
+| Identidad y datos comerciales de cada producto | `infrastructure/content/catalog/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
+| Selección, orden y textos editoriales de la landing general | `infrastructure/content/editorial/landing.ts` | Presentación y metadatos editoriales de la landing general. |
+| Slugs y contenido editorial de las landings de producto | `infrastructure/content/editorial/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
 | Beneficio comercial común vigente | `infrastructure/content/offers.ts` | Oferta e intenciones de contacto derivadas para todos los elementos comerciales. |
-| Plantilla común de mensajes de contacto | `infrastructure/content/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
+| Plantilla común de mensajes de contacto | `infrastructure/content/editorial/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
 | Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Logo e imágenes de servicios y productos. |
-| Construcción del destino de WhatsApp | `infrastructure/whatsapp-destination.ts` | Todos los enlaces de contacto resueltos por la aplicación. |
-| Origen público y configuración de despliegue | `src/composition/publication-config.ts`, leído por `site-config.ts` | URL canónica, enlaces absolutos y modo de publicación. |
+| Construcción del destino de WhatsApp | `infrastructure/contact/whatsapp-destination.ts` | Todos los enlaces de contacto resueltos por la aplicación. |
+| Origen público y configuración de despliegue | `src/composition/configuration/publication-config.ts`, leído por `site-config.ts` | URL canónica, enlaces absolutos y modo de publicación. |
 
 Estos módulos mantienen responsabilidades separadas; no se concentran en un archivo universal de configuración. Los recursos binarios tienen una ubicación física única y el contenido los referencia, sin duplicarlos por sección.
 

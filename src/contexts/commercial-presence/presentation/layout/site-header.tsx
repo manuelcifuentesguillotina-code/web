@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactElement } from "react";
-import type { CompanyView } from "../contracts";
-import { CommercialMedia } from "./commercial-media";
+import type { CompanyView } from "../../contracts";
+import { CommercialMedia } from "../components/commercial-media";
 
 export function SiteHeader({ company }: { readonly company: CompanyView }): ReactElement {
   return (

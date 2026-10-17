@@ -28,7 +28,7 @@ El producto es un conjunto de landings enfocadas en venta y captación para una 
 
 La dirección visible y la cobertura confirmadas se mantienen en [company.ts](../src/contexts/commercial-presence/infrastructure/content/company.ts). Se omite el país en la dirección visible.
 
-La invitación presencial deriva la dirección mediante la plantilla de [contact-messages.ts](../src/contexts/commercial-presence/infrastructure/content/contact-messages.ts).
+La invitación presencial deriva la dirección mediante la plantilla de [contact-messages.ts](../src/contexts/commercial-presence/infrastructure/content/editorial/contact-messages.ts).
 
 ## Horario de atención
 
@@ -36,7 +36,7 @@ Los días y las horas confirmados tienen su única autoridad operativa en [compa
 
 ## Dominio
 
-- El dominio adquirido es el origen predeterminado de [publication-config.ts](../src/composition/publication-config.ts).
+- El dominio adquirido es el origen predeterminado de [publication-config.ts](../src/composition/configuration/publication-config.ts).
 - La titularidad fue aclarada por el usuario y se registra únicamente en la fuente administrativa local indicada en el README. Es distinta de la titularidad del negocio.
 - La compra y disponibilidad para el proyecto están confirmadas por el usuario y la captura aportada. El alojamiento y la configuración de DNS siguen pendientes.
 
@@ -59,7 +59,7 @@ Los datos del titular y de cuenta se registran únicamente en la fuente administ
 
 ## Oferta de impresión seleccionada
 
-La selección confirmada se mantiene únicamente en [products.ts](../src/contexts/commercial-presence/infrastructure/content/products.ts), sus agrupaciones en [product-categories.ts](../src/contexts/commercial-presence/infrastructure/content/product-categories.ts) y las líneas de servicio en [services.ts](../src/contexts/commercial-presence/infrastructure/content/services.ts).
+La selección confirmada se mantiene únicamente en [products.ts](../src/contexts/commercial-presence/infrastructure/content/catalog/products.ts), sus agrupaciones en [product-categories.ts](../src/contexts/commercial-presence/infrastructure/content/catalog/product-categories.ts) y las líneas de servicio en [services.ts](../src/contexts/commercial-presence/infrastructure/content/catalog/services.ts).
 
 Esta selección cierra el alcance actual de impresión. No se incorporan más categorías a partir de capacidades técnicas generales ni se amplía la oferta sin una decisión del usuario.
 
@@ -67,7 +67,7 @@ El catálogo operativo y los datos publicables ya residen en las autoridades def
 
 ## Cantidades orientativas
 
-Cada proyecto se evalúa individualmente. Las cantidades y composiciones informadas pertenecen al campo opcional `typicalQuantity` del [catálogo](../src/contexts/commercial-presence/infrastructure/content/products.ts). Son ejemplos habituales, no mínimos obligatorios ni reglas para fijar precios.
+Cada proyecto se evalúa individualmente. Las cantidades y composiciones informadas pertenecen al campo opcional `typicalQuantity` del [catálogo](../src/contexts/commercial-presence/infrastructure/content/catalog/products.ts). Son ejemplos habituales, no mínimos obligatorios ni reglas para fijar precios.
 
 Estas cantidades se mantienen independientes de tarifas y beneficios comerciales. No se extrapolan a los demás productos.
 
@@ -83,7 +83,7 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 
 - Todos los elementos comerciales ofrecen la opción de solicitar un descuento del **20%** por WhatsApp.
 - Todos los mensajes de producto dirigidos a WhatsApp deben contener exactamente la frase **«quiero mi descuento de 20%»**. Se puede añadir el producto consultado, conservando esa frase.
-- La autoridad operativa del porcentaje es [offers.ts](../src/contexts/commercial-presence/infrastructure/content/offers.ts); la de las plantillas es [contact-messages.ts](../src/contexts/commercial-presence/infrastructure/content/contact-messages.ts). La frase anterior es un requisito comercial de aceptación; no se configuran descuentos por separado en cada ficha o landing.
+- La autoridad operativa del porcentaje es [offers.ts](../src/contexts/commercial-presence/infrastructure/content/offers.ts); la de las plantillas es [contact-messages.ts](../src/contexts/commercial-presence/infrastructure/content/editorial/contact-messages.ts). La frase anterior es un requisito comercial de aceptación; no se configuran descuentos por separado en cada ficha o landing.
 - Es un incentivo comercial para iniciar la conversación y se aplica sobre el total del proyecto, incluido el diseño cuando forme parte del encargo. La conversación con Manolo determina la cotización; el sitio no calcula importes ni aplica el descuento automáticamente.
 - La vigencia de la oferta está pendiente de definición; es independiente del plazo de producción.
 

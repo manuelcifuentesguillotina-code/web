@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
-import type { CompanyView } from "../contracts";
-import { ContactActionView } from "./contact-action";
+import type { CompanyView } from "../../contracts";
+import { ContactActionView } from "../contact/contact-action";
 
 export function CompanyFooter({ company }: { readonly company: CompanyView }): ReactElement {
   return (

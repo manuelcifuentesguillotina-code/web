@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { PageSeo } from "@/contexts/commercial-presence/contracts";
-import { getSiteConfig } from "@/composition/site-config";
+import { getSiteConfig } from "@/composition/configuration/site-config";
 
 export function pageMetadata(seo: PageSeo): Metadata {
   const config = getSiteConfig();

@@ -1,4 +1,4 @@
-import type { CatalogProduct } from "../../application/content";
+import type { CatalogProduct } from "../../../application/publication/content";
 
 export const products = [
   {
