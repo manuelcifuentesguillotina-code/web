@@ -9,6 +9,16 @@ export function validateProductLandings(content: SiteContent): void {
       (item) => item.id === landing.productId,
     );
     if (!product) return fail("producto inexistente");
+    if (landing.editorial) {
+      const { intro, uses, preparation, faqs } = landing.editorial;
+      const texts = [intro, ...uses, ...preparation,
+        ...faqs.flatMap(({ question, answer }) => [question, answer])];
+      if (!uses.length || !preparation.length || !faqs.length ||
+        texts.some((text) => !text.trim()))
+        fail("contenido editorial incompleto");
+      if (texts.some((text) => text.split(/\r?\n/).length > 2))
+        fail("mensaje editorial supera dos líneas");
+    }
     for (const editorial of [landing.search, landing.social]) {
       if (!editorial.title.trim() || !editorial.description.trim())
         fail("metadatos vacíos");

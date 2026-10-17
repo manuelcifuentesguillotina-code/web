@@ -1,6 +1,18 @@
 .section {
   padding-bottom: var(--section-space);
 }
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin-bottom: 24px;
+}
+.intro {
+  max-width: 48ch;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-top: 24px;
+}
 .grid {
   display: grid;
   grid-template-columns: 1.15fr 1fr;

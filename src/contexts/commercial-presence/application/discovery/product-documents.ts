@@ -47,7 +47,7 @@ export function createProductDocuments(
         kind: "Product",
         id: product.id,
         name: product.name,
-        description: product.description,
+        description: landing.editorial?.intro ?? product.description,
       },
     };
   });

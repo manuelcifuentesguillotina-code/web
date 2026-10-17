@@ -21,8 +21,12 @@ export function ProductHero({
             <span aria-hidden="true">← </span>{view.copy.hero.browse}
           </Link>
           <h1 className={styles.title + " short-copy"}>{product.name}</h1>
+          <p className={styles.description}>{product.description}</p>
           <PricePanel price={product.price} />
           <ProductOffer contact={product.contact} />
+          {view.editorial && (
+            <p className={styles.intro}>{view.editorial.intro}</p>
+          )}
           <p className={styles.production + " short-copy"}>
             {company.production}
           </p>

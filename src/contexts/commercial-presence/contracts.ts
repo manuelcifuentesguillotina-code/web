@@ -14,6 +14,7 @@ export type { CompanyView } from "./contracts/company";
 export type {
   HomeView,
   ProductLandingView,
+  ProductLandingEditorial,
   TopicLandingView,
 } from "./contracts/landings";
 export type { MarketingCopy } from "./contracts/marketing";

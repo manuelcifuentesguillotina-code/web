@@ -123,7 +123,7 @@ export function createPresence(
       const page = content.productLandings.find((item) => item.slug === slug);
       const product =
         page && products.find((item) => item.id === page.productId);
-      if (!product) return undefined;
+      if (!page || !product) return undefined;
       const documentView = findDocument(product.href);
       if (!documentView) return undefined;
       const categoryId = content.products.find(
@@ -137,6 +137,7 @@ export function createPresence(
       return {
         discovery,
         breadcrumbs: documentView.breadcrumbs,
+        editorial: page.editorial,
         company,
         product,
         navigation,

@@ -22,6 +22,14 @@ export const marketing = {
   services: { heading: "Impresión y corte." },
   catalog: { heading: "Elige tu trabajo." },
   footer: { heading: "Imprimamos." },
-  product: { related: "Más trabajos" },
+  product: {
+    related: "Más trabajos",
+    details: {
+      uses: "Una pieza. Muchas posibilidades.",
+      preparation: "Demos forma a tu pedido.",
+      questions: "Antes de imprimir.",
+      contact: "Hablemos de tu proyecto.",
+    },
+  },
   ribbon: ["Diseño", "Impresión", "Encuadernación", "Corte"],
 } satisfies MarketingCopy;

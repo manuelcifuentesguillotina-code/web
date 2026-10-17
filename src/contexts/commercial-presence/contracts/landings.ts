@@ -31,7 +31,18 @@ export interface HomeView {
   readonly seo: PageSeo;
 }
 
+export interface ProductLandingEditorial {
+  readonly intro: string;
+  readonly uses: readonly string[];
+  readonly preparation: readonly string[];
+  readonly faqs: readonly {
+    readonly question: string;
+    readonly answer: string;
+  }[];
+}
+
 export interface ProductLandingView {
+  readonly editorial?: ProductLandingEditorial;
   readonly discovery: readonly DiscoveryNavigationLink[];
   readonly breadcrumbs: readonly DiscoveryLink[];
   readonly navigation: readonly CatalogNavigationGroup[];

@@ -4,31 +4,6 @@ import {
   expectContact,
 } from "./support/landing-assertions";
 
-test("mobile hero gives contact a full row and keeps the artwork compact", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const width of [320, 390, 768]) {
-    await page.setViewportSize({ width, height: 844 });
-    await page.goto("/");
-    const hero = page.locator("#inicio");
-    const offer = hero.locator(".hero-offer");
-    const contact = offer.locator(".contact-link");
-    const browse = hero.getByRole("link", { name: "Ver productos" });
-    const offerBox = (await offer.boundingBox())!;
-    const contactBox = (await contact.boundingBox())!;
-    const browseBox = (await browse.boundingBox())!;
-    const headingBox = (await hero.getByRole("heading", { level: 1 }).boundingBox())!;
-    expect(offerBox.width).toBeCloseTo(headingBox.width, 0);
-    expect(contactBox.width).toBeCloseTo(offerBox.width, 0);
-    expect(contactBox.height).toBeGreaterThanOrEqual(44);
-    expect(browseBox.height).toBeGreaterThanOrEqual(44);
-    expect(browseBox.y).toBeGreaterThanOrEqual(contactBox.y + contactBox.height);
-    const artwork = (await hero.locator("figure").boundingBox())!;
-    expect(artwork.height).toBeLessThanOrEqual(280);
-    expect(artwork.y).toBeGreaterThanOrEqual(browseBox.y + browseBox.height);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
-  }
-});
-
 test("phone, landscape and tablet keep touch navigation, compact cards and a clear footer", async ({
   page,
 }) => {

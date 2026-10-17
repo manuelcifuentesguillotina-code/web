@@ -3,6 +3,7 @@ import type { ProductLandingView } from "../../../contracts";
 import { SiteShell } from "../../layout/shell/site-shell";
 import { ProductHero } from "./sections/product-hero";
 import { RelatedProducts } from "./sections/related-products";
+import { ProductDetails } from "./sections/product-details";
 
 export function ProductLanding({
   view,
@@ -20,6 +21,7 @@ export function ProductLanding({
       contact={view.product.contact}
     >
       <ProductHero view={view} />
+      <ProductDetails view={view} />
       <RelatedProducts view={view} />
     </SiteShell>
   );

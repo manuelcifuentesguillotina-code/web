@@ -21,6 +21,14 @@ export interface MarketingCopy {
   readonly services: { readonly heading: string };
   readonly catalog: { readonly heading: string };
   readonly footer: { readonly heading: string };
-  readonly product: { readonly related: string };
+  readonly product: {
+    readonly related: string;
+    readonly details?: {
+      readonly uses: string;
+      readonly preparation: string;
+      readonly questions: string;
+      readonly contact: string;
+    };
+  };
   readonly ribbon: readonly string[];
 }
