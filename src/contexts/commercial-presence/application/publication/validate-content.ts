@@ -146,7 +146,8 @@ export function validateContent(content: SiteContent): void {
     ...Object.values(copy.services),
     ...Object.values(copy.catalog),
     ...Object.values(copy.footer),
-    ...Object.values(copy.product),
+    copy.product.related,
+    ...Object.values(copy.product.details ?? {}),
     ...copy.ribbon,
   ];
   texts.forEach((text) => {
