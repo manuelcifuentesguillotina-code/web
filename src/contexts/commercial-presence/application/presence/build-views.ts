@@ -102,6 +102,7 @@ export function createViewBuilders(
       },
       name: company.name,
       address,
+      locality: company.address.locality,
       logo: media(company.logoMediaId),
       serviceArea: company.serviceArea,
       visit: interpolate(messages.visit, { address }),

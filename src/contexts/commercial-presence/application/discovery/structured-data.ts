@@ -7,12 +7,13 @@ export function buildStructuredData(
   documents: readonly DiscoveryDocument[],
   page: DiscoveryDocument,
   origin: string,
+  imagePath = page.seo.image.path,
 ): StructuredObject {
   const canonical = origin + page.seo.path;
   const businessId = origin + "/#business";
   const websiteId = origin + "/#website";
   const entityId = canonical + "#item";
-  const image = origin + page.seo.image.path;
+  const image = origin + imagePath;
   const graph: StructuredObject[] = [
     businessEntity(content.company, origin),
     {

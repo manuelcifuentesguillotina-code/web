@@ -8,6 +8,7 @@ export interface CompanyView {
   readonly logo: MediaView;
   readonly serviceArea: string;
   readonly address: string;
+  readonly locality: string;
   readonly visit: string;
   readonly hours: string;
   readonly production: string;

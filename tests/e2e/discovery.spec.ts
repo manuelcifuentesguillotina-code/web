@@ -65,6 +65,7 @@ test("all eighteen commercial destinations expose unique metadata and crawlable 
       (item: { "@type": string }) => item["@type"] === "Product",
     );
     if (primaryProduct) {
+      expect(primaryProduct.image).toBe(image);
       const approved =
         (await page
           .locator("main [data-price-status]")
@@ -96,9 +97,10 @@ test("each landing sharing card is a distinct valid PNG with the advertised dime
   for (const path of paths) {
     const response = await request.get(path);
     const imagePath = (await response.text()).match(
-      /property="og:image" content="https:\/\/manoloimprenta\.cl([^"?]+)"/,
+      /property="og:image" content="https:\/\/manoloimprenta\.cl([^"]+)"/,
     )?.[1];
     if (!imagePath) throw new Error("Imagen social no publicada: " + path);
+    expect(imagePath).toMatch(/\?v=[a-f0-9]{20}$/);
     const image = await request.get(imagePath);
     expect(image.status()).toBe(200);
     expect(image.headers()["content-type"]).toContain("image/png");

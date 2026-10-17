@@ -1,6 +1,8 @@
 import type { SiteContent } from "./content";
+import { validateProductLandings } from "./validate-product-landings";
 
 export function validateDiscovery(content: SiteContent): void {
+  validateProductLandings(content);
   const fail = (detail: string): never => {
     throw new Error("Descubrimiento no publicable: " + detail);
   };
@@ -13,10 +15,6 @@ export function validateDiscovery(content: SiteContent): void {
     if (ids.length !== productIds.size || ids.some((id) => !productIds.has(id)))
       fail(label + " sin cobertura de catálogo");
   };
-  covered(
-    content.discovery.products.map((item) => item.productId),
-    "SEO de producto",
-  );
   covered(
     content.prices.map((item) => item.productId),
     "precio",
@@ -57,7 +55,7 @@ export function validateDiscovery(content: SiteContent): void {
   };
   const searchEntries = [
     content.discovery.home,
-    ...content.discovery.products.map((item) => item.search),
+    ...content.productLandings.map((item) => item.search),
     ...content.discovery.topics.map((item) => item.search),
   ];
   searchEntries.forEach((entry) => {

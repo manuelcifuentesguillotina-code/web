@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "assets": {
+    "/artwork/bifolds.svg": "d2c29ce1c058e5529e5de57863cae6b5af91aa864c95b1a192a181fa4137ef8b",
+    "/artwork/brand.svg": "753a8a40adbb944f70ac4a6d30ed8c1041141b57f4fe2d48a827c24f5dfe7d0e",
+    "/artwork/cards.svg": "f04e4dabe4974e401146b3582570cf99c3a6876fbe1761ea4d409090af7a37cd",
+    "/artwork/catalogs.svg": "c4fa699bb54ba5c639a20f602b0a0453a96f8c0706717d14a3158705364f72d0",
+    "/artwork/cutting.svg": "922c02bb1f572616453ab983e14529c161c5e44380235ab4a610c0a9f87aebb6",
+    "/artwork/envelopes.svg": "914634368cf308c7baaeb7ae6654e155dbbf916367d4a8f92f9fa564c4b26cd7",
+    "/artwork/folders.svg": "eda813cb66d5700c54f601b32830a0ee295f805d9d40ad4287b854be1eb79363",
+    "/artwork/hero.svg": "f2ec37e3045ff46e07b2b788677dec6cabcf9a504c9b51e46f1f114796754fc9",
+    "/artwork/leaflets.svg": "6a172f9a1f68e5600f663a20d6ec606cb9104affb4a966d4dce3ebc7ac256bc7",
+    "/artwork/letterheads.svg": "3c2e8aac4b1e4d279258fa7186f3d728b21667cbdf63c837497668ab52907aa4",
+    "/artwork/pads.svg": "37a30d57b4b587007138d4c2754a6130b42a3fea13f95b7250b2b5e8c4e5b7ca",
+    "/artwork/printing.svg": "5b565daf7735c4208885b54a8c42854349042f9aa712fe0acb01eda864c0c49a",
+    "/artwork/sheets.svg": "50967f63c94d80ad8172ecd6ef7db08ccbdd472905d3a9a7e4d863ddd412ddf0",
+    "/artwork/trifolds.svg": "9b21a017d8f603e3122361ece498c1386ba61389eab6a9510dbd2d7516d024a0"
+  }
+}

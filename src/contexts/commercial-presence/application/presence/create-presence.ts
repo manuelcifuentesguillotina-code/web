@@ -14,7 +14,11 @@ import { createDocuments } from "../discovery/create-documents";
 import { buildStructuredData } from "../discovery/structured-data";
 
 export interface PresenceApplication {
-  structuredData(path: string, origin: string): StructuredObject | undefined;
+  structuredData(
+    path: string,
+    origin: string,
+    imagePath?: string,
+  ): StructuredObject | undefined;
   documents(): readonly DiscoveryDocument[];
   document(path: string): DiscoveryDocument | undefined;
   topicLanding(path: string): TopicLandingView | undefined;
@@ -70,10 +74,10 @@ export function createPresence(
   }));
 
   return {
-    structuredData(path, origin) {
+    structuredData(path, origin, imagePath) {
       const page = findDocument(path);
       return page
-        ? buildStructuredData(content, documents, page, origin)
+        ? buildStructuredData(content, documents, page, origin, imagePath)
         : undefined;
     },
     documents: () => documents,

@@ -1,5 +1,6 @@
 import type { MediaView, MarketingCopy } from "../../contracts";
 import type { DiscoveryContent, PriceDefinition } from "./discovery-content";
+import type { ProductLandingDefinition } from "./product-landing-content";
 
 export interface TypicalQuantity {
   readonly amount: number;
@@ -83,10 +84,7 @@ export interface SiteContent {
   readonly services: readonly CatalogService[];
   readonly categories: readonly ProductCategory[];
   readonly products: readonly CatalogProduct[];
-  readonly productLandings: readonly {
-    readonly productId: string;
-    readonly slug: string;
-  }[];
+  readonly productLandings: readonly ProductLandingDefinition[];
   readonly offer: CommercialOffer;
   readonly messages: ContactTemplates;
   readonly media: readonly MediaView[];

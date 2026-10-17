@@ -15,7 +15,12 @@ export interface PageSeo {
   readonly title: string;
   readonly description: string;
   readonly path: string;
+  readonly social: {
+    readonly title: string;
+    readonly description: string;
+  };
   readonly image: {
+    readonly key: string;
     readonly path: string;
     readonly alt: string;
     readonly width: number;

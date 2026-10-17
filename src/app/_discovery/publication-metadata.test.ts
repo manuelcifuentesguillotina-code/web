@@ -21,13 +21,25 @@ describe("publication adapters", () => {
         siteName: app.home().company.name,
         images: [
           {
-            url: "https://example.test/compartir/trifolds",
+            url: expect.stringMatching(
+              /^https:\/\/example\.test\/compartir\/trifolds\?v=[a-f0-9]{20}$/,
+            ),
             width: 1200,
             height: 630,
             type: "image/png",
           },
         ],
       },
+    });
+    const metadata = pageMetadata(seo);
+    expect(metadata.title).toBe(seo.title);
+    expect(metadata.openGraph).toMatchObject({
+      title: "Trípticos",
+      description: seo.social.description,
+    });
+    expect(metadata.twitter).toMatchObject({
+      title: "Trípticos",
+      description: seo.social.description,
     });
     expect(sitemap()).toHaveLength(18);
     expect(sitemap().map((item) => item.url)).toContain(

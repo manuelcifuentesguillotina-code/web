@@ -32,7 +32,7 @@ export const servicePages = [
     search: {
       title: "Corte con guillotina en Santiago Centro | {company}",
       description:
-        "Servicio de corte con guillotina para papel e impresos de empresas y otras imprentas. Eleuterio Ramírez 644, Santiago Centro. Cotiza por WhatsApp.",
+        "Servicio de corte con guillotina para papel e impresos de empresas y otras imprentas. Visítanos en {address}. Cotiza por WhatsApp.",
     },
   },
 ] satisfies readonly TopicDefinition[];

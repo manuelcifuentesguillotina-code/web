@@ -33,22 +33,6 @@ export function contentFixture(): SiteContent {
         title: "Impresión | {company}",
         description: "Impresión para empresas de prueba.",
       },
-      products: [
-        {
-          productId: "card",
-          search: {
-            title: "{product} | {company}",
-            description: "Tarjetas impresas de prueba.",
-          },
-        },
-        {
-          productId: "catalog",
-          search: {
-            title: "{product} | {company}",
-            description: "Catálogos impresos de prueba.",
-          },
-        },
-      ],
       topics: [
         {
           id: "print-page",
@@ -157,8 +141,24 @@ export function contentFixture(): SiteContent {
       },
     ],
     productLandings: [
-      { productId: "card", slug: "tarjetas" },
-      { productId: "catalog", slug: "catalogos" },
+      {
+        productId: "card",
+        slug: "tarjetas",
+        search: {
+          title: "{product} | {company}",
+          description: "{product} impresas de prueba.",
+        },
+        social: { title: "{product}", description: "{product}. {benefit}." },
+      },
+      {
+        productId: "catalog",
+        slug: "catalogos",
+        search: {
+          title: "{product} | {company}",
+          description: "{product} encuadernados de prueba.",
+        },
+        social: { title: "{product}", description: "{product}. {benefit}." },
+      },
     ],
     offer: { id: "offer", percent: 20, scope: "Total del proyecto." },
     messages: {

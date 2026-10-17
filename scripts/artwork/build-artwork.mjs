@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { loadPalette } from "./palette.mjs";
 import { hero, printing, cutting, productScenes } from "./scenes.mjs";
 import { monogram } from "./primitives.mjs";
+import { buildSharingRevisions } from "../sharing/build-sharing-revisions.mjs";
 
 const palette = await loadPalette();
 const directory = new URL("../../public/artwork/", import.meta.url);
@@ -29,3 +30,4 @@ await writeFile(
   scenes.brand,
 );
 console.log("SVG generados: " + Object.keys(scenes).length);
+await buildSharingRevisions();

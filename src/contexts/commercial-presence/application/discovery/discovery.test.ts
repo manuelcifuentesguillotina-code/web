@@ -84,7 +84,7 @@ describe("discovery publication", () => {
           topics: [topic, { ...topic, id: "another" }],
         },
       },
-      { ...original, discovery: { ...original.discovery, products: [] } },
+      { ...original, productLandings: [] },
       {
         ...original,
         discovery: {

@@ -24,10 +24,6 @@ export interface TopicDefinition {
 
 export interface DiscoveryContent {
   readonly home: SearchEditorial;
-  readonly products: readonly {
-    readonly productId: string;
-    readonly search: SearchEditorial;
-  }[];
   readonly topics: readonly TopicDefinition[];
 }
 

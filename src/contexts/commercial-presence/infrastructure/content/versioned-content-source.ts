@@ -4,7 +4,7 @@ import { company } from "./company";
 import { services } from "./catalog/services";
 import { productCategories } from "./catalog/product-categories";
 import { products } from "./catalog/products";
-import { productLandings } from "./editorial/product-landings";
+import { productLandings } from "./landings/products/product-landings";
 import { commonOffer } from "./offers";
 import { contactMessages } from "./editorial/contact-messages";
 import { media } from "./media";

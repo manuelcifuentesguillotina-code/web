@@ -18,7 +18,7 @@ export type {
 } from "./contracts/landings";
 export type { MarketingCopy } from "./contracts/marketing";
 export type { PublishedPrice, PriceReference } from "./contracts/pricing";
-export type { SharingCardView } from "./contracts/sharing";
+export type { SharingCardContent, SharingCardView } from "./contracts/sharing";
 export type {
   PageSeo,
   DiscoveryLink,

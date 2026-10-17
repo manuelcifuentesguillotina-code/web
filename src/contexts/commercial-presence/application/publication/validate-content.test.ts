@@ -70,7 +70,13 @@ describe("publication contract", () => {
     expect(() =>
       validateContent({
         ...content,
-        productLandings: [{ productId: "unknown", slug: "unknown" }],
+        productLandings: [
+          {
+            ...content.productLandings[0],
+            productId: "unknown",
+            slug: "unknown",
+          },
+        ],
       }),
     ).toThrow("producto inexistente");
   });
