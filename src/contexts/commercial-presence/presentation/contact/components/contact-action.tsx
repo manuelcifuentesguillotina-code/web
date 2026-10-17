@@ -1,27 +1,25 @@
 import type { ReactElement } from "react";
-import type { ContactAction } from "../../contracts";
+import type { ContactAction } from "../../../contracts";
 import { CopyMessageButton } from "./copy-message-button";
+import { ArrowIcon } from "../../components/icons/arrow-icon";
+import { ChatIcon } from "../../components/icons/chat-icon";
+import styles from "./contact-action.module.css";
 
-function ContactArrow(): ReactElement {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-      <path d="M4 12 12 4M4 4h8v8" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
+interface ContactProps {
+  readonly action: ContactAction;
+  readonly variant?: "solid" | "ink" | "outline";
 }
 
-export function ContactActionView({ action }: { readonly action: ContactAction }): ReactElement {
+export function ContactActionView({ action, variant = "solid" }: ContactProps): ReactElement {
+  const className = styles.action + " " + styles[variant] + " contact-link";
+  const label = <span className={styles.label}><ChatIcon />{action.label}</span>;
   if (action.destination.status === "ready") {
-    return (
-      <a className="contact-link" href={action.destination.href} target="_blank" rel="noopener noreferrer">
-        {action.label}<ContactArrow />
-      </a>
-    );
+    return <a className={className} href={action.destination.href} target="_blank" rel="noopener noreferrer">{label}<ArrowIcon /></a>;
   }
   return (
-    <details className="pending-contact">
-      <summary>{action.label}<span aria-hidden="true">+</span></summary>
-      <div className="pending-body">
+    <details className={styles.pending + " pending-contact"}>
+      <summary className={className}>{label}<span aria-hidden="true">+</span></summary>
+      <div className={styles.pendingBody}>
         <p className="short-copy">{action.pendingLabel}</p>
         <textarea aria-label="Mensaje para Manolo" readOnly rows={2} wrap="off" value={action.message} />
         <CopyMessageButton message={action.message} />

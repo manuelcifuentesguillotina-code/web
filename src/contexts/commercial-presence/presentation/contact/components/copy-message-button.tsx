@@ -1,21 +1,13 @@
 "use client";
 
-import { useState, type ReactElement } from "react";
+import type { ReactElement } from "react";
+import { useClipboard } from "../hooks/use-clipboard";
+import styles from "./contact-action.module.css";
 
 export function CopyMessageButton({ message }: { readonly message: string }): ReactElement {
-  const [status, setStatus] = useState("");
-  async function copy(): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(message);
-      setStatus("Mensaje copiado.");
-    } catch {
-      setStatus("Selecciona y copia el mensaje.");
-    }
-  }
-  return (
-    <>
-      <button type="button" className="copy-button" onClick={copy}>Copiar mensaje</button>
-      <span role="status" className="copy-status">{status}</span>
-    </>
-  );
+  const clipboard = useClipboard();
+  return <>
+    <button type="button" className={styles.copyButton} onClick={() => clipboard.copy(message)}>Copiar mensaje</button>
+    <span role="status" className={styles.copyStatus}>{clipboard.status}</span>
+  </>;
 }

@@ -1,0 +1,2 @@
+.surface { --tilt-x: 0; --tilt-y: 0; position: relative; transform: perspective(1100px) rotateY(calc(var(--tilt-x) * 4deg)) rotateX(calc(var(--tilt-y) * -3deg)); transition: transform 500ms var(--ease-out); }
+@media (hover: none), (prefers-reduced-motion: reduce) { .surface { transform: none; } }
