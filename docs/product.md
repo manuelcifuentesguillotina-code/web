@@ -1,12 +1,18 @@
 # Manolo Imprenta y Corte — decisiones de producto
 
-Registro del alcance confirmado durante el descubrimiento. La arquitectura y sus controles tienen una sola autoridad: [README.md](../README.md). Este documento no contiene textos finales de marketing ni datos para consumir desde la aplicación.
+Registro de los datos, el alcance y las expresiones comerciales confirmadas durante el descubrimiento. La arquitectura y sus controles tienen una sola autoridad: [README.md](../README.md). Este documento no define la UI ni es una fuente de datos para consumir desde la aplicación.
 
 ## Objetivo de la primera fase
 
 Presentar la empresa con una presencia de nivel corporativo y convertir el interés de empresas en conversaciones de cotización por WhatsApp. La exposición del contenido comercial es central para el negocio; no es una tienda en línea.
 
 El mercado objetivo son empresas de todo Chile. La captación comercial tiene alcance nacional; la modalidad de retiro o transporte se precisará durante el descubrimiento.
+
+## Estructura comercial de la primera entrega
+
+- Una landing general y una landing por producto, orientadas a generar conversaciones comerciales.
+- Cada elemento comercial ofrece contacto con Manolo y acceso al beneficio común. La acción se conserva estructuralmente aunque el número de trabajo esté pendiente.
+- Esta etapa define datos, contratos y comportamiento. La UI, sus componentes y su distribución se definirán después.
 
 ## Ubicación
 
@@ -50,12 +56,26 @@ Los datos del titular y de cuenta se registran únicamente en la fuente administ
 
 | Línea | Trabajos confirmados para mostrar |
 | --- | --- |
-| Papelería corporativa | Tarjetas de presentación, carpetas, hojas membretadas y sobres. |
+| Papelería corporativa | Tarjetas de presentación, carpetas, hojas membretadas, sobres y talonarios. |
 | Catálogos y material comercial | Catálogos de productos, folletos, dípticos, trípticos y fichas comerciales. |
 
 Esta selección cierra el alcance actual de impresión. No se incorporan más categorías a partir de capacidades técnicas generales ni se amplía la oferta sin una decisión del usuario.
 
 Al implementar el contenido, el catálogo operativo y los datos publicables pasan a las autoridades definidas en el README. Este documento conserva el alcance y referencias a esas fuentes, sin mantener una copia operativa del catálogo.
+
+## Cantidades orientativas
+
+Cada proyecto se evalúa individualmente. Los siguientes son ejemplos habituales, no mínimos obligatorios ni reglas para fijar precios:
+
+| Producto | Cantidad habitual informada |
+| --- | --- |
+| Carpetas | 100 unidades. |
+| Tarjetas de presentación | 100 unidades. |
+| Dípticos | 100 unidades. |
+| Trípticos | 100 unidades. |
+| Talonarios | 1 talonario, con la composición informada como 50 × 2 unidades. |
+
+Estas cantidades se mantienen independientes de tarifas y beneficios comerciales. No se extrapolan a los demás productos.
 
 ## Posicionamiento de precio
 
@@ -64,6 +84,13 @@ Al implementar el contenido, el catálogo operativo y los datos publicables pasa
 - Las referencias externas se registran en la [investigación de precios de imprentas chilenas](./research/printing-prices-chile.md). Son insumos de trabajo, no precios aprobados de la empresa.
 - Se adopta el uso interno de esas referencias. La landing presenta los productos y conduce la cotización a WhatsApp, sin publicar importes en esta fase.
 - Las tarifas propias y el alcance económico del diseño se definirán con el negocio.
+
+## Beneficio comercial común
+
+- Todos los elementos comerciales ofrecen la opción de solicitar un descuento del **20%** por WhatsApp.
+- Todos los mensajes de producto dirigidos a WhatsApp deben contener exactamente la frase **«quiero mi descuento de 20%»**. Se puede añadir el producto consultado, conservando esa frase.
+- El porcentaje y el mensaje se resuelven desde sus autoridades comunes definidas en el README; no se redactan ni configuran descuentos por separado en cada ficha o landing.
+- La conversación con Manolo determina la cotización. La base sobre la que se aplica el descuento y sus condiciones todavía deben precisarse; no se inventa un importe o cálculo automático en el sitio.
 
 ## Recorrido comercial
 
@@ -95,7 +122,7 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 - Actualmente no hay correo de contacto y no está previsto habilitarlo durante esta fase. No se mostrará un correo ficticio ni un placeholder de correo.
 - Número de WhatsApp comercial: `[WHATSAPP_PENDIENTE]`.
 - Placeholder autorizado por el usuario; definición del número prevista para el 18 de octubre de 2026.
-- Permite continuar el diseño y desarrollo. Se reemplazará en su fuente propietaria antes de activar el contacto; no representa un número real ni un enlace operativo.
+- El contacto y el beneficio siguen siendo parte obligatoria de cada elemento mientras el número está pendiente. El modelo conserva mensaje e intención con destino pendiente; el número se reemplazará en su fuente propietaria para abrir conversaciones reales con Manolo.
 
 ## Descubrimiento pendiente
 

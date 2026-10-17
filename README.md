@@ -98,7 +98,7 @@ Una base de datos compartida, si se incorpora, no elimina la propiedad de los da
 
 ### 4.1. Contexto previsto para la primera fase
 
-`commercial-presence` será el contexto propietario de la presencia comercial pública y del inicio de contacto. Su vocabulario comprende empresa, servicio, pieza comercial, contenido publicado e intención de consulta. Es una frontera prevista; todavía no hay módulos implementados.
+`commercial-presence` será el contexto propietario de la presencia comercial pública y del inicio de contacto. Su vocabulario comprende empresa, servicio, producto, contenido publicado, beneficio comercial e intención de consulta. Es una frontera prevista; todavía no hay módulos implementados.
 
 - Posee los datos públicos de empresa y contacto, la oferta comercial publicada, el contenido editorial y las referencias a sus recursos visuales.
 - La aplicación coordina la lectura del contenido publicado y la preparación del contacto mediante sus puertos. La infraestructura proporciona el contenido versionado y la adaptación de la intención de consulta a un enlace de WhatsApp.
@@ -146,7 +146,10 @@ Las siguientes ubicaciones son el contrato previsto dentro de `src/contexts/comm
 | Líneas de servicio | `infrastructure/content/services.ts` | Presentación de servicios e intenciones de consulta. |
 | Categorías de productos y su relación con los servicios | `infrastructure/content/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
 | Identidad y datos comerciales de cada producto | `infrastructure/content/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
-| Textos editoriales, orden de secciones y mensajes iniciales de consulta | `infrastructure/content/landing.ts` | Presentación, llamadas a la acción y metadatos editoriales de la landing. |
+| Selección, orden y textos editoriales de la landing general | `infrastructure/content/landing.ts` | Presentación y metadatos editoriales de la landing general. |
+| Slugs y contenido editorial de las landings de producto | `infrastructure/content/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
+| Beneficio comercial común vigente | `infrastructure/content/offers.ts` | Oferta e intenciones de contacto derivadas para todos los elementos comerciales. |
+| Plantilla común de mensajes de contacto | `infrastructure/content/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
 | Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Imágenes publicadas y representaciones para compartir. |
 | Construcción del destino de WhatsApp | Adaptador de contacto en `infrastructure/` | Todos los enlaces de contacto resueltos por la aplicación. |
 | Origen público y configuración de despliegue | Módulo validado en la frontera de servidor | URL canónica, enlaces absolutos y metadatos técnicos. |
@@ -182,7 +185,7 @@ El catálogo describe lo que la empresa ofrece. La composición editorial decide
 
 1. Cada producto se define una sola vez con ID estable, nombre, descripción comercial y referencias a su categoría y recursos visuales. No contiene JSX, componentes, clases CSS, posiciones de grilla, nombres de rutas ni URLs de WhatsApp.
 2. Cada relación tiene un solo propietario: el producto referencia su categoría y la categoría referencia su servicio. Las listas inversas se calculan; no se mantiene además un inventario manual de productos dentro de cada categoría o servicio. El servicio de corte conserva identidad propia aunque no tenga productos asociados.
-3. `landing.ts` contiene selecciones y orden editorial mediante IDs. Puede mostrar el mismo producto en más de un lugar sin copiar su definición. Las selecciones editoriales no redefinen su categoría ni sus datos comerciales.
+3. `landing.ts` contiene selecciones y orden editorial de la entrada general mediante IDs; `product-landings.ts` hace lo propio para las páginas de producto. Pueden mostrar el mismo producto en más de un lugar sin copiar su definición. Las selecciones editoriales no redefinen su categoría ni sus datos comerciales.
 4. Las imágenes se referencian por ID desde la autoridad de medios. Cambiar un placeholder, un recorte o una variante optimizada no cambia la identidad del producto ni obliga a editar una tarjeta.
 5. La aplicación resuelve las referencias y produce contratos públicos para los consumidores. Los modelos de vista pueden agrupar o seleccionar campos, pero no se convierten en fuentes editables paralelas del catálogo. La presentación recibe los datos por parámetros y no importa los módulos de contenido.
 6. La selección para SEO y contacto usa los mismos IDs y datos publicados. El adaptador de WhatsApp recibe la intención de consulta resuelta; no mantiene su propia tabla de nombres de productos. Las URLs y los tipos de Next.js se resuelven en sus adaptadores.
@@ -190,6 +193,16 @@ El catálogo describe lo que la empresa ofrece. La composición editorial decide
 8. Cambiar un nombre o una descripción modifica el catálogo; cambiar una selección o su orden modifica la composición editorial; cambiar una tarjeta modifica presentación; cambiar el proveedor de contenido modifica infraestructura. Estos cambios no obligan a redefinir el producto en sus consumidores. Si un cambio alcanza varias responsabilidades, cada una se actualiza en su autoridad.
 
 Los contratos públicos de producto se mantienen en `contracts.ts`. Los tipos internos y los mapeos respetan la dirección de dependencias: el núcleo no infiere sus contratos importando el contenido concreto de infraestructura. La validación estructural y las invariantes de referencia tienen una autoridad identificable; no se reescribe la misma regla en esquemas, componentes y adaptadores de contacto.
+
+### 5.4. Contacto y beneficio obligatorios, sin acoplarlos al precio
+
+- Todo modelo público de producto, servicio o landing incluye una intención de contacto y la referencia al beneficio común. Son campos obligatorios del contrato; una sección consumidora no puede perderlos al omitir propiedades opcionales.
+- El porcentaje se define una vez en la oferta común. La plantilla interpola ese valor y la aplicación construye un mensaje que conserva la frase comercial requerida por el documento de producto. Puede añadir contexto del producto desde su ID; ni componentes ni el adaptador de WhatsApp redactan variantes independientes.
+- El dominio valida el beneficio y la aplicación coordina su uso. El adaptador de WhatsApp recibe el mensaje resuelto y se ocupa del destino y la codificación. Esta fase prepara una solicitud comercial: no calcula un precio final, no aplica rebajas a totales ni procesa pagos.
+- El destino de contacto es una unión explícita entre `ready`, con enlace válido, y `pending`, con motivo y mensaje preparados. La intención de contacto y la oferta existen en ambos estados. Un número pendiente durante el trabajo no elimina esa intención ni genera un teléfono, enlace ficticio o destino alternativo; el contacto efectivo con Manolo requiere el número confirmado.
+- La publicación comercial exige un destino `ready`; el entorno de trabajo admite el estado `pending` sin fingir que ya permite abrir una conversación real. La representación visual de estos estados se definirá con la UI.
+- Cada producto puede declarar una cantidad orientativa con su unidad y, cuando corresponda, composición. Ese dato pertenece al catálogo: no es un mínimo obligatorio, una selección de compra, una tarifa ni un disparador de precio o descuento. Los importes se acuerdan por proyecto fuera de la aplicación.
+- Cambiar una cantidad orientativa no modifica la oferta ni el mensaje obligatorio. Cambiar el porcentaje actualiza sus representaciones derivadas mediante la misma fuente. No se introduce un motor de promociones ni una copia del beneficio dentro de cada producto.
 
 ## 6. Archivos pequeños y código explícito
 
@@ -221,14 +234,20 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 
 ### 7.1. Entrega de la presencia comercial
 
-- La landing pública se prerenderiza desde el contenido versionado, con Server Components por defecto. El contenido comercial principal y sus enlaces aparecen en el HTML inicial, sin esperar hidratación, efectos, interacción ni consultas desde el navegador.
+- Las landings públicas se prerenderizan desde el contenido versionado, con Server Components por defecto. El contenido comercial principal y sus enlaces aparecen en el HTML inicial, sin esperar hidratación, efectos, interacción ni consultas desde el navegador.
 - El idioma de publicación inicial es español de Chile (`es-CL`). País objetivo y cobertura operativa son conceptos distintos: no se infiere una dirección ni atención nacional a partir del mercado objetivo.
 - El contacto principal usa enlaces HTML reales a WhatsApp, con destino y mensaje resueltos mediante un único adaptador. No necesita SDK, API de mensajería, una ruta interna de redirección ni una mutación de servidor para abrir la conversación.
-- La intención de consulta puede identificar un servicio o pieza mediante su ID; su representación en el mensaje se obtiene del contenido vigente. El teléfono se normaliza y el mensaje se codifica en el adaptador, sin construir URLs en los componentes.
+- La intención de consulta identifica el producto o servicio por su ID cuando procede y conserva el beneficio común; su representación en el mensaje se obtiene del contenido vigente. El teléfono se normaliza y el mensaje se codifica en el adaptador, sin construir URLs en los componentes.
 - La navegación al contacto funciona sin JavaScript. Si más adelante se incorpora medición, un fallo del proveedor de analítica no puede impedirla; un clic de salida no demuestra que se haya enviado un mensaje o concretado una venta.
 - Títulos, descripciones y representaciones para compartir se adaptan a las APIs de metadatos de Next.js desde los contratos propios. Las URLs absolutas se derivan del origen validado. Los datos estructurados, si se incorporan, usan únicamente información confirmada y serialización segura.
 - Las imágenes declaran dimensiones o proporción y tamaños adecuados a su uso. La presentación evita desplazar el contenido y cargar JavaScript por necesidades puramente visuales. La revisión incluye lectura, navegación y contacto en móvil.
 - La primera entrega no incorpora cuentas, carrito, checkout, pagos, pedidos ni un cotizador automático. No se añaden almacenamiento, formularios o backend transaccional sin una necesidad de producto confirmada.
+
+### 7.2. Landing general y landings por producto
+
+- Se prevé una entrada general en `/` y una entrada de producto en `/productos/[slug]`. Son recorridos comerciales del mismo contexto, no una tienda. Los adaptadores de Next.js se mantienen delgados y consumen casos de uso compuestos en servidor.
+- Cada producto publicado tiene una landing. Los slugs únicos y su contenido editorial referencian IDs de producto; no copian fichas del catálogo. Las entradas de `generateStaticParams`, los enlaces y las URLs canónicas se derivan de esa resolución, sin listas manuales paralelas de rutas.
+- La aplicación resuelve producto, contenido, medios, cantidad orientativa, beneficio e intención de contacto. Un slug desconocido produce un resultado que el adaptador representa como página no encontrada; no publica un producto ficticio. Las páginas se prerenderizan con los mismos contratos, sin decidir todavía componentes o disposición visual.
 
 ## 8. Testing desde la primera implementación
 
@@ -264,6 +283,9 @@ Los controles de arquitectura deben fallar ante una infracción real y detectar 
 - Adaptador de WhatsApp: número normalizado, mensaje correctamente codificado y traducción de la intención de consulta. Su contrato se prueba inspeccionando la URL; las pruebas no envían mensajes reales.
 - Derivaciones SSOT: un cambio controlado de nombre, contacto o servicio se refleja en sus modelos de vista, metadatos y contacto aplicables, sin modificar las fuentes consumidoras.
 - Desacoplamiento de productos: cambiar el nombre de un producto se refleja en sus consumidores; reordenar una selección editorial conserva las identidades y los datos del catálogo; sustituir un recurso conserva la referencia del producto. Una referencia a un producto o categoría inexistente impide publicar.
+- Contacto y beneficio: todos los productos, servicios y landings conservan ambos contratos; los mensajes incluyen la frase requerida, el porcentaje vigente y el contexto correcto. Un cambio controlado del porcentaje se refleja en todos sus consumidores; una cantidad orientativa no altera el beneficio ni calcula importes.
+- Destino pendiente: el modelo de trabajo mantiene intención, mensaje y beneficio sin inventar un enlace; un destino confirmado resuelve el contacto de todos los consumidores desde su única autoridad.
+- Landings de producto: cobertura del catálogo publicado, slugs únicos, referencias válidas, metadatos coherentes y respuesta de página no encontrada para productos inexistentes.
 - Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
 - E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
 
@@ -318,7 +340,7 @@ La evolución hacia comercio electrónico conservará la separación entre catá
 
 Actualmente existe una base mínima de Next.js, React, TypeScript y Tailwind CSS, con la página inicial vacía. Los scripts definidos son `dev`, `build`, `start` y `lint`.
 
-El alcance inicial se registra en [docs/product.md](./docs/product.md), la decisión de contenido y contacto en [docs/decisions/0001-commercial-presence-ssot.md](./docs/decisions/0001-commercial-presence-ssot.md) y la separación entre catálogo y presentación en [docs/decisions/0002-product-catalog-decoupling.md](./docs/decisions/0002-product-catalog-decoupling.md). El contexto, las autoridades de contenido, la entrega pública y sus verificaciones descritos en esta guía están definidos como contrato; todavía no están implementados.
+El alcance inicial se registra en [docs/product.md](./docs/product.md). Los motivos de las decisiones se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). El contexto, las autoridades de contenido, la entrega pública y sus verificaciones descritos en esta guía están definidos como contrato; todavía no están implementados.
 
 Todavía no están configurados los bounded contexts, la composición, las herramientas de testing, los controles de arquitectura ni CI. La estructura de referencia y los comandos requeridos describen el contrato a implementar, no herramientas ya disponibles. Esta preparación debe completarse antes de incorporar comportamiento de aplicación.
 
