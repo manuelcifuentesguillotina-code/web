@@ -2,7 +2,6 @@ import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { mainPushes } from "./push-targets.mjs";
-import { verifyCommit } from "./verify-commit.mjs";
 
 const repository = fileURLToPath(new URL("../../", import.meta.url));
 try {
@@ -18,7 +17,6 @@ try {
         );
       }
     }
-    await verifyCommit(commit);
   }
 } catch (error) {
   console.error("Push a main cancelado: " + error.message);
