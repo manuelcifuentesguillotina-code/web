@@ -4,6 +4,8 @@ import {
   topicParams,
 } from "@/app/_discovery/topic-route";
 
+export const instant = false;
+
 export function generateStaticParams() {
   return topicParams("/proyectos/");
 }
