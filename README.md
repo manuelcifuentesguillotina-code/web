@@ -72,13 +72,15 @@ src/
         publication/           # Contrato y validación del contenido publicado
         presence/              # Casos de uso y construcción de vistas públicas
         discovery/             # Registro, selecciones y datos estructurados
-        pricing/               # Representación de tarifas aprobadas o cotización
+        pricing/               # Cotización, referencia identificada o tarifa aprobada
+        sharing/               # Contenido social derivado, independiente del renderer
       infrastructure/
         contact/               # Adaptador de WhatsApp
         location/              # Destino de mapas desde la dirección confirmada
         content/
           catalog/             # Productos, categorías y servicios
-          editorial/           # Landings, textos de marketing y plantillas de mensajes
+          editorial/           # Portada, textos comunes y plantillas de mensajes
+          landings/products/   # Un destino editorial por producto: ruta, búsqueda y redes
           discovery/           # Intenciones de búsqueda y selecciones por familia
           pricing/             # Estado y base de las tarifas por producto
           company.ts
@@ -106,6 +108,7 @@ tests/
 scripts/
   artwork/                     # Generador vectorial: paleta, piezas y escenas
   release/                     # Verificación aislada del commit que se publica
+  sharing/                     # Revisiones derivadas de SVG, renderer, paleta y fuente
 .githooks/
   pre-push                     # Control local antes de actualizar main
 public/
@@ -201,12 +204,13 @@ Las siguientes autoridades están implementadas dentro de `src/contexts/commerci
 | Identidad, datos comerciales y vocabulario de búsqueda de cada producto | `infrastructure/content/catalog/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. Los términos opcionales de búsqueda no cambian el nombre ni crean productos. |
 | Selección, orden y textos editoriales de la landing general | `infrastructure/content/editorial/landing.ts` | Presentación y metadatos editoriales de la landing general. |
 | Textos compartidos de marketing | `infrastructure/content/editorial/marketing.ts` | Navegación, encabezados, pie y textos comunes de las landings. |
-| Slugs y contenido editorial de las landings de producto | `infrastructure/content/editorial/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
-| Intenciones de búsqueda y nuevas landings | `infrastructure/content/discovery/` | Registro de documentos, selección por IDs, títulos y descripciones. Las rutas de producto siguen en su autoridad anterior. |
+| Ruta y mensajes de cada landing de producto | `infrastructure/content/landings/products/<product-id>/landing.ts` | Cada módulo posee slug, búsqueda y difusión de una campaña. Referencia catálogo por ID y hechos mediante variables. `product-landings.ts` reúne referencias, sin otro inventario editorial. |
+| Portada y landings de servicio, agrupación, proyecto y ubicación | `infrastructure/content/discovery/` | Intención de búsqueda y selección por IDs. No mantiene una lista paralela de productos. |
 | Precios por producto | `infrastructure/content/pricing/product-prices.ts` | Cotización, referencia externa identificada o tarifa propia aprobada. Fuente única de importes, base, IVA y procedencia publicados. Solo una tarifa propia aprobada produce ofertas estructuradas. Cantidades habituales y descuentos no calculan tarifas. |
 | Registro de documentos resueltos | `application/discovery/create-documents.ts` | Navegación, canonical, sitemap, migas de pan, JSON-LD y tarjetas sociales; es derivado, no una segunda fuente editorial. |
 | Beneficio comercial común vigente | `infrastructure/content/offers.ts` | Oferta e intenciones de contacto derivadas para todos los elementos comerciales. |
 | Plantilla común de mensajes de contacto | `infrastructure/content/editorial/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
+| Revisión de la imagen social | `infrastructure/sharing/generated/artwork-revisions.json` es derivado de `scripts/sharing/build-sharing-revisions.mjs` | Huellas de SVG, renderer, paleta y fuente. Composición combina esa huella con el contenido resuelto; no se edita el JSON ni se almacena otra tarifa o ficha. |
 | Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Logo e imágenes de servicios y productos. |
 | Construcción del destino de WhatsApp | `infrastructure/contact/whatsapp-destination.ts` | Todos los enlaces de contacto resueltos por la aplicación. |
 | Construcción del destino de visita | `infrastructure/location/google-maps-destination.ts` | Enlace de indicaciones derivado de la dirección y país de empresa mediante el puerto `LocationDestinationResolver`. Sin dirección paralela en componentes. |
@@ -307,6 +311,7 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 ### 7.2. Landing general y landings por producto
 
 - Hay una entrada general en `/` y una entrada de producto en `/productos/[slug]`. Son recorridos comerciales del mismo contexto, no una tienda. Los adaptadores de Next.js se mantienen delgados y consumen casos de uso compuestos en servidor.
+- Cada destino de producto tiene un módulo editorial propio en `content/landings/products/<product-id>/`. `search` posee título y descripción para buscadores; `social` posee los de Open Graph y Twitter. Ambos reciben `{product}` del catálogo y pueden usar `{company}`, `{locality}`, `{address}`, `{benefit}` y `{offerScope}` desde sus autoridades. No copian nombres, importes, dirección ni porcentajes. La validación exige identidad de producto, textos presentes y breves, y rechaza promesas genéricas de calidad o precisión.
 - Cada producto publicado tiene una landing. Los slugs únicos y su contenido editorial referencian IDs de producto; no copian fichas del catálogo. Las entradas de `generateStaticParams`, los enlaces y las URLs canónicas se derivan de esa resolución, sin listas manuales paralelas de rutas.
 - La aplicación resuelve producto, contenido, medios, cantidad orientativa, beneficio e intención de contacto. Un slug desconocido produce un resultado que el adaptador representa como página no encontrada; no publica un producto ficticio. `ensureStatic = "navigation"` en el layout exige HTML completo prerenderizado con la API de Next.js instalada, evitando servir una shell anticipada con estado 200 para productos inexistentes.
 
@@ -319,10 +324,11 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 - Las ofertas estructuradas requieren tarifas aprobadas; los importes externos o pendientes no producen `Offer`. La cantidad orientativa no determina la base de una tarifa.
 - Sitemap y robots dependen del modo de publicación: público permite rastreo y enumera el registro; revisión bloquea rastreo, usa `noindex, nofollow` y sitemap vacío. No se añade una fecha de modificación sin fuente real.
 - Cada página declara Open Graph y Twitter con imagen propia, dimensiones y alternativa textual. `/compartir/[key]` produce PNG 1200 × 630 desde el SVG maestro, los datos resueltos, los tokens y la fuente local mediante `ImageResponse`. Los SVG siguen siendo las imágenes de la interfaz. El trazado de Next.js incluye explícitamente esos archivos para Vercel.
+- La imagen declarada incluye `?v=<revisión>`: cambia al cambiar contenido visible, precio, beneficio, SVG, fuente, paleta o renderer. Open Graph, Twitter y JSON-LD usan esa misma URL. El origen y la ruta canónica no incluyen parámetros de campaña ni revisiones. Las URLs sin revisión continúan operativas; las revisiones anteriores no son un archivo histórico inmutable y pueden devolver el contenido vigente.
 - La caché HTTP de tarjetas tiene alcance por URL y despliegue: `s-maxage=86400`, `stale-while-revalidate=604800`; no es la fuente editable. Las plataformas sociales tienen cachés independientes. No se hace HTTP a una ruta propia para renderizar una tarjeta.
 - Los enlaces de las familias y productos son HTML rastreable. Las rutas desconocidas devuelven 404 y las imágenes desconocidas también; no se sustituye un destino inexistente por la portada con estado 200.
 
-La decisión está en [0007](./docs/decisions/0007-discovery-and-commercial-landings.md), la matriz en el [plan de entrega](./docs/plans/seo-commercial-landings.md) y las operaciones de buscadores y redes en [este procedimiento](./docs/operations/search-and-sharing.md).
+La evolución por producto y las revisiones sociales se documentan en [0011](./docs/decisions/0011-product-campaign-destinations.md). La decisión inicial está en [0007](./docs/decisions/0007-discovery-and-commercial-landings.md), la matriz en el [plan de entrega](./docs/plans/seo-commercial-landings.md) y las operaciones de buscadores y redes en [este procedimiento](./docs/operations/search-and-sharing.md).
 
 ### 7.3. Interfaz comercial y recursos vectoriales
 
@@ -476,7 +482,7 @@ Estos criterios son reglas de evolución. Los controles efectivamente automatiza
 
 ## 12. Estado del repositorio
 
-La implementación incluye 18 landings: portada, diez productos, dos servicios, dos agrupaciones, dos proyectos y una ubicación. El registro derivado mantiene metadatos propios, canonical, sitemap, robots, JSON-LD, migas de pan y tarjetas sociales PNG por página. Se mantienen composición de servidor, contenido versionado y validado, mensajes comerciales derivados y cantidades orientativas. Las tarifas están desacopladas y admiten importes aprobados; actualmente todos los productos siguen con precio por proyecto, pendientes de tarifas confirmadas. La interfaz utiliza monograma, paleta naranja con papel y tinta, tipografías locales y 14 SVG maestros. Las secciones, efectos y representaciones de difusión tienen módulos propios; la propuesta de marca queda sujeta a revisión.
+La implementación incluye 18 landings: portada, diez productos, dos servicios, dos agrupaciones, dos proyectos y una ubicación. El registro derivado mantiene metadatos propios, canonical, sitemap, robots, JSON-LD, migas de pan y tarjetas sociales PNG por página. Se mantienen composición de servidor, contenido versionado y validado, mensajes comerciales derivados y cantidades orientativas. Las tarifas están desacopladas: cuatro productos publican referencias externas identificadas y seis muestran precio por proyecto; no hay tarifas propias aprobadas. Cada producto tiene módulo editorial independiente para búsqueda y redes, con imagen social versionada por contenido. El primer bloque móvil presenta producto, precio y contacto antes de la ilustración; las migas se conservan en JSON-LD sin ocupar ese bloque. La interfaz utiliza monograma, paleta naranja con papel y tinta, tipografías locales y 14 SVG maestros. Las secciones, efectos y representaciones de difusión tienen módulos propios; la propuesta de marca queda sujeta a revisión.
 
 El alcance se registra en [docs/product.md](./docs/product.md). Los motivos se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). Los datos administrativos permanecen fuera del contenido público y de Git.
 

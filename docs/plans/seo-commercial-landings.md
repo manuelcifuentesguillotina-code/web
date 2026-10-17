@@ -46,7 +46,7 @@ Las palabras heredadas en dos slugs se conservan por estabilidad de URL; dejan d
 ## Etapa 3 — Autoridades y contratos
 
 - [x] Contratos de precio independientes del catálogo, del descuento y de la cantidad orientativa.
-- [x] Autoridad de tarifas con cantidad, moneda, IVA y estado explícitos; las referencias externas permanecen en investigación.
+- [x] Autoridad de tarifas con cantidad, moneda, IVA y estado explícitos; referencias externas identificadas autorizadas después de la entrega inicial, sin presentarlas como tarifas propias.
 - [x] Registro editorial de las nuevas landings: tipo, intención, selección y relaciones por ID.
 - [x] Modelo público de documentos de búsqueda y difusión, independiente de tipos de Next.js.
 - [x] Aplicación que resuelve referencias y produce el registro completo de páginas desde las fuentes existentes.
@@ -116,7 +116,7 @@ Las palabras heredadas en dos slugs se conservan por estabilidad de URL; dejan d
 
 ## Etapa 9 — Entrega y operación
 
-Las tarifas propias siguen pendientes de confirmación. La entrega implementa ambos estados, pero publica únicamente «Precio por proyecto» hasta aprobar importe, base e IVA. Search Console requiere la cuenta del propietario.
+Las tarifas propias siguen pendientes de confirmación. El contrato vigente distingue cotización, referencia externa y tarifa aprobada. Cuatro productos publican referencias externas identificadas; el resto, precio por proyecto. La evolución por destino de campaña está en [este plan](./product-campaign-destinations.md). Search Console requiere la cuenta del propietario.
 
 - [x] Documentar fuentes, estructura y procedimientos en el README y una decisión breve.
 - [x] Mantener cada etapa coherente en una rama de trabajo.
@@ -135,7 +135,9 @@ Las tarifas propias siguen pendientes de confirmación. La entrega implementa am
 
 La implementación técnica no garantiza una posición en buscadores ni sustituye la verificación del dominio en Search Console. Ese acceso y las tarifas definitivas se distinguen de lo implementado en código.
 
-## Evidencia de entrega — 2026-10-17
+## Evidencia de la entrega inicial — 2026-10-17
+
+Registro histórico de esos commits; los precios y contratos evolucionaron posteriormente según el README y los planes siguientes.
 
 - Implementación: `484a90b`; cobertura y documentación: `13fe28c`.
 - `pnpm check`: 101 pruebas satisfactorias (45 unitarias, 5 de integración, 13 de arquitectura, 4 de publicación y 34 de navegador).
