@@ -1,20 +1,6 @@
 import type { PriceDefinition } from "../../../application/publication/discovery-content";
 
 // Referencias externas verificadas y autorizadas para orientación; no son tarifas de Manolo.
-const foldedReference = {
-  status: "reference",
-  amount: 100000,
-  currency: "CLP",
-  basis: "1.000 unidades",
-  tax: "included",
-  reference: {
-    provider: "StudiOne",
-    href: "https://www.studione.cl/impresiones/tripticos/",
-    checkedOn: "2026-10-17",
-    scope: "20 × 28 cm · 170 g · plegado.",
-  },
-} as const;
-
 export const productPrices = [
   {
     productId: "business-cards",
@@ -49,7 +35,20 @@ export const productPrices = [
   { productId: "order-pads", status: "quote" },
   { productId: "catalogs", status: "quote" },
   { productId: "leaflets", status: "quote" },
-  { productId: "bifolds", ...foldedReference },
-  { productId: "trifolds", ...foldedReference },
+  { productId: "bifolds", status: "quote" },
+  {
+    productId: "trifolds",
+    status: "reference",
+    amount: 100000,
+    currency: "CLP",
+    basis: "1.000 unidades",
+    tax: "included",
+    reference: {
+      provider: "StudiOne",
+      href: "https://www.studione.cl/impresiones/tripticos/",
+      checkedOn: "2026-10-17",
+      scope: "20 × 28 cm · 170 g · plegado.",
+    },
+  },
   { productId: "sales-sheets", status: "quote" },
 ] satisfies readonly PriceDefinition[];
