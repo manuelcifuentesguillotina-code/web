@@ -69,11 +69,15 @@ src/
         ports/                 # Límites de contenido y destino de contacto
         publication/           # Contrato y validación del contenido publicado
         presence/              # Casos de uso y construcción de vistas públicas
+        discovery/             # Registro, selecciones y datos estructurados
+        pricing/               # Representación de tarifas aprobadas o cotización
       infrastructure/
         contact/               # Adaptador de WhatsApp
         content/
           catalog/             # Productos, categorías y servicios
           editorial/           # Landings, textos de marketing y plantillas de mensajes
+          discovery/           # Intenciones de búsqueda y selecciones por familia
+          pricing/             # Estado y base de las tarifas por producto
           company.ts
           offers.ts
           media.ts
@@ -86,6 +90,8 @@ src/
         contact/               # Componentes, dock y hooks de contacto
         motion/                # Componentes, hooks y geometría de efectos
         navigation/            # Identificadores y enlaces de sección
+        pricing/               # Presentación del precio y su base
+        sharing/               # Composición visual de tarjetas sociales
         components/            # Medios, iconos y encabezados reutilizados
         styles/                # Tokens y reglas base de presentación
   composition/
@@ -191,8 +197,11 @@ Las siguientes autoridades están implementadas dentro de `src/contexts/commerci
 | Categorías de productos y su relación con los servicios | `infrastructure/content/catalog/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
 | Identidad y datos comerciales de cada producto | `infrastructure/content/catalog/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
 | Selección, orden y textos editoriales de la landing general | `infrastructure/content/editorial/landing.ts` | Presentación y metadatos editoriales de la landing general. |
-| Textos compartidos de marketing | `infrastructure/content/editorial/marketing.ts` | Navegación, encabezados, proceso, pie y textos comunes de las landings. |
+| Textos compartidos de marketing | `infrastructure/content/editorial/marketing.ts` | Navegación, encabezados, pie y textos comunes de las landings. |
 | Slugs y contenido editorial de las landings de producto | `infrastructure/content/editorial/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
+| Intenciones de búsqueda y nuevas landings | `infrastructure/content/discovery/` | Registro de documentos, selección por IDs, títulos y descripciones. Las rutas de producto siguen en su autoridad anterior. |
+| Tarifas por producto | `infrastructure/content/pricing/product-prices.ts` | Precio visible, imagen social y ofertas estructuradas solo para importes aprobados. Cantidades habituales y descuentos no calculan tarifas. |
+| Registro de documentos resueltos | `application/discovery/create-documents.ts` | Navegación, canonical, sitemap, migas de pan, JSON-LD y tarjetas sociales; es derivado, no una segunda fuente editorial. |
 | Beneficio comercial común vigente | `infrastructure/content/offers.ts` | Oferta e intenciones de contacto derivadas para todos los elementos comerciales. |
 | Plantilla común de mensajes de contacto | `infrastructure/content/editorial/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
 | Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Logo e imágenes de servicios y productos. |
@@ -249,6 +258,7 @@ Los contratos públicos de producto se mantienen en `contracts.ts`. Los tipos in
 - El destino de contacto es una unión explícita entre `ready`, con enlace válido, y `pending`, con motivo y mensaje preparados. La intención de contacto y la oferta existen en ambos estados. Un número pendiente durante el trabajo no elimina esa intención ni genera un teléfono, enlace ficticio o destino alternativo; el contacto efectivo con Manolo requiere el número confirmado.
 - La publicación comercial exige un destino `ready`; el entorno de trabajo admite el estado `pending` sin fingir que ya permite abrir una conversación real. La presentación provisional usa enlaces reales para `ready` y un desplegable HTML nativo con el mensaje completo para `pending`; permite copiarlo o seleccionarlo, sin generar un enlace ficticio.
 - Cada producto puede declarar una cantidad orientativa con su unidad y, cuando corresponda, composición. Ese dato pertenece al catálogo: no es un mínimo obligatorio, una selección de compra, una tarifa ni un disparador de precio o descuento. Los importes se acuerdan por proyecto fuera de la aplicación.
+- El contrato de precio distingue cotización y tarifa aprobada. Una tarifa exige importe CLP positivo, base y estado de IVA; su publicación no calcula el total del proyecto ni aplica el incentivo. Las referencias de investigación no se convierten en precios propios. Sin tarifa aprobada se publica «Precio por proyecto».
 - Cambiar una cantidad orientativa no modifica la oferta ni el mensaje obligatorio. Cambiar el porcentaje actualiza sus representaciones derivadas mediante la misma fuente. No se introduce un motor de promociones ni una copia del beneficio dentro de cada producto.
 
 ## 6. Archivos pequeños y código explícito
@@ -295,6 +305,20 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 - Hay una entrada general en `/` y una entrada de producto en `/productos/[slug]`. Son recorridos comerciales del mismo contexto, no una tienda. Los adaptadores de Next.js se mantienen delgados y consumen casos de uso compuestos en servidor.
 - Cada producto publicado tiene una landing. Los slugs únicos y su contenido editorial referencian IDs de producto; no copian fichas del catálogo. Las entradas de `generateStaticParams`, los enlaces y las URLs canónicas se derivan de esa resolución, sin listas manuales paralelas de rutas.
 - La aplicación resuelve producto, contenido, medios, cantidad orientativa, beneficio e intención de contacto. Un slug desconocido produce un resultado que el adaptador representa como página no encontrada; no publica un producto ficticio. `ensureStatic = "navigation"` en el layout exige HTML completo prerenderizado con la API de Next.js instalada, evitando servir una shell anticipada con estado 200 para productos inexistentes.
+
+### 7.2.1. Descubrimiento, SEO y difusión
+
+- El registro de documentos integra portada, productos, servicios, agrupaciones, proyectos y la ubicación confirmada. Las rutas son únicas y las selecciones se resuelven desde IDs. No se generan páginas equivalentes por palabras clave ni ubicaciones ficticias.
+- El texto visible se reduce a producto, titular, precio, beneficio y contacto. Se eliminan antetítulos, explicaciones de proceso y leyendas decorativas de sus componentes y contratos. Títulos y descripciones de búsqueda tienen autoridad editorial propia y no añaden bloques ocultos a la interfaz.
+- `app/_discovery` adapta los contratos a metadata de Next.js y serialización segura de JSON-LD. El núcleo entrega datos propios y no importa APIs del framework. Negocio, sitio, página, producto o servicio, listas y migas usan identificadores derivados del origen y las rutas.
+- El horario legible y `OpeningHoursSpecification` se derivan del mismo arreglo de días y horas en empresa. Teléfono, dirección y país tampoco se configuran de nuevo para SEO. No se publican opiniones, calificaciones o disponibilidad inventadas.
+- Las ofertas estructuradas requieren tarifas aprobadas; los importes externos o pendientes no producen `Offer`. La cantidad orientativa no determina la base de una tarifa.
+- Sitemap y robots dependen del modo de publicación: público permite rastreo y enumera el registro; revisión bloquea rastreo, usa `noindex, nofollow` y sitemap vacío. No se añade una fecha de modificación sin fuente real.
+- Cada página declara Open Graph y Twitter con imagen propia, dimensiones y alternativa textual. `/compartir/[key]` produce PNG 1200 × 630 desde el SVG maestro, los datos resueltos, los tokens y la fuente local mediante `ImageResponse`. Los SVG siguen siendo las imágenes de la interfaz. El trazado de Next.js incluye explícitamente esos archivos para Vercel.
+- La caché HTTP de tarjetas tiene alcance por URL y despliegue: `s-maxage=86400`, `stale-while-revalidate=604800`; no es la fuente editable. Las plataformas sociales tienen cachés independientes. No se hace HTTP a una ruta propia para renderizar una tarjeta.
+- Los enlaces de las familias y productos son HTML rastreable. Las rutas desconocidas devuelven 404 y las imágenes desconocidas también; no se sustituye un destino inexistente por la portada con estado 200.
+
+La decisión está en [0007](./docs/decisions/0007-discovery-and-commercial-landings.md), la matriz en el [plan de entrega](./docs/plans/seo-commercial-landings.md) y las operaciones de buscadores y redes en [este procedimiento](./docs/operations/search-and-sharing.md).
 
 ### 7.3. Interfaz comercial y recursos vectoriales
 
@@ -417,7 +441,7 @@ La evolución hacia comercio electrónico conservará la separación entre catá
 
 ## 12. Estado del repositorio
 
-La implementación incluye landing general, landings de todo el catálogo, composición de servidor, contenido versionado y validado, mensajes comerciales derivados, cantidades orientativas y metadatos canónicos. La interfaz comercial actual incorpora una propuesta de monograma, paleta naranja con papel y tinta, tipografías locales y 14 recursos SVG producidos para el sitio. Las secciones y los efectos tienen módulos propios; la propuesta de marca queda sujeta a revisión.
+La implementación incluye 18 landings: portada, diez productos, dos servicios, dos agrupaciones, dos proyectos y una ubicación. El registro derivado mantiene metadatos propios, canonical, sitemap, robots, JSON-LD, migas de pan y tarjetas sociales PNG por página. Se mantienen composición de servidor, contenido versionado y validado, mensajes comerciales derivados y cantidades orientativas. Las tarifas están desacopladas y admiten importes aprobados; actualmente todos los productos siguen con precio por proyecto, pendientes de tarifas confirmadas. La interfaz utiliza monograma, paleta naranja con papel y tinta, tipografías locales y 14 SVG maestros. Las secciones, efectos y representaciones de difusión tienen módulos propios; la propuesta de marca queda sujeta a revisión.
 
 El alcance se registra en [docs/product.md](./docs/product.md). Los motivos se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). Los datos administrativos permanecen fuera del contenido público y de Git.
 

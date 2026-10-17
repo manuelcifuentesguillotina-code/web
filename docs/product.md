@@ -76,7 +76,7 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 - El usuario define un posicionamiento corporativo de precio alto pero razonable, coherente con el servicio profesional ofrecido.
 - La prioridad comercial es iniciar una conversación por WhatsApp para conocer el proyecto y establecer su precio.
 - Las referencias externas se registran en la [investigación de precios de imprentas chilenas](./research/printing-prices-chile.md). Son insumos de trabajo, no precios aprobados de la empresa.
-- Se adopta el uso interno de esas referencias. La landing presenta los productos y conduce la cotización a WhatsApp, sin publicar importes en esta fase.
+- La instrucción posterior solicita precio visible y textos breves. La estructura admite una tarifa aprobada con su base e IVA, independiente de la cantidad habitual. Hasta confirmar esos importes se publica «Precio por proyecto»; las referencias externas conservan su uso interno.
 - Las tarifas propias y el alcance económico del diseño se definirán con el negocio.
 
 ## Beneficio comercial común
@@ -88,6 +88,8 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 - La vigencia de la oferta está pendiente de definición; es independiente del plazo de producción.
 
 ## Recorrido comercial
+
+La entrega de búsqueda incorpora 18 destinos según el [plan](./plans/seo-commercial-landings.md). Los textos visibles evitan «corporativo», superlativos y explicaciones decorativas. Cada intención conserva título, descripción, canonical, datos estructurados e imagen para compartir. Los dos slugs heredados mantienen su URL aunque cambie el nombre mostrado. La difusión social deriva PNG de los mismos SVG; los medios del sitio siguen siendo vectoriales.
 
 En móvil se prioriza el acceso con una mano: productos y WhatsApp permanecen al alcance desde la barra inferior. El selector permite buscar por nombre, consultar sin resultados y cambiar de producto sin recorrer toda la portada. Las fichas anteponen nombre, beneficio y contacto a la ilustración. El destino de WhatsApp conserva el contexto del producto activo y deriva del catálogo y del contacto común.
 
