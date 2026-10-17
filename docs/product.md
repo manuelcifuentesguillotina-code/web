@@ -14,9 +14,17 @@ El mercado objetivo son empresas de todo Chile. La captación comercial tiene al
 - Cada elemento comercial ofrece contacto con Manolo y acceso al beneficio común. La acción se conserva estructuralmente aunque el número de trabajo esté pendiente.
 - Esta etapa define datos, contratos y comportamiento. La UI, sus componentes y su distribución se definirán después.
 
+## Criterio de redacción
+
+- Cada mensaje de WhatsApp y cada bloque de texto comercial de las landings debe ser directo, claro y de hasta **2 líneas**.
+- Se usan frases breves de acción. Se omiten preámbulos, explicaciones de cortesía y párrafos extensos.
+- La brevedad conserva el producto consultado, el beneficio y los datos necesarios, derivados de sus fuentes. No se resuelve cortando información.
+
 ## Ubicación
 
 Dirección para mostrar: **Eleuterio Ramírez 644, Santiago Centro**. El usuario solicita omitir el país en la dirección visible.
+
+Invitación presencial: **«Visítanos en {dirección}»**, usando la dirección confirmada de esta sección.
 
 ## Horario de atención
 
@@ -90,7 +98,8 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 - Todos los elementos comerciales ofrecen la opción de solicitar un descuento del **20%** por WhatsApp.
 - Todos los mensajes de producto dirigidos a WhatsApp deben contener exactamente la frase **«quiero mi descuento de 20%»**. Se puede añadir el producto consultado, conservando esa frase.
 - El porcentaje y el mensaje se resuelven desde sus autoridades comunes definidas en el README; no se redactan ni configuran descuentos por separado en cada ficha o landing.
-- La conversación con Manolo determina la cotización. La base sobre la que se aplica el descuento y sus condiciones todavía deben precisarse; no se inventa un importe o cálculo automático en el sitio.
+- Es un incentivo comercial para iniciar la conversación y se aplica sobre el total del proyecto, incluido el diseño cuando forme parte del encargo. La conversación con Manolo determina la cotización; el sitio no calcula importes ni aplica el descuento automáticamente.
+- La vigencia de la oferta está pendiente de definición; es independiente del plazo de producción.
 
 ## Recorrido comercial
 
@@ -107,6 +116,7 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 ## Entrega de los trabajos
 
 - Manolo entrega el producto terminado.
+- Plazo base de producción: **3 días hábiles**, previa conversación y confirmación por WhatsApp según el proyecto.
 - Los costos de retiro o transporte corren por cuenta del cliente.
 
 ## Material visual
