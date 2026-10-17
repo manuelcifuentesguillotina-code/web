@@ -1,18 +1,26 @@
-import Link from "next/link";
 import type { ReactElement } from "react";
-import type { CompanyView } from "../../contracts";
-import { CommercialMedia } from "../components/commercial-media";
+import type { CompanyView, MarketingCopy } from "../../../contracts";
+import { BrandLockup } from "../../brand/brand-lockup";
+import { ContactActionView } from "../../contact/components/contact-action";
+import { sectionHref } from "../../navigation/section-links";
+import styles from "./site-header.module.css";
 
-export function SiteHeader({ company }: { readonly company: CompanyView }): ReactElement {
-  return (
-    <header className="site-header">
-      <Link href="/" className="brand">
-        {company.logo.status === "ready"
-          ? <span className="brand-logo"><CommercialMedia media={company.logo} /></span>
-          : <span className="logo-placeholder" aria-label={"Placeholder: " + company.logo.label}>LOGO<br />PENDIENTE</span>}
-        <span>{company.name}</span>
-      </Link>
-      <a className="header-location" href="#visitanos">{company.address}</a>
-    </header>
-  );
+interface HeaderProps {
+  readonly company: CompanyView;
+  readonly copy: MarketingCopy["navigation"];
+  readonly home: boolean;
+}
+
+export function SiteHeader({ company, copy, home }: HeaderProps): ReactElement {
+  return <header className={styles.header}>
+    <div className={"container " + styles.inner}>
+      <BrandLockup company={company} />
+      <nav className={styles.navigation} aria-label="Navegación principal">
+        <a href={sectionHref("catalog", home)}>{copy.products}</a>
+        <a href={sectionHref("services", home)}>{copy.services}</a>
+        <a href={sectionHref("visit", home)}>{copy.visit}</a>
+      </nav>
+      <div className={styles.contact}><ContactActionView action={company.contact} variant="ink" /></div>
+    </div>
+  </header>;
 }

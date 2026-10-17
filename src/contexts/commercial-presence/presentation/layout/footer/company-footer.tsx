@@ -1,18 +1,22 @@
 import type { ReactElement } from "react";
-import type { CompanyView } from "../../contracts";
-import { ContactActionView } from "../contact/contact-action";
+import type { CompanyView, MarketingCopy } from "../../../contracts";
+import { ContactActionView } from "../../contact/components/contact-action";
+import { ArrowIcon } from "../../components/icons/arrow-icon";
+import { sectionIds } from "../../navigation/section-links";
+import styles from "./company-footer.module.css";
 
-export function CompanyFooter({ company }: { readonly company: CompanyView }): ReactElement {
-  return (
-    <footer id="visitanos" className="company-footer">
-      <div>
-        <h2 className="visit-address short-copy">{company.visit}</h2>
-        <p className="short-copy">{company.hours}</p>
+export function CompanyFooter({ company, copy }: { readonly company: CompanyView; readonly copy: MarketingCopy["footer"] }): ReactElement {
+  return <footer id={sectionIds.visit} className={styles.footer}>
+    <div className="container">
+      <div className={styles.top}>
+        <div><p className="eyebrow">{copy.eyebrow}</p><h2 className={styles.heading + " short-copy"}>{copy.heading}</h2></div>
+        <div className={styles.contact}><p>{copy.channel}</p><ContactActionView action={company.contact} /></div>
       </div>
-      <div className="footer-contact">
-        <p className="short-copy">{company.production}</p>
-        <ContactActionView action={company.contact} />
+      <div className={styles.details}>
+        <div><h3 className={styles.address + " short-copy"}>{company.visit}</h3><p className={styles.hours + " short-copy"}>{company.hours}</p></div>
+        <p className={styles.production + " short-copy"}>{company.production}</p>
       </div>
-    </footer>
-  );
+      <div className={styles.bottom}><span>{company.name}</span><a href="#contenido">Volver arriba <ArrowIcon /></a></div>
+    </div>
+  </footer>;
 }

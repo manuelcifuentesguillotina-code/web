@@ -7,7 +7,7 @@ export const marketing = {
     browse: "Explorar productos",
     artCaption: "Productos ilustrados. Tu marca va aquí.",
   },
-  services: { eyebrow: "Dos especialidades. Un solo lugar.", heading: "Del diseño\nal producto terminado." },
+  services: { eyebrow: "Dos especialidades. Un solo lugar.", heading: "Del diseño\na tus manos." },
   catalog: {
     eyebrow: "Hecho para tu empresa",
     heading: "Tu próximo proyecto\nempieza aquí.",
@@ -22,7 +22,7 @@ export const marketing = {
       { id: "production", title: "Recibe tu producto.", detail: "Impresión y terminaciones resueltas." },
     ],
   },
-  footer: { eyebrow: "Hagamos tu próximo trabajo", heading: "La buena impresión\nempieza conversando.", channel: "Cotiza por WhatsApp" },
+  footer: { eyebrow: "Hagamos tu próximo trabajo", heading: "Tu próximo\ntrabajo, aquí.", channel: "Cotiza por WhatsApp" },
   product: { back: "Todos los productos", quantity: "Cantidad orientativa", related: "También para tu empresa" },
   ribbon: ["Diseño", "Impresión", "Terminaciones", "Corte"],
 } satisfies MarketingCopy;
