@@ -14,6 +14,8 @@ El navegador conserva la búsqueda y los filtros locales. Aplicación entrega no
 
 Un proxy limitado a las familias comerciales consulta el registro resuelto por composición. Solo un destino desconocido se reescribe internamente a la recuperación raíz estática `/404`; conserva URL solicitada y estado 404. No hace HTTP interno ni repite slugs. El grafo lo trata como adaptador de entrada con las restricciones de `app`.
 
+La respuesta declara `status: 404` explícitamente. La comprobación en el dominio reprodujo que Vercel podía servir el HTML correcto con estado 200 cuando la reescritura omitía ese estado, aunque `next start` devolviera 404. Una prueba del adaptador verifica la respuesta entregada al alojamiento, además del E2E HTTP local.
+
 ## Alternativas
 
 Una ruta o query para abrir el selector añadiría URLs de interfaz sin intención comercial propia. Un panel solo visual no resolvería Atrás. Un mapa incrustado añadiría carga e integración sin mejorar la acción requerida. Mantener nombres o contactos en el selector duplicaría el catálogo. Cambiar la prerenderización del sitio para resolver la recuperación no corrige el comportamiento observado; una redirección perdería la URL solicitada.

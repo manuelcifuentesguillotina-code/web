@@ -59,4 +59,6 @@ Los servidores publicados por Vercel se consultan en [Working with nameservers](
 
 ## Estado
 
+Antes de dar una publicación por terminada, comprobar en el dominio real una URL inexistente bajo cada familia comercial. Exigir simultáneamente estado HTTP 404, el HTML de recuperación sin scripts y conservación de la URL solicitada. Una página que parece un error con estado 200 no cumple esa comprobación. El E2E con `next start` no sustituye la verificación del adaptador de alojamiento.
+
 La autenticación SSH y el remoto de GitHub están verificados. El dominio responde con HTTPS desde Vercel y sirve el rediseño con navegación móvil. La fuente de contacto contiene un número provisional autorizado. Cada publicación se verifica mediante el estado de Vercel del commit y una visita al dominio; un push por sí solo no acredita un despliegue completado. Las variables privadas del proyecto se administran en Vercel, sin copiarlas al repositorio.

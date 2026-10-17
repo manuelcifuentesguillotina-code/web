@@ -6,7 +6,7 @@ export function proxy(request: NextRequest): NextResponse {
     return NextResponse.next();
 
   // Resolve unknown commercial params through the static root 404, including HTML without scripts.
-  return NextResponse.rewrite(new URL("/404", request.url));
+  return NextResponse.rewrite(new URL("/404", request.url), { status: 404 });
 }
 
 export const config = {

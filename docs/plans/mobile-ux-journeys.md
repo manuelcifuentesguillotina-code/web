@@ -33,11 +33,12 @@ Los importes pendientes conservan «Precio por proyecto». La entrega no incorpo
 
 ## Evidencia local
 
-- `pnpm check`: lint, TypeScript, 50 pruebas unitarias, 7 de integración, 14 de arquitectura, 4 de publicación y 54 E2E satisfactorios, incluidas las referencias de precio autorizadas posteriormente.
+- Controles de entrega: lint, TypeScript, 52 pruebas unitarias, 7 de integración, 14 de arquitectura, 4 de publicación y 54 E2E, incluidas las referencias de precio y la regresión del estado explícito de reescritura.
 - Tarjeta inicial en 390 px: de unos 506 px a 196 px antes de incorporar referencias de precio.
 - Atrás, Adelante, trabajo actual, navegación lenta, contacto contextual, mapas y cuatro familias de 404 sin scripts verificados.
 - Geometría de teclado simulada con `VisualViewport`; no equivale a una prueba en teléfono físico.
 - WebKit descargado, pero su ejecución no está disponible por dependencias de sistema ausentes. La revisión en Safari y dispositivos físicos queda pendiente. No se presenta como cobertura ejecutada.
+- La comprobación real detectó un estado 200 en la recuperación reescrita de Vercel, que el servidor local no reproducía. La respuesta del proxy declara ahora 404 explícito y dos pruebas del adaptador impiden volver a depender del estado heredado del destino.
 
 ## Referencias autorizadas durante la entrega
 
