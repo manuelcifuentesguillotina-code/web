@@ -89,6 +89,8 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 
 ## Recorrido comercial
 
+En móvil se prioriza el acceso con una mano: productos y WhatsApp permanecen al alcance desde la barra inferior. El selector permite buscar por nombre, consultar sin resultados y cambiar de producto sin recorrer toda la portada. Las fichas anteponen nombre, beneficio y contacto a la ilustración. El destino de WhatsApp conserva el contexto del producto activo y deriva del catálogo y del contacto común.
+
 1. Una empresa entiende la oferta de impresión y corte.
 2. Reconoce el trabajo que necesita y accede al contacto principal.
 3. Inicia una conversación por WhatsApp para continuar la cotización fuera del sitio.

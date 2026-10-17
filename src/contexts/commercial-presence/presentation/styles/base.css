@@ -29,6 +29,7 @@ a {
   text-decoration: none;
 }
 button,
+input,
 textarea {
   font: inherit;
 }
@@ -55,6 +56,22 @@ summary:focus-visible,
 textarea:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 5px;
+}
+input:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+@media (max-width: 780px) {
+  body {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+  html {
+    scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 .container {
   width: min(100% - var(--gutter) * 2, var(--site-width));

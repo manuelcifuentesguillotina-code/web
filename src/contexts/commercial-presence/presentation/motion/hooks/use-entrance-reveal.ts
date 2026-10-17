@@ -8,7 +8,8 @@ export function useEntranceReveal(): RefObject<HTMLDivElement | null> {
     if (
       !root.current ||
       !("IntersectionObserver" in window) ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)")
+        .matches
     )
       return;
     const elements =

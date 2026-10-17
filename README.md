@@ -303,6 +303,7 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 - Los efectos son mejoras progresivas: inclinación del arte con puntero, apariciones al desplazarse y cinta animada con pausa HTML nativa. Respetan `prefers-reduced-motion`; el contenido inicial y los enlaces funcionan sin JavaScript.
 - Los hooks de interacción pertenecen a `contact/hooks/` o `motion/hooks/`. La geometría pura pertenece a `motion/lib/`; no se crea un directorio global de utilidades. Los observadores y frames se limpian al desmontar.
 - El contacto flotante conserva la intención de la landing activa. Aparece tras dejar atrás su cabecera comercial y se retira al entrar el pie, donde ya existe una acción visible. No sustituye los enlaces nativos del resto de la página.
+- En móvil, una barra inferior permanente sustituye al contacto flotante de escritorio y reserva espacio para no tapar el contenido. Combina el contacto contextual con un selector de productos derivado del catálogo. El selector ofrece búsqueda sin tildes, foco modal, cierre con Escape, bloqueo temporal de desplazamiento y enlaces a servicios y visita; su enlace de entrada conserva navegación al catálogo sin JavaScript. Las fichas muestran primero información y contacto, y después la ilustración.
 
 La decisión y sus consecuencias se registran en [0005](./docs/decisions/0005-marketing-interface-and-vector-artwork.md).
 

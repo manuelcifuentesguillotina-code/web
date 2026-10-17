@@ -13,6 +13,8 @@ export function ProductLanding({
     <SiteShell
       company={view.company}
       copy={view.copy}
+      navigation={view.navigation}
+      currentProductId={view.product.id}
       contact={view.product.contact}
     >
       <ProductHero view={view} />

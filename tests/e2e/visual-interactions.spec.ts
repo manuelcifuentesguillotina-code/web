@@ -22,8 +22,15 @@ test("styles, fonts and SVG artwork survive the production pipeline", async ({
     await page.evaluate(() =>
       [document.body, document.querySelector("h1")].every((element) => {
         if (!element) return false;
-        const family = getComputedStyle(element).fontFamily.split(",")[0].trim().replaceAll('"', "");
-        return [...document.fonts].some((font) => font.family.replaceAll('"', "") === family && font.status === "loaded");
+        const family = getComputedStyle(element)
+          .fontFamily.split(",")[0]
+          .trim()
+          .replaceAll('"', "");
+        return [...document.fonts].some(
+          (font) =>
+            font.family.replaceAll('"', "") === family &&
+            font.status === "loaded",
+        );
       }),
     ),
   ).toBe(true);
@@ -58,6 +65,19 @@ test("floating contact preserves product context and yields to the footer", asyn
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/productos/tarjetas-de-presentacion");
+  if ((page.viewportSize()?.width ?? 0) <= 780) {
+    const actions = page.getByRole("navigation", { name: "Acciones móviles" });
+    await expectContact(
+      actions.locator(".contact-link"),
+      "Tarjetas de presentación",
+    );
+    await page.locator("footer").scrollIntoViewIfNeeded();
+    await expectContact(
+      actions.locator(".contact-link"),
+      "Tarjetas de presentación",
+    );
+    return;
+  }
   const dock = page.getByRole("complementary", { name: "Contacto directo" });
   await expect(dock).toHaveCount(0);
   await page.locator(".product-card").first().scrollIntoViewIfNeeded();

@@ -1,0 +1,39 @@
+.bar {
+  display: none;
+}
+@media (max-width: 780px) {
+  .bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: minmax(96px, 0.9fr) minmax(0, 1.6fr);
+    gap: 12px;
+    padding: 10px max(12px, env(safe-area-inset-right))
+      max(10px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+  }
+  .browse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 50px;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+  .bar :global(.contact-link) {
+    min-height: 50px;
+    padding: 12px;
+    font-size: 0.75rem;
+    gap: 8px;
+  }
+  .bar :global(.contact-link) > span {
+    gap: 8px;
+  }
+  .bar :global(.contact-link) > svg {
+    width: 18px;
+  }
+}

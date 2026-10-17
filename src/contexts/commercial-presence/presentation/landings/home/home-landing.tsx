@@ -13,7 +13,12 @@ export function HomeLanding({
   readonly view: HomeView;
 }): ReactElement {
   return (
-    <SiteShell company={view.company} copy={view.copy} home>
+    <SiteShell
+      company={view.company}
+      copy={view.copy}
+      navigation={view.navigation}
+      home
+    >
       <HeroSection view={view} />
       <CraftRibbon items={view.copy.ribbon} />
       <ServicesSection view={view} />

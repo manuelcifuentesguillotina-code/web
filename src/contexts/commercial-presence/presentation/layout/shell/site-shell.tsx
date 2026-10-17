@@ -3,15 +3,19 @@ import type {
   CompanyView,
   ContactAction,
   MarketingCopy,
+  CatalogNavigationGroup,
 } from "../../../contracts";
 import { SiteHeader } from "../header/site-header";
 import { CompanyFooter } from "../footer/company-footer";
 import { MotionSurface } from "../../motion/components/motion-surface";
 import { ContactDock } from "../../contact/dock/contact-dock";
+import { MobileActions } from "../../navigation/mobile/mobile-actions";
 
 interface SiteShellProps {
   readonly company: CompanyView;
   readonly copy: MarketingCopy;
+  readonly navigation: readonly CatalogNavigationGroup[];
+  readonly currentProductId?: string;
   readonly children: ReactNode;
   readonly home?: boolean;
   readonly contact?: ContactAction;
@@ -20,6 +24,8 @@ interface SiteShellProps {
 export function SiteShell({
   company,
   copy,
+  navigation,
+  currentProductId,
   children,
   home = false,
   contact,
@@ -35,6 +41,14 @@ export function SiteShell({
       </MotionSurface>
       <CompanyFooter company={company} copy={copy.footer} />
       <ContactDock action={contact ?? company.contact} />
+      <MobileActions
+        groups={navigation}
+        copy={copy}
+        contact={contact ?? company.contact}
+        companyContact={company.contact}
+        currentProductId={currentProductId}
+        home={home}
+      />
     </>
   );
 }

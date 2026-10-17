@@ -25,12 +25,6 @@ export function ProductHero({
         <span>{product.name}</span>
       </nav>
       <div className={styles.grid}>
-        <figure className={styles.visual}>
-          <TiltSurface>
-            <CommercialMedia media={product.media} priority />
-          </TiltSurface>
-          <figcaption>{copy.hero.artCaption}</figcaption>
-        </figure>
         <div className={styles.copy}>
           <p className="eyebrow">{product.category}</p>
           <h1 className={styles.title + " short-copy"}>{product.name}</h1>
@@ -54,6 +48,12 @@ export function ProductHero({
             {company.production}
           </p>
         </div>
+        <figure className={styles.visual}>
+          <TiltSurface>
+            <CommercialMedia media={product.media} priority />
+          </TiltSurface>
+          <figcaption>{copy.hero.artCaption}</figcaption>
+        </figure>
       </div>
     </section>
   );

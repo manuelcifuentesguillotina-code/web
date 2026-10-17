@@ -61,10 +61,16 @@
   .title {
     font-size: 1.6rem;
   }
+  .title a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
   .body {
     padding: 22px;
   }
   .description {
     margin-bottom: 20px;
+    font-size: 0.875rem;
   }
 }
