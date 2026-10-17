@@ -32,7 +32,7 @@ export function architectureViolations(modules: readonly SourceModule[]): readon
           violations.push("Dependencia externa en núcleo: " + entry.file + " -> " + edge.specifier);
         }
         if (edge.specifier.startsWith("@/") || edge.specifier.startsWith(".")) {
-          if (!edge.target && !edge.specifier.endsWith(".css")) {
+          if (!edge.target) {
             violations.push("Import no resuelto: " + entry.file + " -> " + edge.specifier);
           }
         }

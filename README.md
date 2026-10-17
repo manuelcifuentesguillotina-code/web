@@ -96,6 +96,9 @@ tests/
   e2e/                         # Pruebas de la aplicación ejecutándose
 scripts/
   artwork/                     # Generador vectorial: paleta, piezas y escenas
+  release/                     # Verificación aislada del commit que se publica
+.githooks/
+  pre-push                     # Control local antes de actualizar main
 public/
   artwork/                     # SVG derivados, versionados y regenerables
   fonts/                       # Fuentes locales y sus licencias
@@ -372,6 +375,9 @@ La base de desarrollo debe ofrecer estos comandos, con el mismo comportamiento e
 | `pnpm test` | Suite unitaria determinista, sin modo watch. |
 | `pnpm test:integration` | Contratos de adaptadores e integraciones aisladas. |
 | `pnpm test:architecture` | Límites de capas y contextos, ciclos y separación servidor/cliente. |
+| `pnpm test:release` | Regresiones del aislamiento de commits y selección del destino de push. |
+| `pnpm hooks:install` | Instalar el control local de publicación sin reemplazar hooks ajenos. |
+| `pnpm release:verify [commit]` | Verificar una revisión comprometida en un directorio temporal independiente. |
 | `pnpm assets:build` | Regeneración de los recursos SVG desde su fuente y los tokens. |
 | `pnpm build` | Generación de SVG y compilación de producción de Next.js. |
 | `pnpm test:e2e` | Suite de navegador contra la compilación de producción. |
@@ -387,6 +393,17 @@ Un cambio está terminado cuando:
 6. Explica cualquier comprobación que no se haya podido ejecutar; no declara una validación que no ocurrió.
 
 CI debe ejecutar los controles obligatorios y bloquear la integración ante fallos. No se aceptan `.skip`, `.only`, desactivaciones globales o exclusiones amplias para conseguir una ejecución verde. Una excepción debe ser específica, justificada y tener una condición explícita de retirada.
+
+### 10.1. Publicaciones completas y verificadas
+
+- Un refactor conserva coherencia dentro de cada etapa publicable. Mover un archivo, actualizar sus imports y ajustar sus consumidores forman una unidad; no se publican fragmentos incompatibles en `main`.
+- La unidad que se verifica es el SHA enviado a `main`. Una comprobación del directorio de trabajo no acredita ese commit: podría depender de archivos sin añadir o de reparaciones todavía no incluidas.
+- `.githooks/pre-push` verifica el destino remoto, aunque la rama local tenga otro nombre. Rechaza borrar o reescribir `main`; antes de actualizarla, extrae el commit con `git archive`, instala su lockfile y ejecuta `pnpm check` en ese directorio aislado. Después compila en modo público. Un fallo cancela el push; el directorio temporal se elimina al terminar. No copia `.env`, `node_modules`, `.next` ni archivos sin versionar.
+- `pnpm install` instala el hook mediante `prepare` en checkouts locales; `pnpm hooks:install` permite instalarlo expresamente. El instalador omite CI, Vercel y directorios sin repositorio propio, y no reemplaza otra ruta de hooks. Este mecanismo requiere Node.js 24, pnpm, Git, tar y las dependencias de navegador de la suite en el equipo que publica.
+- Los controles locales no son una frontera de seguridad: otras herramientas o usuarios pueden omitirlos. GitHub debe exigir el estado `check` satisfactorio y actualizado para el SHA que recibe `main`, incluidos administradores, y rechazar force-push y eliminación. La configuración preparada está en `.github/main-protection.json`; la protección no se considera activa hasta verificarla en GitHub.
+- Las etapas se desarrollan en una rama de trabajo y se verifican en CI antes de avanzar `main` al mismo SHA. Vercel continúa publicando desde `main`. La existencia del workflow por sí sola no obliga a esperar su resultado.
+
+El procedimiento y el estado externo están en [publicación protegida](./docs/operations/release-gates.md); el motivo se registra en [0006](./docs/decisions/0006-verify-committed-releases.md).
 
 ## 11. Evolución de la arquitectura
 
@@ -404,7 +421,7 @@ La implementación incluye landing general, landings de todo el catálogo, compo
 
 El alcance se registra en [docs/product.md](./docs/product.md). Los motivos se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). Los datos administrativos permanecen fuera del contenido público y de Git.
 
-Todos los comandos de la sección 10 están implementados. GitHub Actions ejecuta `pnpm check`; la ejecución remota y la protección de ramas requieren un repositorio conectado y su configuración. Tener el workflow no acredita que esas políticas externas estén habilitadas.
+Todos los comandos de la sección 10 están implementados. GitHub Actions ejecuta `pnpm check`; el control local de push está instalado en este checkout. La protección de `main` en GitHub está pendiente de activación administrativa; se comprobó que la rama no estaba protegida al incorporar estos controles. Tener el workflow o el hook no acredita que esa política del servidor esté habilitada.
 
 Se usa Node.js 24 y la versión de pnpm declarada en `package.json`. La instalación está consolidada en `pnpm-lock.yaml`; `pnpm-workspace.yaml` declara explícitamente los paquetes autorizados para compilar dependencias nativas.
 

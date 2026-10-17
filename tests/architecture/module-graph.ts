@@ -38,7 +38,10 @@ export function readModuleGraph(root: string): readonly SourceModule[] {
     let client = false;
     function add(specifier: string, typeOnly = false, star = false): void {
       const resolved = ts.resolveModuleName(specifier, file, parsed.options, ts.sys).resolvedModule;
-      edges.push({ specifier, typeOnly, star, target: resolved?.resolvedFileName });
+      const stylesheet = specifier.startsWith(".") && specifier.endsWith(".css")
+        ? path.resolve(path.dirname(file), specifier) : undefined;
+      const target = resolved?.resolvedFileName ?? (stylesheet && ts.sys.fileExists(stylesheet) ? stylesheet : undefined);
+      edges.push({ specifier, typeOnly, star, target });
     }
     function visit(node: ts.Node): void {
       if (ts.isExpressionStatement(node) && ts.isStringLiteral(node.expression)) {

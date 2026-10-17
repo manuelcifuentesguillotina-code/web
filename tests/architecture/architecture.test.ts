@@ -28,6 +28,23 @@ describe("architecture graph", () => {
     expect(architectureViolations(readModuleGraph(process.cwd()))).toEqual([]);
   });
 
+  it("rejects stale imports after moving a landing into its own folder", () => {
+    expect(fixture({
+      "contexts/a/presentation/landings/product/product-landing.ts": 'import { header } from "../layout/site-header";',
+      "contexts/a/presentation/layout/header/site-header.ts": "export const header = 1;",
+    }).join(" ")).toContain("Import no resuelto");
+  });
+
+  it("requires imported stylesheets to exist instead of exempting all CSS paths", () => {
+    expect(fixture({
+      "contexts/a/presentation/card.ts": 'import "./missing.module.css";',
+    }).join(" ")).toContain("Import no resuelto");
+    expect(fixture({
+      "contexts/a/presentation/card.ts": 'import "./card.module.css";',
+      "contexts/a/presentation/card.module.css": ".card { display: block; }",
+    })).toEqual([]);
+  });
+
   it("resolves aliases and rejects type imports across private context boundaries", () => {
     expect(fixture({
       "contexts/a/application/use.ts": 'import type { X } from "@/contexts/b/domain/x";',
