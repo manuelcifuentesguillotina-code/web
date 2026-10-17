@@ -1,6 +1,6 @@
-# Corte e Impresión
+# Manolo Imprenta — guía de software
 
-Contrato de arquitectura y desarrollo del proyecto. Define cómo se organiza, implementa y verifica el software desde el primer día. El negocio, las funcionalidades y el diseño visual quedan fuera de este documento.
+Contrato de arquitectura y desarrollo del proyecto. Define cómo se organiza, implementa y verifica el software desde el primer día. Las decisiones de negocio y alcance se registran en [docs/product.md](./docs/product.md); la estrategia de marketing, los textos finales y el diseño visual se desarrollan aparte. Aquí se documentan sus consecuencias técnicas.
 
 Las reglas de este README son obligatorias. Una regla pendiente de automatización sigue siendo obligatoria; no debe presentarse como un control ya implementado.
 
@@ -73,6 +73,7 @@ tests/
   architecture/                # Dependencias, ciclos y límites entre contextos
   e2e/                         # Pruebas de la aplicación ejecutándose
 docs/
+  product.md                   # Decisiones de producto y alcance confirmado
   decisions/                   # Decisiones arquitectónicas y sus motivos
 ```
 
@@ -94,6 +95,18 @@ No se crean carpetas globales `utils`, `helpers`, `services` o `types` para cód
 
 Una base de datos compartida, si se incorpora, no elimina la propiedad de los datos por contexto. Una operación que necesite cruzar límites debe definir explícitamente su coordinación, consistencia y tratamiento de fallos.
 
+### 4.1. Contexto previsto para la primera fase
+
+`commercial-presence` será el contexto propietario de la presencia comercial pública y del inicio de contacto. Su vocabulario comprende empresa, servicio, pieza comercial, contenido publicado e intención de consulta. Es una frontera prevista; todavía no hay módulos implementados.
+
+- Posee los datos públicos de empresa y contacto, la oferta comercial publicada, el contenido editorial y las referencias a sus recursos visuales.
+- La aplicación coordina la lectura del contenido publicado y la preparación del contacto mediante sus puertos. La infraestructura proporciona el contenido versionado y la adaptación de la intención de consulta a un enlace de WhatsApp.
+- La presentación recibe modelos públicos serializables. Los detalles del proveedor y las fuentes de contenido se conectan en `composition`; no se importan desde componentes.
+- Las líneas de servicio y las secciones de la landing pertenecen a este contexto; no son contextos independientes por tener tarjetas o componentes distintos.
+- El contacto inicia una conversación externa. No registra una cotización, un pedido ni una venta dentro de la aplicación.
+
+Se crean únicamente las capas y módulos que tengan responsabilidad efectiva al implementar estos recorridos. Esta frontera no justifica entidades artificiales, repositorios genéricos ni un motor de páginas configurable.
+
 ## 5. SSOT: una autoridad por concepto
 
 SSOT significa que cada concepto tiene una definición autoritativa, un propietario y consumidores identificables. No significa que toda representación de un dato deba ser idéntica.
@@ -101,6 +114,7 @@ SSOT significa que cada concepto tiene una definición autoritativa, un propieta
 | Elemento | Fuente de verdad | Regla |
 | --- | --- | --- |
 | Arquitectura vigente | Este README. | Otros documentos y `AGENTS.md` enlazan aquí; no copian estas reglas. |
+| Decisiones de producto y alcance | [docs/product.md](./docs/product.md). | Distingue lo confirmado de lo pendiente; no funciona como fuente de datos en ejecución. |
 | Motivos de decisiones | `docs/decisions/`. | Registran contexto y consecuencias; un cambio de arquitectura actualiza también el README. |
 | Invariantes y comportamiento | Dominio del contexto propietario. | No se reimplementan en componentes, acciones o adaptadores. |
 | Contratos públicos | `contracts.ts` del contexto propietario. | Los consumidores importan o derivan los tipos; no mantienen copias manuales. |
@@ -116,6 +130,42 @@ La validación de transporte comprueba estructura y formato. El dominio protege 
 Los DTO, modelos de dominio, modelos de persistencia y modelos de vista pueden ser distintos cuando la frontera lo requiere. Su traducción es explícita y se prueba. No se fuerza un tipo universal para evitar un mapeo.
 
 No se promueve código a `shared` por parecido superficial. Primero se identifica una semántica realmente común y un propietario. Las abstracciones compartidas no dependen de contextos concretos, y las de servidor no se reexportan hacia cliente.
+
+### 5.1. Propiedad del contenido comercial
+
+La primera fase usará contenido tipado y versionado en el repositorio. No requiere CMS, base de datos ni edición remota. Cambiar la fuente de contenido en el futuro debe permitir conservar los contratos públicos y la presentación; la nueva fuente reemplaza a la anterior, sin mantener dos autoridades activas.
+
+Las siguientes ubicaciones son el contrato previsto dentro de `src/contexts/commercial-presence/`; no son archivos ya disponibles:
+
+| Concepto | Autoridad prevista | Consumidores derivados |
+| --- | --- | --- |
+| Identidad, contacto y datos públicos confirmados | `infrastructure/content/company.ts` | Cabecera, pie, datos de contacto y representaciones de empresa para buscadores. |
+| Servicios, agrupaciones y piezas comerciales | `infrastructure/content/services.ts` | Secciones de oferta, navegación por servicio e intenciones de consulta. |
+| Textos editoriales, orden de secciones y mensajes iniciales de consulta | `infrastructure/content/landing.ts` | Presentación, llamadas a la acción y metadatos editoriales de la landing. |
+| Recursos visuales y sus descripciones | `infrastructure/content/media.ts` | Imágenes publicadas y representaciones para compartir. |
+| Construcción del destino de WhatsApp | Adaptador de contacto en `infrastructure/` | Todos los enlaces de contacto resueltos por la aplicación. |
+| Origen público y configuración de despliegue | Módulo validado en la frontera de servidor | URL canónica, enlaces absolutos y metadatos técnicos. |
+
+Estos módulos mantienen responsabilidades separadas; no se concentran en un archivo universal de configuración. Los recursos binarios tienen una ubicación física única y el contenido los referencia, sin duplicarlos por sección.
+
+Reglas de consumo:
+
+1. Los hechos del negocio se definen una vez. Componentes, metadatos y mensajes de contacto no mantienen copias de nombre, teléfono, dirección, horarios o cobertura.
+2. Servicios, piezas, recursos e intenciones usan identificadores estables. Los textos visibles, slugs e índices de arrays no se utilizan como identidad. Cambiar un título comercial no rompe sus referencias. Las listas consumidoras se derivan de las fuentes propietarias o las referencian por ID; no mantienen enumeraciones paralelas de la oferta.
+3. El contenido editorial referencia identificadores y recibe los hechos necesarios mediante composición explícita. No repite datos operativos dentro de textos que deban corregirse manualmente en varios lugares.
+4. Las representaciones para HTML, metadatos, datos estructurados y contacto se derivan de los mismos datos publicados. Una descripción editorial específica puede diferir del texto visible; no se mantienen catálogos o perfiles de empresa paralelos para SEO.
+5. Un dato público tiene el mismo propietario aunque lo use servidor y cliente. Las variables de entorno se reservan para configuración de despliegue e integraciones; no son una segunda copia del contenido comercial.
+6. Los valores pendientes se mantienen fuera del contenido publicado. Durante diseño y desarrollo se permiten placeholders explícitos autorizados por el usuario; no se tratan como datos confirmados ni como destinos de contacto operativos. No se inventan teléfonos, cobertura, capacidades, plazos, clientes o testimonios para completar la interfaz.
+7. Durante el descubrimiento, el documento de producto registra lo confirmado. Al implementar los módulos, los valores operativos pasan a su fuente propietaria y el documento conserva alcance, decisiones y referencias, sin una tabla espejo que deba sincronizarse.
+
+### 5.2. Validación y cambios de contenido
+
+- La fuente se valida antes de publicar: campos requeridos, formato, identificadores únicos, referencias existentes y destinos de contacto válidos. TypeScript no sustituye la validación de entradas externas ni de configuración.
+- Un contenido requerido inválido bloquea la publicación con un error identificable. Un dato opcional ausente se omite según el contrato; no activa un valor ficticio o un canal alternativo silencioso.
+- La validez del contenido pertenece a su contrato de publicación. Su lectura, validación y adaptación no se repiten en cada componente.
+- Con la fuente versionada, una actualización se publica mediante una nueva compilación y despliegue; la versión desplegada identifica el contenido servido. No se añade una caché independiente para estos datos sin una necesidad concreta.
+- Una modificación identifica el concepto y su autoridad, modifica allí el dato o regla y verifica sus consumidores derivados. Renombrar una pieza no exige buscar y reemplazar etiquetas por toda la aplicación.
+- La llegada de un CMS, otro canal o nuevas páginas requiere identificar qué responsabilidad cambia y cómo se conserva o migra su autoridad. No se implementan anticipadamente conectores, un registro de plugins ni un framework de campañas.
 
 ## 6. Archivos pequeños y código explícito
 
@@ -145,6 +195,17 @@ No se promueve código a `shared` por parecido superficial. Primero se identific
 
 Antes de introducir APIs o convenciones de Next.js, se consulta la documentación de la versión instalada en `node_modules/next/dist/docs/`, como exige `AGENTS.md`.
 
+### 7.1. Entrega de la presencia comercial
+
+- La landing pública se prerenderiza desde el contenido versionado, con Server Components por defecto. El contenido comercial principal y sus enlaces aparecen en el HTML inicial, sin esperar hidratación, efectos, interacción ni consultas desde el navegador.
+- El idioma de publicación inicial es español de Chile (`es-CL`). País objetivo y cobertura operativa son conceptos distintos: no se infiere una dirección ni atención nacional a partir del mercado objetivo.
+- El contacto principal usa enlaces HTML reales a WhatsApp, con destino y mensaje resueltos mediante un único adaptador. No necesita SDK, API de mensajería, una ruta interna de redirección ni una mutación de servidor para abrir la conversación.
+- La intención de consulta puede identificar un servicio o pieza mediante su ID; su representación en el mensaje se obtiene del contenido vigente. El teléfono se normaliza y el mensaje se codifica en el adaptador, sin construir URLs en los componentes.
+- La navegación al contacto funciona sin JavaScript. Si más adelante se incorpora medición, un fallo del proveedor de analítica no puede impedirla; un clic de salida no demuestra que se haya enviado un mensaje o concretado una venta.
+- Títulos, descripciones y representaciones para compartir se adaptan a las APIs de metadatos de Next.js desde los contratos propios. Las URLs absolutas se derivan del origen validado. Los datos estructurados, si se incorporan, usan únicamente información confirmada y serialización segura.
+- Las imágenes declaran dimensiones o proporción y tamaños adecuados a su uso. La presentación evita desplazar el contenido y cargar JavaScript por necesidades puramente visuales. La revisión incluye lectura, navegación y contacto en móvil.
+- La primera entrega no incorpora cuentas, carrito, checkout, pagos, pedidos ni un cotizador automático. No se añaden almacenamiento, formularios o backend transaccional sin una necesidad de producto confirmada.
+
 ## 8. Testing desde la primera implementación
 
 Cada comportamiento nuevo incorpora la prueba adecuada en el mismo cambio. Una corrección de un defecto incorpora una prueba de regresión que reproduzca el fallo cuando sea viable.
@@ -172,6 +233,16 @@ Reglas de la suite:
 - Un caso de uso de servidor debe seguir rechazando entradas inválidas o no autorizadas aunque se omita la interfaz.
 
 Los controles de arquitectura deben fallar ante una infracción real y detectar también cambios de límites en archivos nuevos. Una revisión manual o una búsqueda de texto no sustituye el análisis del grafo.
+
+### 8.1. Contratos de contenido y contacto que deberán verificarse
+
+- Validación de publicación: contenido requerido ausente, identificadores duplicados, referencias rotas y teléfono inválido se rechazan con errores concretos.
+- Adaptador de WhatsApp: número normalizado, mensaje correctamente codificado y traducción de la intención de consulta. Su contrato se prueba inspeccionando la URL; las pruebas no envían mensajes reales.
+- Derivaciones SSOT: un cambio controlado de nombre, contacto o servicio se refleja en sus modelos de vista, metadatos y contacto aplicables, sin modificar las fuentes consumidoras.
+- Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
+- E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
+
+Estas comprobaciones son requisitos de la implementación, no suites actualmente disponibles. No se sustituyen por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.
 
 ## 9. Errores, configuración y efectos
 
@@ -219,6 +290,8 @@ No se introduce complejidad por tamaño esperado ni se relajan límites para ace
 ## 12. Estado del repositorio
 
 Actualmente existe una base mínima de Next.js, React, TypeScript y Tailwind CSS, con la página inicial vacía. Los scripts definidos son `dev`, `build`, `start` y `lint`.
+
+El alcance inicial se registra en [docs/product.md](./docs/product.md) y la decisión de contenido y contacto en [docs/decisions/0001-commercial-presence-ssot.md](./docs/decisions/0001-commercial-presence-ssot.md). El contexto, las autoridades de contenido, la entrega pública y sus verificaciones descritos en esta guía están definidos como contrato; todavía no están implementados.
 
 Todavía no están configurados los bounded contexts, la composición, las herramientas de testing, los controles de arquitectura ni CI. La estructura de referencia y los comandos requeridos describen el contrato a implementar, no herramientas ya disponibles. Esta preparación debe completarse antes de incorporar comportamiento de aplicación.
 
