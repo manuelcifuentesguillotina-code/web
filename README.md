@@ -91,6 +91,7 @@ tests/
 docs/
   product.md                   # Decisiones de producto y alcance confirmado
   research/                    # Referencias externas fechadas, con fuentes y límites
+  operations/                  # Procedimientos de despliegue y operación
   decisions/                   # Decisiones arquitectónicas y sus motivos
 ```
 
@@ -147,6 +148,7 @@ SSOT significa que cada concepto tiene una definición autoritativa, un propieta
 | Investigación de mercado | `docs/research/`, con fecha de consulta y fuentes. | Registra observaciones externas; no constituye una tarifa propia ni se importa como contenido de producción. |
 | Datos administrativos no publicados | `.private/business-administration.md`, registro local excluido de Git. | Mantiene los datos del titular del negocio, de cuenta y del titular del dominio en una sola fuente, con sus responsabilidades diferenciadas; no se importa ni se copia al contenido público. |
 | Motivos de decisiones | `docs/decisions/`. | Registran contexto y consecuencias; un cambio de arquitectura actualiza también el README. |
+| Línea de operación y destino de despliegue | [Procedimiento de Vercel](./docs/operations/vercel-deployment.md). | Identifica el repositorio y proyecto acordados; cada herramienta verifica la identidad utilizada y mantiene separados los perfiles de otros proyectos. |
 | Invariantes y comportamiento | Dominio del contexto propietario. | No se reimplementan en componentes, acciones o adaptadores. |
 | Contratos públicos | `contracts.ts` del contexto propietario. | Los consumidores importan o derivan los tipos; no mantienen copias manuales. |
 | Formato de entrada externa | Esquema en el adaptador de entrada propietario. | El esquema valida el transporte y permite inferir su tipo cuando la herramienta lo soporta. |
@@ -388,4 +390,4 @@ pnpm check
 
 El modo predeterminado es `preview`: permite WhatsApp pendiente y publica metadatos `noindex, nofollow`. Para publicar comercialmente se confirma `company.phone` en su autoridad y se compila con `SITE_MODE=public`; una configuración pendiente o inválida bloquea esa compilación. `SITE_ORIGIN` permite sobrescribir el origen de despliegue; su único valor por defecto está en `publication-config.ts`. No se duplica el teléfono en variables de entorno. Un cambio de modo exige recompilar.
 
-La implementación local no configura DNS ni alojamiento. Vercel es el proveedor confirmado por el usuario; la vinculación del proyecto y del dominio se gestiona allí. Hay un WhatsApp provisional en su única fuente; su reemplazo requiere recompilar y desplegar de nuevo. Quedan pendientes el número definitivo, la identidad visual, las fotografías tratadas y la revisión final de marketing. Analítica y comercio electrónico siguen fuera de esta entrega.
+La implementación local no configura DNS ni alojamiento. Git local autentica con la cuenta propietaria del repositorio; el usuario aportó una captura de un despliegue `Ready` en el proyecto de Vercel acordado. La identidad de operación y los estados pendientes de conexión del dominio se registran en [el procedimiento operativo](./docs/operations/vercel-deployment.md). Hay un WhatsApp provisional en su única fuente; su reemplazo requiere recompilar y desplegar de nuevo. Quedan pendientes el número definitivo, la identidad visual, las fotografías tratadas y la revisión final de marketing. Analítica y comercio electrónico siguen fuera de esta entrega.
