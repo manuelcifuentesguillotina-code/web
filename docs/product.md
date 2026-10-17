@@ -4,9 +4,9 @@ Registro del alcance y las decisiones comerciales confirmadas durante el descubr
 
 ## Ambición del negocio
 
-Convertir Manolo Imprenta y Corte en la imprenta más importante de Chile para los trabajos definidos en su catálogo. Esta es la dirección de largo plazo declarada por el propietario. Orienta la calidad del producto, la captación nacional y las decisiones de evolución; no se publica como una posición de mercado ya alcanzada.
+Convertir Manolo Imprenta y Corte en la imprenta más importante de Chile para los trabajos definidos en su catálogo. Esta es la dirección de largo plazo declarada por el usuario para el proyecto. Orienta la calidad del producto, la captación nacional y las decisiones de evolución; no se publica como una posición de mercado ya alcanzada.
 
-El propietario prevé invertir millones de pesos en el crecimiento del negocio. El monto, el calendario y su distribución siguen por definir. La inversión exige continuidad de los recorridos de venta, contenido mantenible y cambios verificables. Sus consecuencias de ingeniería se fijan en la [guía de software](../README.md#111-criterios-de-evolución-para-el-crecimiento-comercial).
+El usuario prevé invertir millones de pesos en el crecimiento del negocio. El monto, el calendario y su distribución siguen por definir. La inversión exige continuidad de los recorridos de venta, contenido mantenible y cambios verificables. Sus consecuencias de ingeniería se fijan en la [guía de software](../README.md#111-criterios-de-evolución-para-el-crecimiento-comercial).
 
 La prioridad de producto es convertir interés en conversaciones útiles con Manolo y en trabajos entregados. La medición prevista distingue visitas, clics de contacto, conversaciones y ventas; el estado real de esa implementación se mantiene en la sección de medición de este documento.
 

@@ -4,7 +4,7 @@ Estado: implementada. La ejecución del workflow y la revisión publicada se ver
 
 ## Contexto
 
-El propietario define una ambición nacional y una inversión relevante para el crecimiento del negocio. Su autoridad está en [producto](../product.md#ambición-del-negocio). La arquitectura debe permitir ampliar capacidades y sostener los recorridos comerciales existentes con cambios verificables.
+El usuario define una ambición nacional y una inversión relevante para el crecimiento del proyecto. Su autoridad está en [producto](../product.md#ambición-del-negocio). La arquitectura debe permitir ampliar capacidades y sostener los recorridos comerciales existentes con cambios verificables.
 
 El control local de publicación ya comprobaba un snapshot del commit tanto en modo de revisión como en modo público. GitHub Actions ejecutaba `pnpm check` con el modo predeterminado de revisión. Por ello, el estado remoto `check` no incluía por sí mismo una compilación con los requisitos de publicación pública.
 
