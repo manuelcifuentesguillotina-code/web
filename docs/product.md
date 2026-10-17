@@ -12,7 +12,7 @@ El mercado objetivo son empresas de todo Chile. La captación comercial tiene al
 
 - Una landing general y una landing por producto, orientadas a generar conversaciones comerciales.
 - Cada elemento comercial ofrece contacto con Manolo y acceso al beneficio común. La acción se conserva estructuralmente aunque el número de trabajo esté pendiente.
-- La implementación incluye datos, contratos, comportamiento y una presentación provisional para revisarlos. La identidad visual y el diseño final quedan pendientes.
+- La implementación incluye datos, contratos, comportamiento y una interfaz de marketing con ilustraciones SVG, solicitada después de revisar la estructura. La aprobación final de marca queda pendiente.
 
 ## Mantenimiento
 
@@ -38,13 +38,13 @@ Los días y las horas confirmados tienen su única autoridad operativa en [compa
 
 - El dominio adquirido es el origen predeterminado de [publication-config.ts](../src/composition/configuration/publication-config.ts).
 - La titularidad fue aclarada por el usuario y se registra únicamente en la fuente administrativa local indicada en el README. Es distinta de la titularidad del negocio.
-- La compra y disponibilidad para el proyecto están confirmadas por el usuario y la captura aportada. El alojamiento y la configuración de DNS siguen pendientes.
+- La compra y disponibilidad para el proyecto están confirmadas por el usuario. Vercel ya muestra un despliegue operativo; el usuario introdujo sus servidores de nombres en NIC Chile y decidió esperar hasta mañana para continuar la comprobación del dominio. La configuración efectiva se verifica en el procedimiento operativo, sin dar por resuelta la propagación.
 
-## Identidad visual pendiente
+## Dirección visual de la interfaz
 
-No existe una identidad visual definida. Logo, colores y tipografía se identifican claramente como placeholders. El logo pertenece a [media.ts](../src/contexts/commercial-presence/infrastructure/content/media.ts); los estilos provisionales se mantienen en [tokens.css](../src/app/styles/tokens.css).
+El usuario autorizó reemplazar la presentación inicial por una dirección visual de marketing corporativo con presencia fuerte: tipografía grande, naranja, tonos de papel y tinta e ilustraciones SVG elaboradas. Se eliminó la paleta verde de la propuesta anterior.
 
-Los estilos necesarios para trabajar en la presentación son provisionales y deben distinguirse de decisiones de marca aprobadas.
+El monograma propuesto pertenece a [media.ts](../src/contexts/commercial-presence/infrastructure/content/media.ts); la paleta y las familias tipográficas se consumen desde [tokens.css](../src/contexts/commercial-presence/presentation/styles/tokens.css). Esta propuesta de interfaz no equivale a una identidad corporativa definitiva. La [dirección visual](./design/visual-direction.md) registra la intención y las fuentes de las tipografías.
 
 Los datos del titular y de cuenta se registran únicamente en la fuente administrativa local indicada en el README. Su incorporación al registro no define una razón social ni los convierte en contenido público de la landing.
 
@@ -112,7 +112,7 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 ## Material visual
 
 - Hay fotografías de trabajos propios disponibles para la presentación de los productos seleccionados.
-- La etapa actual usa placeholders visuales; la selección e incorporación de fotografías reales queda para una etapa posterior.
+- La etapa actual usa exclusivamente ilustraciones SVG para el monograma, la portada, los servicios y los productos, por instrucción posterior del usuario. No se presentan como fotografías de trabajos propios.
 - Las fotografías finales deben tratarse en Photoshop antes de su incorporación.
 - La calidad gráfica y el cuidado de la presentación deben reflejar el nivel de impresión profesional del negocio. La selección, el tratamiento y la revisión del material son parte del trabajo de producto.
 
@@ -125,7 +125,7 @@ El comercio electrónico se incorporará en una fase posterior. Su alcance, prio
 
 ## Descubrimiento pendiente
 
-Se continuará preguntando de a un aspecto por vez. Permanecen pendientes el WhatsApp definitivo, la modalidad de retiro o transporte, la selección y el tratamiento de los recursos visuales y la conexión del dominio al alojamiento de Vercel confirmado por el usuario. También quedan por definir la estrategia de marketing, la redacción final y el diseño. El contenido se modifica desde código; no hay una decisión pendiente sobre autogestión.
+Se continuará preguntando de a un aspecto por vez. Permanecen pendientes el WhatsApp definitivo, la modalidad de retiro o transporte y la comprobación del dominio en Vercel. La interfaz y los recursos SVG ya cuentan con una propuesta implementada; quedan por revisar la marca definitiva, la estrategia de marketing y la redacción final. Las fotografías podrán seleccionarse y tratarse en una etapa posterior. El contenido se modifica desde código; no hay una decisión pendiente sobre autogestión.
 
 La implementación actual es revisable en modo `preview`, con metadatos que impiden la indexación. La compilación comercial exige confirmar el contacto antes de habilitar `SITE_MODE=public`.
 

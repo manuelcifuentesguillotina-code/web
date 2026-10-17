@@ -15,8 +15,16 @@ export function createVersionedContentSource(): ContentSource {
   return {
     load(): SiteContent {
       return {
-        company, services, categories: productCategories, products, productLandings,
-        offer: commonOffer, messages: contactMessages, media, home: landing, copy: marketing,
+        company,
+        services,
+        categories: productCategories,
+        products,
+        productLandings,
+        offer: commonOffer,
+        messages: contactMessages,
+        media,
+        home: landing,
+        copy: marketing,
       };
     },
   };

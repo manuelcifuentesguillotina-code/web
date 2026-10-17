@@ -1,4 +1,42 @@
-.dock { position: fixed; right: 24px; bottom: 24px; z-index: 40; padding: 14px; width: 265px; background: var(--color-ink); color: var(--color-paper); box-shadow: 0 12px 40px #19151230; animation: arrive 400ms var(--ease-out); }
-.caption { display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .1em; font-size: .65rem; font-weight: 800; }
-@keyframes arrive { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@media (max-width: 700px) { .dock { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); width: calc(100% - 24px); display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 12px; padding: 10px 12px; } .caption { margin: 0; font-size: .62rem; } }
+.dock {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  padding: 14px;
+  width: 265px;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--color-ink) 19%, transparent);
+  animation: arrive 400ms var(--ease-out);
+}
+.caption {
+  display: block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+@keyframes arrive {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media (max-width: 700px) {
+  .dock {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: calc(100% - 24px);
+    padding: 10px 12px;
+  }
+  .caption {
+    margin-bottom: 7px;
+    font-size: 0.62rem;
+  }
+}

@@ -1,6 +1,46 @@
-.brand { display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.mark { display: block; width: 46px; height: 46px; }
-.name { display: flex; flex-direction: column; gap: 4px; }
-.name strong { font-family: var(--font-display); text-transform: uppercase; font-size: 28px; font-weight: 400; letter-spacing: -.01em; line-height: 1; }
-.name > span { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: .13em; }
-@media (max-width: 700px) { .brand { gap: 8px; } .mark { width: 35px; height: 35px; } .name strong { font-size: 23px; } .name > span { font-size: 7px; letter-spacing: .07em; } }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.mark {
+  display: block;
+  width: 46px;
+  height: 46px;
+}
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.name strong {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.name > span {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+@media (max-width: 700px) {
+  .brand {
+    gap: 8px;
+  }
+  .mark {
+    width: 35px;
+    height: 35px;
+  }
+  .name strong {
+    font-size: 23px;
+  }
+  .name > span {
+    font-size: 7px;
+    letter-spacing: 0.07em;
+  }
+}

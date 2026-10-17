@@ -12,15 +12,19 @@ interface HeaderProps {
 }
 
 export function SiteHeader({ company, copy, home }: HeaderProps): ReactElement {
-  return <header className={styles.header}>
-    <div className={"container " + styles.inner}>
-      <BrandLockup company={company} />
-      <nav className={styles.navigation} aria-label="Navegación principal">
-        <a href={sectionHref("catalog", home)}>{copy.products}</a>
-        <a href={sectionHref("services", home)}>{copy.services}</a>
-        <a href={sectionHref("visit", home)}>{copy.visit}</a>
-      </nav>
-      <div className={styles.contact}><ContactActionView action={company.contact} variant="ink" /></div>
-    </div>
-  </header>;
+  return (
+    <header className={styles.header}>
+      <div className={"container " + styles.inner}>
+        <BrandLockup company={company} />
+        <nav className={styles.navigation} aria-label="Navegación principal">
+          <a href={sectionHref("catalog", home)}>{copy.products}</a>
+          <a href={sectionHref("services", home)}>{copy.services}</a>
+          <a href={sectionHref("visit", home)}>{copy.visit}</a>
+        </nav>
+        <div className={styles.contact}>
+          <ContactActionView action={company.contact} variant="ink" />
+        </div>
+      </div>
+    </header>
+  );
 }

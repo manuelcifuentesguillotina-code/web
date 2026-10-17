@@ -1,16 +1,33 @@
 import type { MediaView } from "../../contracts";
 
-function artwork(id: string, filename: string, label: string, size = 1000): MediaView {
+function artwork(
+  id: string,
+  filename: string,
+  label: string,
+  size = 1000,
+): MediaView {
   return {
-    id, status: "ready", src: "/artwork/" + filename + ".svg", label,
-    width: size, height: size === 80 ? 80 : 800,
+    id,
+    status: "ready",
+    src: "/artwork/" + filename + ".svg",
+    label,
+    width: size,
+    height: size === 80 ? 80 : 800,
   };
 }
 
 export const media: readonly MediaView[] = [
   artwork("brand-logo", "brand", "Monograma gráfico", 80),
-  artwork("corporate-hero", "hero", "Composición ilustrada de papelería corporativa"),
-  artwork("printing-main", "printing", "Diseño, impresión y terminaciones: ilustración"),
+  artwork(
+    "corporate-hero",
+    "hero",
+    "Composición ilustrada de papelería corporativa",
+  ),
+  artwork(
+    "printing-main",
+    "printing",
+    "Diseño, impresión y terminaciones: ilustración",
+  ),
   artwork("cutting-main", "cutting", "Corte de papel e impresos: ilustración"),
   artwork("cards-image", "cards", "Tarjetas de presentación: ilustración"),
   artwork("folders-image", "folders", "Carpetas corporativas: ilustración"),

@@ -1,6 +1,56 @@
-.badge { width: 150px; height: 150px; border-radius: 50%; background: var(--color-accent); color: var(--color-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transform: rotate(9deg); border: 1px solid var(--color-ink); outline: 6px solid var(--color-accent); }
-.value { font-family: var(--font-display); font-size: 4rem; line-height: 1; letter-spacing: -.04em; }
-.value small { font-size: 2rem; }
-.scope { max-width: 100px; font-size: .55rem; line-height: 1.4; font-weight: 800; text-transform: uppercase; margin-top: 6px; }
-.badge svg { margin-top: 6px; }
-@media (max-width: 700px) { .badge { width: 110px; height: 110px; } .value { font-size: 2.8rem; } .value small { font-size: 1.5rem; } .scope { font-size: .48rem; max-width: 80px; } .badge svg { width: 14px; height: 14px; margin-top: 4px; } }
+.badge {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(9deg);
+  border: 1px solid var(--color-ink);
+  outline: 6px solid var(--color-accent);
+}
+.value {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.value small {
+  font-size: 2rem;
+}
+.scope {
+  max-width: 100px;
+  font-size: 0.55rem;
+  line-height: 1.4;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.badge svg {
+  margin-top: 6px;
+}
+@media (max-width: 700px) {
+  .badge {
+    width: 110px;
+    height: 110px;
+  }
+  .value {
+    font-size: 2.8rem;
+  }
+  .value small {
+    font-size: 1.5rem;
+  }
+  .scope {
+    font-size: 0.48rem;
+    max-width: 80px;
+  }
+  .badge svg {
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+  }
+}

@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 
-interface ClipboardState { readonly status: string; copy(message: string): Promise<void> }
+interface ClipboardState {
+  readonly status: string;
+  copy(message: string): Promise<void>;
+}
 
 export function useClipboard(): ClipboardState {
   const [status, setStatus] = useState("");

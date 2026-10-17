@@ -1,8 +1,96 @@
-.ribbon { background: var(--color-accent); color: var(--color-ink); overflow: hidden; padding-block: 18px; border-bottom: 1px solid var(--color-ink); }
-.track { display: flex; width: max-content; animation: travel 45s linear infinite; }
-.ribbon:hover .track { animation-play-state: paused; }
-.group { display: flex; flex-shrink: 0; align-items: center; }
-.group > span { display: inline-flex; align-items: center; gap: 48px; padding-inline: 24px; font-family: var(--font-display); font-size: clamp(1.5rem, 2.8vw, 2.4rem); text-transform: uppercase; letter-spacing: .01em; }
-.group > span > svg { flex-shrink: 0; }
-@keyframes travel { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .group[aria-hidden="true"] { display: none; } .group { flex-wrap: wrap; justify-content: center; gap: 8px; } .track { width: 100%; } .group > span { padding-inline: 12px; gap: 20px; font-size: 1.2rem; } .ribbon { padding-block: 14px; } }
+.ribbon {
+  position: relative;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  overflow: hidden;
+  padding-block: 18px;
+  border-bottom: 1px solid var(--color-ink);
+}
+.track {
+  display: flex;
+  width: max-content;
+  animation: travel 45s linear infinite;
+}
+.toggle:checked ~ .track {
+  animation-play-state: paused;
+}
+.toggle,
+.control {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+}
+.toggle {
+  opacity: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+.control {
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  border: 1px solid var(--color-ink);
+}
+.toggle:focus-visible + .control {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+.play,
+.toggle:checked + .control .pause {
+  display: none;
+}
+.toggle:checked + .control .play {
+  display: block;
+}
+.group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+.group > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px;
+  padding-inline: 24px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.group > span > svg {
+  flex-shrink: 0;
+}
+@keyframes travel {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .control {
+    display: none;
+  }
+  .group[aria-hidden="true"] {
+    display: none;
+  }
+  .group {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .track {
+    width: 100%;
+  }
+  .group > span {
+    padding-inline: 12px;
+    gap: 20px;
+    font-size: 1.2rem;
+  }
+  .ribbon {
+    padding-block: 14px;
+  }
+}

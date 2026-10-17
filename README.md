@@ -62,6 +62,7 @@ src/
   contexts/
     commercial-presence/
       contracts.ts             # Superficie pública estable y segura para cliente
+      contracts/               # Definiciones por concepto; entrada pública en contracts.ts
       domain/
         contact/               # Invariantes del mensaje comercial
       application/
@@ -72,22 +73,32 @@ src/
         contact/               # Adaptador de WhatsApp
         content/
           catalog/             # Productos, categorías y servicios
-          editorial/           # Landings y plantillas de mensajes
+          editorial/           # Landings, textos de marketing y plantillas de mensajes
           company.ts
           offers.ts
           media.ts
           versioned-content-source.ts
       presentation/
-        landings/              # Composición visual de los recorridos comerciales
-        layout/                # Cabecera y pie del contexto
-        contact/               # Acciones de contacto e interacción de copia
-        components/            # Piezas de producto y medios reutilizadas
+        brand/                 # Firma gráfica derivada de empresa y medios
+        catalog/               # Secciones, grillas y tarjetas de producto
+        landings/              # Home y producto, con sus secciones propias
+        layout/                # Shell, cabecera y pie separados
+        contact/               # Componentes, dock y hooks de contacto
+        motion/                # Componentes, hooks y geometría de efectos
+        navigation/            # Identificadores y enlaces de sección
+        components/            # Medios, iconos y encabezados reutilizados
+        styles/                # Tokens y reglas base de presentación
   composition/
     configuration/             # Configuración validada de servidor
     commercial-presence/       # Construcción de dependencias de este contexto
 tests/
   architecture/                # Dependencias, ciclos y límites entre contextos
   e2e/                         # Pruebas de la aplicación ejecutándose
+scripts/
+  artwork/                     # Generador vectorial: paleta, piezas y escenas
+public/
+  artwork/                     # SVG derivados, versionados y regenerables
+  fonts/                       # Fuentes locales y sus licencias
 docs/
   product.md                   # Decisiones de producto y alcance confirmado
   research/                    # Referencias externas fechadas, con fuentes y límites
@@ -103,7 +114,7 @@ No se crean carpetas globales `utils`, `helpers`, `services` o `types` para cód
 
 - Las raíces de las capas se reservan para sus grupos de responsabilidad. Un archivo nuevo se ubica con el comportamiento o adaptador al que pertenece; no se acumulan casos de uso, componentes y validadores al mismo nivel.
 - Los grupos internos no son nuevos bounded contexts ni alteran la dirección de dependencias. Publicación, contacto y presentación siguen teniendo sus límites actuales, aunque una carpeta contenga pocos archivos.
-- `contracts.ts` conserva la superficie pública del contexto. La reorganización interna no crea puntos de entrada alternativos, barrels generales ni reexportaciones de implementaciones.
+- `contracts.ts` conserva la superficie pública del contexto mediante reexportaciones explícitas de tipos definidos por concepto en `contracts/`. Esa carpeta es interna; otro contexto solo puede importar la fachada con `import type`. La reorganización no expone implementaciones ni crea entradas públicas alternativas.
 - Las landings componen piezas de presentación. Los componentes reutilizados permanecen dentro del contexto propietario; se promueven a un núcleo transversal solo cuando exista una semántica compartida comprobada.
 - Las fuentes de contenido conservan un propietario por concepto. Agrupar catálogo y contenido editorial no duplica productos, descuentos, mensajes ni selecciones.
 - Cada nuevo contexto incorpora su composición en `src/composition/<contexto>/`. La configuración de servidor vive en `configuration/`; no se mezcla con el contenido comercial.
@@ -156,7 +167,7 @@ SSOT significa que cada concepto tiene una definición autoritativa, un propieta
 | Configuración | Módulo tipado y validado en la frontera de servidor. | Lecturas de entorno centralizadas; sin defaults contradictorios ni secretos en cliente. |
 | Dependencias y comandos | `package.json` y `pnpm-lock.yaml`. | pnpm es el gestor elegido; el único lockfile del proyecto será el de pnpm. |
 | Estado de interfaz | Su propietario explícito. | Datos derivados se calculan; no se sincronizan copias mediante efectos. |
-| Tokens visuales, si existen | Definición central de estilos. | No se replican valores equivalentes en configuraciones paralelas. |
+| Tokens visuales | `presentation/styles/tokens.css` de `commercial-presence`. | CSS y generador SVG consumen la misma paleta; los estilos de componente derivan transparencias, sin copiar colores base. |
 
 La validación de transporte comprueba estructura y formato. El dominio protege sus invariantes cualquiera sea el punto de entrada. Validar una entrada en el navegador no reemplaza la validación del servidor.
 
@@ -177,6 +188,7 @@ Las siguientes autoridades están implementadas dentro de `src/contexts/commerci
 | Categorías de productos y su relación con los servicios | `infrastructure/content/catalog/product-categories.ts` | Agrupaciones de oferta y navegación derivadas. |
 | Identidad y datos comerciales de cada producto | `infrastructure/content/catalog/products.ts` | Catálogo publicado, modelos de vista, referencias editoriales y consultas por producto. |
 | Selección, orden y textos editoriales de la landing general | `infrastructure/content/editorial/landing.ts` | Presentación y metadatos editoriales de la landing general. |
+| Textos compartidos de marketing | `infrastructure/content/editorial/marketing.ts` | Navegación, encabezados, proceso, pie y textos comunes de las landings. |
 | Slugs y contenido editorial de las landings de producto | `infrastructure/content/editorial/product-landings.ts` | Rutas, navegación y metadatos de producto, referenciando el catálogo por ID. |
 | Beneficio comercial común vigente | `infrastructure/content/offers.ts` | Oferta e intenciones de contacto derivadas para todos los elementos comerciales. |
 | Plantilla común de mensajes de contacto | `infrastructure/content/editorial/contact-messages.ts` | Mensajes resueltos por aplicación con el beneficio y el producto vigentes. |
@@ -188,7 +200,7 @@ Estos módulos mantienen responsabilidades separadas; no se concentran en un arc
 
 La autoridad de medios distingue recursos provisionales y aprobados. Reemplazar un placeholder por una imagen final conserva su identificador y actualiza sus datos en esa autoridad, sin editar los componentes consumidores. Las variantes optimizadas se derivan de un archivo maestro aprobado; no son fuentes de edición independientes. La revisión visual comprueba que recorte, tamaño y compresión preservan el detalle de los productos en móvil y escritorio.
 
-La identidad visual pendiente se identifica expresamente como placeholder en la presentación provisional. El logo se referencia desde la autoridad de medios; los colores y las tipografías provisionales se definen en los tokens centrales de estilos. Su reemplazo no requiere corregir valores dispersos en componentes ni convierte esas elecciones provisionales en una identidad aprobada.
+La propuesta visual actual usa un monograma SVG, tipografía local y una paleta definida en los tokens centrales. Es una dirección de interfaz implementada a petición del usuario; no acredita una identidad corporativa definitiva. El monograma se referencia desde la autoridad de medios. Las ilustraciones se identifican como tales y no se presentan como fotografías de trabajos realizados. Su autoría y sustitución se describen en la sección 7.3.
 
 Reglas de consumo:
 
@@ -281,6 +293,19 @@ Antes de introducir APIs o convenciones de Next.js, se consulta la documentació
 - Cada producto publicado tiene una landing. Los slugs únicos y su contenido editorial referencian IDs de producto; no copian fichas del catálogo. Las entradas de `generateStaticParams`, los enlaces y las URLs canónicas se derivan de esa resolución, sin listas manuales paralelas de rutas.
 - La aplicación resuelve producto, contenido, medios, cantidad orientativa, beneficio e intención de contacto. Un slug desconocido produce un resultado que el adaptador representa como página no encontrada; no publica un producto ficticio. `ensureStatic = "navigation"` en el layout exige HTML completo prerenderizado con la API de Next.js instalada, evitando servir una shell anticipada con estado 200 para productos inexistentes.
 
+### 7.3. Interfaz comercial y recursos vectoriales
+
+- La presentación se organiza por funcionalidad. Cada componente tiene su CSS Module junto al archivo que lo consume; las secciones componen piezas, no concentran reglas comerciales. `styles/base.css` contiene únicamente reglas globales compartidas y accesibilidad; `tokens.css` posee la paleta, tipografías y escalas comunes.
+- El loader de Tailwind se aplica solo a `globals.css`. Los CSS Modules y las fuentes de Next.js conservan el procesamiento nativo de Next.js; una regla general para todo `*.css` rompe ese aislamiento y la aplicación de estilos.
+- `scripts/artwork/` es la fuente editable de las ilustraciones: primitivas vectoriales, piezas de papelería y escenas. `palette.mjs` lee los colores de los tokens. `pnpm assets:build` genera los SVG en `public/artwork/`; `pnpm build` ejecuta esa generación automáticamente. Los SVG versionados son artefactos derivados: se modifica el generador, no sus salidas.
+- `media.ts` mantiene la autoridad de ID, archivo, descripción y dimensiones. Generar una escena no crea un segundo catálogo ni asigna medios a productos. Una nueva asignación se realiza en esa autoridad y sus referencias existentes.
+- Las fuentes Anton y Manrope se sirven desde `public/fonts/` mediante `next/font/local`, con sus licencias OFL adjuntas. La selección se adapta en `app/fonts.ts` y se consume mediante los tokens; no hay solicitudes de fuentes a terceros durante una visita.
+- Los efectos son mejoras progresivas: inclinación del arte con puntero, apariciones al desplazarse y cinta animada con pausa HTML nativa. Respetan `prefers-reduced-motion`; el contenido inicial y los enlaces funcionan sin JavaScript.
+- Los hooks de interacción pertenecen a `contact/hooks/` o `motion/hooks/`. La geometría pura pertenece a `motion/lib/`; no se crea un directorio global de utilidades. Los observadores y frames se limpian al desmontar.
+- El contacto flotante conserva la intención de la landing activa. Aparece tras dejar atrás su cabecera comercial y se retira al entrar el pie, donde ya existe una acción visible. No sustituye los enlaces nativos del resto de la página.
+
+La decisión y sus consecuencias se registran en [0005](./docs/decisions/0005-marketing-interface-and-vector-artwork.md).
+
 ## 8. Testing desde la primera implementación
 
 Cada comportamiento nuevo incorpora la prueba adecuada en el mismo cambio. Una corrección de un defecto incorpora una prueba de regresión que reproduzca el fallo cuando sea viable.
@@ -321,6 +346,8 @@ Los controles de arquitectura deben fallar ante una infracción real y detectar 
 - Landings de producto: cobertura del catálogo publicado, slugs únicos, referencias válidas, metadatos coherentes y respuesta de página no encontrada para productos inexistentes.
 - Arquitectura: el grafo impide imports de contenido e infraestructura desde presentación, accesos internos entre contextos y filtraciones de módulos de servidor al cliente.
 - E2E contra producción: oferta y contacto presentes en el HTML, enlaces operativos sin JavaScript, coherencia del destino de los CTA y recorrido de contacto mediante teclado y en viewport móvil.
+- Presentación compilada: estilos y fuentes efectivos, grillas responsivas, recursos SVG cargados, contacto flotante, movimiento reducido y pausa sin JavaScript. Se revisan también teléfonos pequeños y anchos intermedios.
+- Recursos vectoriales: los archivos referenciados existen, son XML válido, coinciden con sus dimensiones publicadas y no dependen de imágenes rasterizadas o scripts embebidos.
 
 Las suites de dominio, aplicación, integración, presentación, arquitectura y E2E están configuradas. El grafo usa el AST y la resolución de módulos de TypeScript; comprueba también APIs de entorno en el núcleo e imports calculados no verificables. Los E2E cubren escritorio y móvil, navegación sin JavaScript y enlaces al número configurado, sin abrir conversaciones ni enviar mensajes. El estado pendiente se conserva en los contratos y sus pruebas aisladas. No se sustituyen estas comprobaciones por snapshots completos, búsquedas de literales o pruebas que solo comparan un objeto consigo mismo.
 
@@ -344,7 +371,8 @@ La base de desarrollo debe ofrecer estos comandos, con el mismo comportamiento e
 | `pnpm test` | Suite unitaria determinista, sin modo watch. |
 | `pnpm test:integration` | Contratos de adaptadores e integraciones aisladas. |
 | `pnpm test:architecture` | Límites de capas y contextos, ciclos y separación servidor/cliente. |
-| `pnpm build` | Compilación de producción de Next.js. |
+| `pnpm assets:build` | Regeneración de los recursos SVG desde su fuente y los tokens. |
+| `pnpm build` | Generación de SVG y compilación de producción de Next.js. |
 | `pnpm test:e2e` | Suite de navegador contra la compilación de producción. |
 | `pnpm check` | Ejecutar los controles anteriores y fallar si cualquiera falla. |
 
@@ -371,7 +399,7 @@ La evolución hacia comercio electrónico conservará la separación entre catá
 
 ## 12. Estado del repositorio
 
-La primera implementación incluye landing general, landings de todo el catálogo, composición de servidor, contenido versionado y validado, mensajes comerciales derivados, cantidades orientativas y metadatos canónicos. La presentación es provisional: logo, imágenes, colores y tipografías están identificados como placeholders.
+La implementación incluye landing general, landings de todo el catálogo, composición de servidor, contenido versionado y validado, mensajes comerciales derivados, cantidades orientativas y metadatos canónicos. La interfaz comercial actual incorpora una propuesta de monograma, paleta naranja con papel y tinta, tipografías locales y 14 recursos SVG producidos para el sitio. Las secciones y los efectos tienen módulos propios; la propuesta de marca queda sujeta a revisión.
 
 El alcance se registra en [docs/product.md](./docs/product.md). Los motivos se mantienen en [contenido y contacto](./docs/decisions/0001-commercial-presence-ssot.md), [catálogo y presentación](./docs/decisions/0002-product-catalog-decoupling.md) y [landings y beneficio comercial](./docs/decisions/0003-product-landings-and-commercial-contact.md). Los datos administrativos permanecen fuera del contenido público y de Git.
 
@@ -390,4 +418,4 @@ pnpm check
 
 El modo predeterminado es `preview`: permite WhatsApp pendiente y publica metadatos `noindex, nofollow`. Para publicar comercialmente se confirma `company.phone` en su autoridad y se compila con `SITE_MODE=public`; una configuración pendiente o inválida bloquea esa compilación. `SITE_ORIGIN` permite sobrescribir el origen de despliegue; su único valor por defecto está en `publication-config.ts`. No se duplica el teléfono en variables de entorno. Un cambio de modo exige recompilar.
 
-La implementación local no configura DNS ni alojamiento. Git local autentica con la cuenta propietaria del repositorio; el usuario aportó una captura de un despliegue `Ready` en el proyecto de Vercel acordado. La identidad de operación y los estados pendientes de conexión del dominio se registran en [el procedimiento operativo](./docs/operations/vercel-deployment.md). Hay un WhatsApp provisional en su única fuente; su reemplazo requiere recompilar y desplegar de nuevo. Quedan pendientes el número definitivo, la identidad visual, las fotografías tratadas y la revisión final de marketing. Analítica y comercio electrónico siguen fuera de esta entrega.
+La implementación local no configura DNS ni alojamiento. Git local autentica con la cuenta propietaria del repositorio; el usuario aportó una captura de un despliegue `Ready` en el proyecto de Vercel acordado. La identidad de operación y los estados pendientes de conexión del dominio se registran en [el procedimiento operativo](./docs/operations/vercel-deployment.md). Hay un WhatsApp provisional en su única fuente; su reemplazo requiere recompilar y desplegar de nuevo. Quedan pendientes el número definitivo, la aprobación final de marca y la revisión de marketing. Las fotografías tratadas corresponden a una posible etapa posterior. Analítica y comercio electrónico siguen fuera de esta entrega.

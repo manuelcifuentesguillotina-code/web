@@ -14,9 +14,18 @@ export function usePointerTilt(): PointerTilt {
   const frame = useRef(0);
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
   function move(event: PointerEvent<HTMLDivElement>): void {
-    if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (
+      event.pointerType !== "mouse" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
     const bounds = event.currentTarget.getBoundingClientRect();
-    const pointer = normalizedPointer(event.clientX - bounds.left, event.clientY - bounds.top, bounds.width, bounds.height);
+    const pointer = normalizedPointer(
+      event.clientX - bounds.left,
+      event.clientY - bounds.top,
+      bounds.width,
+      bounds.height,
+    );
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(() => {
       ref.current?.style.setProperty("--tilt-x", String(pointer.x));

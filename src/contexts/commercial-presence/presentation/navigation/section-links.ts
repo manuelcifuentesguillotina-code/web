@@ -5,6 +5,9 @@ export const sectionIds = {
   visit: "visitanos",
 } satisfies Readonly<Record<string, string>>;
 
-export function sectionHref(section: keyof typeof sectionIds, home: boolean): string {
+export function sectionHref(
+  section: keyof typeof sectionIds,
+  home: boolean,
+): string {
   return (home ? "" : "/") + "#" + sectionIds[section];
 }
