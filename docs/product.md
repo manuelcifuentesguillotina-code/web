@@ -14,6 +14,10 @@ El mercado objetivo son empresas de todo Chile. La captación comercial tiene al
 - Cada elemento comercial ofrece contacto con Manolo y acceso al beneficio común. La acción se conserva estructuralmente aunque el número de trabajo esté pendiente.
 - Esta etapa define datos, contratos y comportamiento. La UI, sus componentes y su distribución se definirán después.
 
+## Mantenimiento
+
+El producto es un conjunto de landings enfocadas en venta y captación para una imprenta corporativa profesional. No es autogestionable ni incluye un panel de edición, WordPress o Shopify. Los cambios de productos y textos se abordan como modificaciones del proyecto cuando correspondan, manteniendo las autoridades definidas en la guía de software.
+
 ## Criterio de redacción
 
 - Cada mensaje de WhatsApp y cada bloque de texto comercial de las landings debe ser directo, claro y de hasta **2 líneas**.
@@ -108,6 +112,10 @@ Estas cantidades se mantienen independientes de tarifas y beneficios comerciales
 3. Inicia una conversación por WhatsApp para continuar la cotización fuera del sitio.
 
 El sitio no registra ventas, pagos, pedidos ni cotizaciones automáticas en esta fase. Una salida a WhatsApp solo acredita la intención de contactar; no acredita un mensaje enviado ni una operación comercial.
+
+## Medición prevista
+
+Se aprueba medir los clics a WhatsApp por producto. Su implementación queda para más adelante; todavía no se elige proveedor ni se incorporan herramientas de analítica. La medición distinguirá clics de conversaciones y ventas efectivas.
 
 ## Evolución prevista
 

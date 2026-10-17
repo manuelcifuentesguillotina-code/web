@@ -136,7 +136,7 @@ No se promueve código a `shared` por parecido superficial. Primero se identific
 
 ### 5.1. Propiedad del contenido comercial
 
-La primera fase usará contenido tipado y versionado en el repositorio. No requiere CMS, base de datos ni edición remota. Cambiar la fuente de contenido en el futuro debe permitir conservar los contratos públicos y la presentación; la nueva fuente reemplaza a la anterior, sin mantener dos autoridades activas.
+Las landings usarán contenido tipado y versionado en el repositorio. Los cambios se realizan como modificaciones concretas del proyecto, verificando su autoridad y consumidores derivados. Esta entrega no incorpora autogestión, panel de administración, CMS, base de datos de edición ni una plataforma de tienda. Una eventual sustitución de la fuente necesita una necesidad de producto confirmada, conserva los contratos públicos y reemplaza la autoridad anterior, sin mantener dos fuentes activas.
 
 Las siguientes ubicaciones son el contrato previsto dentro de `src/contexts/commercial-presence/`; no son archivos ya disponibles:
 
